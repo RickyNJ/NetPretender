@@ -1,0 +1,7 @@
+commands:
+  - command: show interface npm
+    responseText: showig interface
+    delay: 0
+  - command: show interfaces --all
+    responseFile: ./responses/show_interface_all.txt
+    delay: 5
