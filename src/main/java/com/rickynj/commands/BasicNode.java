@@ -15,4 +15,9 @@ public class BasicNode {
     public void respond() throws InterruptedException {
         response.respond();
     }
+
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
 }
