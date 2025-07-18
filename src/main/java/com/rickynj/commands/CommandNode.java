@@ -7,5 +7,4 @@ import java.util.Map;
 
 public class CommandNode extends BasicNode {
     private String word;
-
 }

@@ -6,6 +6,6 @@ import java.util.Set;
 
 public class FileReader {
     public Set<File> getConfigFiles() {
-
+        return null;
     }
 }
