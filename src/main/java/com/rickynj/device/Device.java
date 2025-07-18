@@ -16,5 +16,4 @@ public class Device {
     public void addCommand(Object c){
         System.out.println("adding Object");
     }
-
 }

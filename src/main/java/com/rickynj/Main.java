@@ -5,6 +5,7 @@ import com.rickynj.commands.CommandNode;
 import com.rickynj.device.Device;
 import com.rickynj.parser.Parser;
 import com.rickynj.parser.YAMLParser;
+import com.rickynj.repl.Repl;
 import com.rickynj.responses.MultipartResponse;
 import com.rickynj.responses.Response;
 
@@ -19,9 +20,12 @@ import com.rickynj.responses.Response;
  */
 public class Main {
     public static void main(String[] args) {
-        Parser parser = new YAMLParser();
         Device device = new Device();
+
+        Parser parser = new YAMLParser(device);
         parser.parse();
-        System.out.printf("Hello and welcome!");
+
+        Repl repl= new Repl(device);
+        repl.start();
     }
 }

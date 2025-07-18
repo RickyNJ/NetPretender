@@ -12,6 +12,11 @@ import java.util.Map;
 
 public class YAMLParser implements Parser {
     private static final Yaml yaml = new Yaml();
+    private Device device;
+
+    public YAMLParser(Device device) {
+        this.device = device;
+    }
 
     private Map<String, ?> readFile() {
         Map<String, ?> data;
@@ -25,7 +30,7 @@ public class YAMLParser implements Parser {
     }
 
     @Override
-    public void parse(Device device) {
+    public void parse() {
         Map<String, ?> data = readFile();
 
         Object commands = data.get("commands");
