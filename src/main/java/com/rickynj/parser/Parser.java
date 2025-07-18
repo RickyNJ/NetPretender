@@ -4,5 +4,5 @@ import com.rickynj.device.Device;
 
 
 public interface Parser {
-    Device parse();
+    void parse(Device device);
 }
