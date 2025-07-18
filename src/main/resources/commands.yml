@@ -1,3 +1,11 @@
+devices:
+  - name: modem
+    vars:
+      - name: string
+        default: "modem1"
+      - state: bool
+        default: "False"
+
 commands:
   - command: show interface npm
     responseText: showig interface

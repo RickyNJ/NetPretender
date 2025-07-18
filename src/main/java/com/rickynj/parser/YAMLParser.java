@@ -4,7 +4,7 @@ import com.rickynj.device.Device;
 
 import java.io.File;
 
-public class CommandParser implements Parser {
+public class YAMLParser implements Parser {
     @Override
     public Device parse(File input) {
         return null;

@@ -1,4 +1,4 @@
-Network device mocking
+*Network device mocking
 This is the application that will be running inside a docker container you can ssh into
 
 The following features will be (hopefully) implemented:
