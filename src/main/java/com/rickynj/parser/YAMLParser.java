@@ -2,6 +2,8 @@ package com.rickynj.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickynj.device.Device;
+import com.rickynj.domain.CommandPojo;
+import com.rickynj.domain.DevicePojo;
 import com.rickynj.exception.ParserException;
 import org.yaml.snakeyaml.Yaml;
 
@@ -14,6 +16,7 @@ import java.util.Map;
 public class YAMLParser implements Parser {
     private static final Yaml yaml = new Yaml();
     private static final ObjectMapper mapper = new ObjectMapper();
+
     private final Device device;
 
     public YAMLParser(Device device) {
@@ -30,6 +33,14 @@ public class YAMLParser implements Parser {
         }
         return data;
     }
+//    TODO: implement
+    private boolean validateCommand(CommandPojo c) {
+        return true;
+    }
+    //    TODO: implement
+    private boolean validateDevice(DevicePojo d) {
+        return true;
+    }
 
     @Override
     public void parse() {
@@ -38,7 +49,7 @@ public class YAMLParser implements Parser {
         Object commands = data.get("commands");
         if (commands instanceof List<?> commandsList) {
             for (Object c : commandsList) {
-                CommandMock cm = mapper.convertValue(c, CommandMock.class);
+                CommandPojo cm = mapper.convertValue(c, CommandPojo.class);
                 device.addCommand(cm);
             }
         } else {

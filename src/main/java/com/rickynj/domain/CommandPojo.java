@@ -1,6 +1,6 @@
-package com.rickynj.parser;
+package com.rickynj.domain;
 
-public class CommandMock {
+public class CommandPojo {
     public String command;
     public int delay;
     public String response;
