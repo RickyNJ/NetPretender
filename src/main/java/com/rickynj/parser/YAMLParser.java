@@ -1,7 +1,8 @@
 package com.rickynj.parser;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rickynj.device.Device;
-import com.rickynj.exception.ParserError;
+import com.rickynj.exception.ParserException;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileInputStream;
@@ -12,7 +13,8 @@ import java.util.Map;
 
 public class YAMLParser implements Parser {
     private static final Yaml yaml = new Yaml();
-    private Device device;
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private final Device device;
 
     public YAMLParser(Device device) {
         this.device = device;
@@ -36,10 +38,11 @@ public class YAMLParser implements Parser {
         Object commands = data.get("commands");
         if (commands instanceof List<?> commandsList) {
             for (Object c : commandsList) {
-                device.addCommand(c);
+                CommandMock cm = mapper.convertValue(c, CommandMock.class);
+                device.addCommand(cm);
             }
         } else {
-            throw new ParserError("no commands found.");
+            throw new ParserException("no commands found.");
         }
 
         Object devices = data.get("devices");
@@ -48,7 +51,7 @@ public class YAMLParser implements Parser {
                 device.addDevice(d);
             }
         } else {
-            throw new ParserError("no devices found.");
+            throw new ParserException("no devices found.");
         }
     }
 }

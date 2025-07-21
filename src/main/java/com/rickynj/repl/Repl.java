@@ -15,8 +15,6 @@ public class Repl {
     }
 
     public void start() {
-        while (true) {
-            device.countcommands();
-        }
+        System.out.println("started");
     }
 }

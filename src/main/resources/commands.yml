@@ -1,3 +1,5 @@
+# Maybe implement reserved variables? like $command to get the input command.
+
 devices:
   - name: modem
     vars:
@@ -8,8 +10,11 @@ devices:
 
 commands:
   - command: show interface npm
-    responseText: showig interface
+    response: showing interface
     delay: 0
   - command: show interfaces --all
     responseFile: ./responses/show_interface_all.txt
     delay: 5
+
+default:
+  - response: command not found.
