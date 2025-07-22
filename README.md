@@ -19,3 +19,6 @@ The following features will be (hopefully) implemented:
 
     [ ] Conditional outputs based on varialbes and internal state
 
+Notes to myself:
+No need to do difficult two step search if new node is required.
+just reserve ${} and create var node, commands are split based on words so you can still match on that base.
