@@ -20,14 +20,14 @@ public class Device {
 
     public void addCommand(CommandPojo c){
         // Obviously fix this
-        String[] tokens = c.command.split("");
-        String rootToken = tokens[0];
+        List<String> tokens = List.of(c.command.split(""));
+        String rootToken = tokens.getFirst();
         CommandNode rootNode = getCommandRootNode(rootToken);
         if (rootNode == null) {
             rootNode = new CommandNode(rootToken);
         }
 
-        for (String token : tokens[1:]) {
+        for (String token : tokens.subList(1, tokens.size())) {
             System.out.println(token);
         }
 
@@ -40,13 +40,20 @@ public class Device {
                 return commandNode;
             }
         }
+        return null;
 
-        if (defaultResponse == null) {
-            throw new CommandNotMockedException("Command of this root not found.");
+    }
+
+    public CommandNode matchCommandWithRootNode(String token) {
+        CommandNode root = getCommandRootNode(token);
+        if (root == null) {
+            if (defaultResponse == null) {
+                throw new CommandNotMockedException("Command of this root not found.");
+            } else {
+                return defaultResponse;
+            }
         } else {
-            return defaultResponse;
+            return root;
         }
-
-
     }
 }
