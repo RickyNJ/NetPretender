@@ -5,7 +5,6 @@ import com.rickynj.commands.CommandNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.CommandPojo;
-import com.rickynj.responses.ResponseBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class Device {
         System.out.println("adding Device");
     }
 
-    private boolean isVariableToken() {
-        return false;
+    private boolean isVariableToken(String token) {
+        return (token.startsWith("${") && token.endsWith("}"));
     }
 
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
@@ -42,7 +41,7 @@ public class Device {
         }
 
         BasicNode nextNode;
-        if (isVariableToken()) {
+        if (isVariableToken(currentToken)) {
             nextNode = new VariableNode(currentToken);
         } else {
             nextNode = new CommandNode(currentToken);
