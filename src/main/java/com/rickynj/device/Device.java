@@ -5,10 +5,12 @@ import com.rickynj.commands.CommandNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.CommandPojo;
+import com.rickynj.responses.BasicResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 // THIS IS A WIP
 public class Device {
@@ -24,10 +26,40 @@ public class Device {
         return (token.startsWith("${") && token.endsWith("}"));
     }
 
+    public void respondToCommand(String command) throws InterruptedException {
+        List<String> tokens = List.of(command.split(" "));
+        BasicNode root = getCommandRootNode(tokens.getFirst());
+
+        if (root == null) {
+            if (defaultResponse != null) {
+                defaultResponse.respond();
+            } else {
+                throw new CommandNotMockedException("Command of this root not found.");
+            }
+        }
+
+        BasicNode responseNode = traverseCommandTree(tokens.subList(1, tokens.size()), root);
+        responseNode.respond();
+    }
+
+    private BasicNode traverseCommandTree(List<String> tokens, BasicNode node) {
+        if (tokens.isEmpty()) {
+            return node;
+        }
+        String nextToken = tokens.getFirst();
+        tokens = tokens.subList(1, tokens.size());
+        for (BasicNode n : node.getNextNodes()) {
+            if (Objects.equals(n.getToken(), nextToken)){
+               traverseCommandTree(tokens, n);
+            }
+        }
+        return null;
+    }
+
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
-            lastNode.setResponse(null);
+            lastNode.setResponse(new BasicResponse(c.response));
             return;
         }
 
@@ -47,7 +79,6 @@ public class Device {
             nextNode = new CommandNode(currentToken);
         }
         lastNode.addNextNode(nextNode);
-
         buildCommandTree(remainingTokens, nextNode, c);
     }
 
@@ -64,26 +95,12 @@ public class Device {
         buildCommandTree(tokens.subList(1, tokens.size()), rootNode, c);
     }
 
-
-    public CommandNode getCommandRootNode(String token) {
+    private CommandNode getCommandRootNode(String token) {
         for (CommandNode commandNode : commandRoots) {
             if (commandNode.getToken().equals(token)) {
                 return commandNode;
             }
         }
         return null;
-    }
-
-    public CommandNode matchCommandWithRootNode(String token) {
-        CommandNode root = getCommandRootNode(token);
-        if (root != null) {
-            return root;
-        } else {
-            if (defaultResponse == null) {
-                throw new CommandNotMockedException("Command of this root not found.");
-            } else {
-                return defaultResponse;
-            }
-        }
     }
 }

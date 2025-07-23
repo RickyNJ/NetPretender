@@ -7,11 +7,13 @@ import com.rickynj.repl.Repl;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Device device = new Device();
 
         Parser parser = new YAMLParser(device);
         parser.parse();
+
+        device.respondToCommand("show interface npm");
 
         Repl repl= new Repl(device);
         repl.start();
