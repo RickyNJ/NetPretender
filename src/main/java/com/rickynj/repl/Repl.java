@@ -14,7 +14,12 @@ public class Repl {
         this.device = device;
     }
 
-    public void start() {
-        System.out.println("started");
+    public void start() throws InterruptedException {
+        Scanner scanner  = new Scanner(System.in);
+        while (true) {
+            System.out.print("> ");
+            String command  = scanner.nextLine();
+            device.respondToCommand(command);
+        }
     }
 }
