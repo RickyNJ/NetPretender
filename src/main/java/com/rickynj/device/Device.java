@@ -47,10 +47,9 @@ public class Device {
             return node;
         }
         String nextToken = tokens.getFirst();
-        tokens = tokens.subList(1, tokens.size());
         for (BasicNode n : node.getNextNodes()) {
             if (Objects.equals(n.getToken(), nextToken)){
-               traverseCommandTree(tokens, n);
+               return traverseCommandTree(tokens.subList(1, tokens.size()), n);
             }
         }
         return null;
