@@ -8,7 +8,8 @@ public class BasicResponse extends ResponseBase{
     }
 
     public void respond() throws InterruptedException {
-        Thread.sleep(delayMs.get());
+        long d = this.delayMs.get();
+        Thread.sleep(this.delayMs.get());
         System.out.println(response);
     }
 }

@@ -38,4 +38,5 @@ public class BasicNode {
     public String getToken() {
         return token;
     }
+
 }

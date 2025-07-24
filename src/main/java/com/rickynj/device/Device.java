@@ -6,6 +6,7 @@ import com.rickynj.commands.VariableNode;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.CommandPojo;
 import com.rickynj.responses.BasicResponse;
+import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,10 @@ public class Device {
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
-            lastNode.setResponse(new BasicResponse(c.response));
+            // TODO find the type of response needed here.
+            BasicResponse r = new BasicResponse(c.response);
+            r.setDelay(c.delay);
+            lastNode.setResponse(r);
             return;
         }
 
