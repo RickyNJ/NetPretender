@@ -23,6 +23,10 @@ public class BasicNode {
         this.response = response;
     }
 
+    public Response getResponse() {
+        return response;
+    }
+
     public void addNextNode(BasicNode node) {
         nextNodes.add(node);
     }

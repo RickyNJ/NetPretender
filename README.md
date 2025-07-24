@@ -22,3 +22,6 @@ The following features will be (hopefully) implemented:
 Notes to myself:
 No need to do difficult two step search if new node is required.
 just reserve ${} and create var node, commands are split based on words so you can still match on that base.
+
+Add more complexity in terms of conditional responses. Think of specific responses for specific inputs only?
+maybe this should be in a seperate mock, but the use case of 1 command with  3 possible responses for different values seems more readable as 1 mock.

@@ -2,6 +2,7 @@ package com.rickynj.repl;
 
 
 import com.rickynj.device.Device;
+import com.rickynj.exception.CommandNotMockedException;
 
 import java.util.Scanner;
 
@@ -14,12 +15,19 @@ public class Repl {
         this.device = device;
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         Scanner scanner  = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
             String command  = scanner.nextLine();
-            device.respondToCommand(command);
+            try {
+                device.respondToCommand(command);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (CommandNotMockedException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 }

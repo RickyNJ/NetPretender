@@ -26,10 +26,9 @@ public class Device {
         return (token.startsWith("${") && token.endsWith("}"));
     }
 
-    public void respondToCommand(String command) throws InterruptedException {
+    public void respondToCommand(String command) throws InterruptedException, CommandNotMockedException {
         List<String> tokens = List.of(command.split(" "));
         BasicNode root = getCommandRootNode(tokens.getFirst());
-
         if (root == null) {
             if (defaultResponse != null) {
                 defaultResponse.respond();
@@ -39,7 +38,15 @@ public class Device {
         }
 
         BasicNode responseNode = traverseCommandTree(tokens.subList(1, tokens.size()), root);
-        responseNode.respond();
+        if (responseNode == null || responseNode.getResponse() == null) {
+            if (defaultResponse != null) {
+                defaultResponse.respond();
+            } else {
+                throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", command));
+            }
+        } else {
+            responseNode.respond();
+        }
     }
 
     private BasicNode traverseCommandTree(List<String> tokens, BasicNode node) {
