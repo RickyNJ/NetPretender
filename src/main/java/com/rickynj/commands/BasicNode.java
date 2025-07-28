@@ -16,7 +16,7 @@ public class BasicNode {
     protected Map<String, String> variables;
 
     public void respond() throws InterruptedException {
-        response.respond();
+        response.respond(variables);
     }
 
     public void setResponse(Response response) {
