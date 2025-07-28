@@ -1,4 +1,4 @@
-*Network device mocking
+#Network device mocking
 This is the application that will be running inside a docker container you can ssh into
 
 The following features will be (hopefully) implemented:
@@ -25,3 +25,6 @@ just reserve ${} and create var node, commands are split based on words so you c
 
 Add more complexity in terms of conditional responses. Think of specific responses for specific inputs only?
 maybe this should be in a seperate mock, but the use case of 1 command with  3 possible responses for different values seems more readable as 1 mock.
+
+Look into deploying this docker container into gns3.
+Do more gns3 research in general.
