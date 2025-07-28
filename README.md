@@ -28,3 +28,5 @@ maybe this should be in a seperate mock, but the use case of 1 command with  3 p
 
 Look into deploying this docker container into gns3.
 Do more gns3 research in general.
+
+How to implement variables in nodes

@@ -1,5 +1,7 @@
 package com.rickynj.responses;
 
+import java.util.Map;
+
 public interface Response {
-    void respond() throws InterruptedException;
+    void respond(Map<String, String> vars) throws InterruptedException;
 }
