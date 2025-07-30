@@ -1,6 +1,7 @@
 package com.rickynj;
 
 import com.rickynj.device.Device;
+import com.rickynj.domain.CommandContext;
 import com.rickynj.parser.Parser;
 import com.rickynj.parser.YAMLParser;
 import com.rickynj.repl.Repl;
@@ -13,7 +14,8 @@ public class Main {
         Parser parser = new YAMLParser(device);
         parser.parse();
 
-        device.respondToCommand("show interface npm");
+        CommandContext ctx = new CommandContext("show interface npm");
+        device.respondToCommand(ctx);
 
         Repl repl= new Repl(device);
         repl.start();
