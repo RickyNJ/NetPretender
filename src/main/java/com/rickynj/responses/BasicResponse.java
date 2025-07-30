@@ -1,5 +1,7 @@
 package com.rickynj.responses;
 
+import com.rickynj.domain.CommandContext;
+
 import java.util.Map;
 
 public class BasicResponse extends ResponseBase{
@@ -9,7 +11,7 @@ public class BasicResponse extends ResponseBase{
         this.response = response;
     }
 
-    public void respond(Map<String, String> vars) throws InterruptedException {
+    public void respond(CommandContext ctx) throws InterruptedException {
         long d = this.delayMs.get();
         Thread.sleep(this.delayMs.get());
         System.out.println(response);

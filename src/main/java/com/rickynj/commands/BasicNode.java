@@ -1,5 +1,6 @@
 package com.rickynj.commands;
 
+import com.rickynj.domain.CommandContext;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
@@ -9,14 +10,11 @@ import java.util.Map;
 public class BasicNode {
 
     protected String token;
-    protected List<BasicNode> nextNodes = new ArrayList<BasicNode>();
+    protected List<BasicNode> nextNodes = new ArrayList<>();
     protected Response response;
 
-    // all variables input that preceded getting to this point, used to populate the output.
-    protected Map<String, String> variables;
-
-    public void respond() throws InterruptedException {
-        response.respond(variables);
+    public void respond(CommandContext ctx) throws InterruptedException {
+        response.respond(ctx);
     }
 
     public void setResponse(Response response) {
