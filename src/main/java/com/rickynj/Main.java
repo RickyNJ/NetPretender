@@ -14,7 +14,7 @@ public class Main {
         Parser parser = new YAMLParser(device);
         parser.parse();
 
-        CommandContext ctx = new CommandContext("show interface npm");
+        CommandContext ctx = new CommandContext("print interfaces no");
         device.respondToCommand(ctx);
 
         Repl repl= new Repl(device);

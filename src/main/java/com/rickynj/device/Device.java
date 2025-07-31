@@ -56,9 +56,18 @@ public class Device {
             return node;
         }
         String nextToken = tokens.getFirst();
+        List<VariableNode> varNodes = new ArrayList<>();
         for (BasicNode n : node.getNextNodes()) {
             if (Objects.equals(n.getToken(), nextToken)){
                return traverseCommandTree(tokens.subList(1, tokens.size()), n);
+            }
+            if (n instanceof VariableNode vn) {
+                varNodes.add(vn);
+            }
+        }
+        for (VariableNode vn : varNodes) {
+            if (vn.getAcceptableValues().contains(nextToken)) {
+                return traverseCommandTree(tokens.subList(1, tokens.size()), vn);
             }
         }
         return null;
@@ -85,7 +94,7 @@ public class Device {
 
         BasicNode nextNode;
         if (isVariableToken(currentToken)) {
-            nextNode = new VariableNode(currentToken);
+            nextNode = new VariableNode(currentToken, c.allowed_values);
         } else {
             nextNode = new LiteralNode(currentToken);
         }
