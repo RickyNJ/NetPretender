@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-// THIS IS A WIP
 public class Device {
     private LiteralNode defaultResponse;
     private final List<LiteralNode> commandRoots = new ArrayList<LiteralNode>();
@@ -87,8 +86,9 @@ public class Device {
         remainingTokens = remainingTokens.subList(1, remainingTokens.size());
 
         for (BasicNode node : lastNode.getNextNodes()) {
-            if (node.getToken().equals(remainingTokens.getFirst())) {
+            if (Objects.equals(node.getToken(), currentToken)) {
                 buildCommandTree(remainingTokens, node, c);
+                return;
             }
         }
 
