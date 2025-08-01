@@ -1,15 +1,13 @@
 package com.rickynj;
 
-import com.rickynj.device.Device;
 import com.rickynj.device.DeviceManager;
-import com.rickynj.domain.CommandContext;
 import com.rickynj.parser.Parser;
 import com.rickynj.parser.YAMLParser;
 import com.rickynj.repl.Repl;
 
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         DeviceManager deviceManager = new DeviceManager();
         Parser parser = new YAMLParser(deviceManager);
         parser.parse();

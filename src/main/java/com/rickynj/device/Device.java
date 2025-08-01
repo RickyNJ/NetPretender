@@ -1,5 +1,6 @@
 package com.rickynj.device;
 
+import com.rickynj.Main;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.LiteralNode;
 import com.rickynj.commands.VariableNode;
@@ -7,6 +8,8 @@ import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.responses.BasicResponse;
+import com.rickynj.responses.MultipartResponse;
+import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +21,14 @@ public class Device {
     private final List<LiteralNode> commandRoots = new ArrayList<>();
     private Map<String, String> state;
 
-    public void addDevice(Object d){
-        System.out.println("adding Device");
+    public void  setState(Map<String, String> state) {
+        this.state = state;
     }
-
     private boolean isVariableToken(String token) {
         return (token.startsWith("${") && token.endsWith("}"));
     }
 
     public void respondToCommand(CommandContext ctx) throws InterruptedException, CommandNotMockedException {
-
         List<String> tokens = List.of(ctx.getCommand().split(" "));
         BasicNode root = getCommandRootNode(tokens.getFirst());
         if (root == null) {
@@ -72,12 +73,31 @@ public class Device {
         return null;
     }
 
+    public void addCommand(CommandPojo c){
+        List<String> tokens = List.of(c.command.split(" "));
+        String rootToken = tokens.getFirst();
+
+        LiteralNode rootNode = getCommandRootNode(rootToken);
+        if (rootNode == null) {
+            rootNode = new LiteralNode(rootToken);
+            commandRoots.add(rootNode);
+        }
+
+        buildCommandTree(tokens.subList(1, tokens.size()), rootNode, c);
+    }
+
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
             // TODO find the type of response needed here.
-            BasicResponse r = new BasicResponse(c.response);
-            r.setDelay(c.delay);
+            Response r = null;
+            if (c.response != null) {
+                r = new BasicResponse(c.response);
+                r.setDelay(c.delay);
+            } else if (c.multiPartResponse != null) {
+                r = new MultipartResponse(c.multiPartResponse);
+                r.setDelay(c.delay);
+            }
             lastNode.setResponse(r);
             return;
         }
@@ -102,18 +122,7 @@ public class Device {
         buildCommandTree(remainingTokens, nextNode, c);
     }
 
-    public void addCommand(CommandPojo c){
-        List<String> tokens = List.of(c.command.split(" "));
-        String rootToken = tokens.getFirst();
 
-        LiteralNode rootNode = getCommandRootNode(rootToken);
-        if (rootNode == null) {
-            rootNode = new LiteralNode(rootToken);
-            commandRoots.add(rootNode);
-        }
-
-        buildCommandTree(tokens.subList(1, tokens.size()), rootNode, c);
-    }
 
     private LiteralNode getCommandRootNode(String token) {
         for (LiteralNode commandNode : commandRoots) {

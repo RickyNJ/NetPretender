@@ -11,7 +11,12 @@ devices:
         response: showing interface
         delay: 1
       - command: show interfaces --all
-        responseFile: ./responses/show_interface_all.txt
+        multiPartResponse:
+          - "SHOWING INTERFACES"
+          - "INTERFACE 1"
+          - "INTERFACE 2"
+          - "INTERFACE 3"
+          - "INTERFACE 4"
         delay: 1
       - command: print interfaces --all
         responseFile: ./responses/show_interface_all.txt
@@ -42,4 +47,4 @@ devices:
         allowed_values:
           - "hello"
           - "hey there"
-          - "true"
+          - "false"

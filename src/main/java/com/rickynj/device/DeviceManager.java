@@ -10,6 +10,7 @@ public class DeviceManager {
 
     public void addDevice(DevicePojo d){
         Device device = new Device();
+        device.setState(d.vars);
         for (CommandPojo c : d.commands) {
             device.addCommand(c);
         }

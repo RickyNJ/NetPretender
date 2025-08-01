@@ -3,10 +3,13 @@ package com.rickynj.responses;
 import com.rickynj.domain.CommandContext;
 
 import java.util.List;
-import java.util.Map;
 
 public class MultipartResponse extends ResponseBase{
-    private List<String> response;
+    private final List<String> response;
+
+    public MultipartResponse(List<String> multiPartResponse) {
+        this.response = multiPartResponse;
+    }
 
     @Override
     public void respond(CommandContext ctx) throws InterruptedException {
