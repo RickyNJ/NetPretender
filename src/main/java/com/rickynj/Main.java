@@ -11,15 +11,13 @@ import com.rickynj.repl.Repl;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         DeviceManager deviceManager = new DeviceManager();
-        Device device = new Device();
-//        Parser parser = new YAMLParser(device);
         Parser parser = new YAMLParser(deviceManager);
         parser.parse();
+        /*TODO: application starts on new connection. find a way to pass the port
+        * TODO: then match port with device manager. start REPL with matching device.
+        */
 
-//        CommandContext ctx = new CommandContext("print interfaces no");
-//        device.respondToCommand(ctx);
-
-        Repl repl= new Repl(device);
+        Repl repl= new Repl(deviceManager.getDeviceByPort(22));
         repl.start();
     }
 }

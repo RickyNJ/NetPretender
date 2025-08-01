@@ -54,6 +54,7 @@ public class YAMLParser implements Parser {
         }
 
         for (DevicePojo d : data.devices) {
+            deviceManager.addDevice(d);
             System.out.println(d.getClass());
         }
 //        Object devices = data.get("devices");

@@ -1,14 +1,20 @@
 package com.rickynj.device;
 
+import com.rickynj.domain.POJO.CommandPojo;
+import com.rickynj.domain.POJO.DevicePojo;
+
 import java.util.HashMap;
-import java.util.List;
 
 public class DeviceManager {
-    private HashMap<Integer, Device> devices;
+    private final HashMap<Integer, Device> devices = new HashMap<>();
 
-    public void addDevice(Object d){
+    public void addDevice(DevicePojo d){
+        Device device = new Device();
+        for (CommandPojo c : d.commands) {
+            device.addCommand(c);
+        }
         // create device, check if port is defined. check if port is taken, return device.
-        devices.put(22, new Device());
+        devices.put(d.port, device);
     }
     public Device getDeviceByPort(int port) {
         return devices.get(port);

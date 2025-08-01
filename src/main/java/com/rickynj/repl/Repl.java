@@ -14,7 +14,6 @@ public class Repl {
     public Repl(Device device) {
         this.device = device;
     }
-
     public void start() {
         Scanner scanner  = new Scanner(System.in);
         while (true) {
