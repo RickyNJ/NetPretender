@@ -1,4 +1,4 @@
-package com.rickynj.domain;
+package com.rickynj.domain.POJO;
 
 import java.util.List;
 
@@ -7,6 +7,5 @@ public class CommandPojo {
     public int delay;
     public String response;
     public String responseFile;
-
     public List<String> allowed_values;
 }

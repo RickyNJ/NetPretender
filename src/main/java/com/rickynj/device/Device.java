@@ -5,7 +5,7 @@ import com.rickynj.commands.LiteralNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
-import com.rickynj.domain.CommandPojo;
+import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.responses.BasicResponse;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class Device {
     private LiteralNode defaultResponse;
-    private final List<LiteralNode> commandRoots = new ArrayList<LiteralNode>();
+    private final List<LiteralNode> commandRoots = new ArrayList<>();
     private Map<String, String> state;
 
     public void addDevice(Object d){

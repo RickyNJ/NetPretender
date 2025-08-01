@@ -1,9 +1,9 @@
 package com.rickynj.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rickynj.device.Device;
-import com.rickynj.domain.CommandPojo;
-import com.rickynj.domain.DevicePojo;
+import com.rickynj.device.DeviceManager;
+import com.rickynj.domain.POJO.CommandPojo;
+import com.rickynj.domain.POJO.DevicePojo;
 import com.rickynj.exception.ParserException;
 import org.yaml.snakeyaml.Yaml;
 
@@ -17,10 +17,10 @@ public class YAMLParser implements Parser {
     private static final Yaml yaml = new Yaml();
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private final Device device;
+    private final DeviceManager deviceManager;
 
-    public YAMLParser(Device device) {
-        this.device = device;
+    public YAMLParser(DeviceManager deviceManager) {
+        this.deviceManager = deviceManager;
     }
 
     private Map<String, ?> readFile() {
@@ -45,24 +45,25 @@ public class YAMLParser implements Parser {
     @Override
     public void parse() {
         Map<String, ?> data = readFile();
-
-        Object commands = data.get("commands");
-        if (commands instanceof List<?> commandsList) {
-            for (Object c : commandsList) {
-                CommandPojo cm = mapper.convertValue(c, CommandPojo.class);
-                device.addCommand(cm);
-            }
-        } else {
-            throw new ParserException("no commands found.");
-        }
-
         Object devices = data.get("devices");
         if (devices instanceof List<?> deviceList) {
             for (Object d : deviceList) {
-                device.addDevice(d);
+                DevicePojo dp = mapper.convertValue(d, DevicePojo.class);
+                deviceManager.addDevice(dp);
             }
         } else {
             throw new ParserException("no devices found.");
         }
+
+//        Object commands = data.get("commands");
+//        if (commands instanceof List<?> commandsList) {
+//            for (Object c : commandsList) {
+//                CommandPojo cm = mapper.convertValue(c, CommandPojo.class);
+//                device.addCommand(cm);
+//            }
+//        } else {
+//            throw new ParserException("no commands found.");
+//        }
+
     }
 }
