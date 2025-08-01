@@ -11,11 +11,12 @@ public class Main {
         DeviceManager deviceManager = new DeviceManager();
         Parser parser = new YAMLParser(deviceManager);
         parser.parse();
-        /*TODO: application starts on new connection. find a way to pass the port
+        /*
+        * TODO: application starts on new connection. find a way to pass the port
         * TODO: then match port with device manager. start REPL with matching device.
         */
 
-        Repl repl= new Repl(deviceManager.getDeviceByPort(22));
+        Repl repl = new Repl(deviceManager.getDeviceByPort(Integer.parseInt(args[0])));
         repl.start();
     }
 }

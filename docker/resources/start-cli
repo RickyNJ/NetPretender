@@ -1,0 +1,4 @@
+#!/bin/bash
+# $1 = port passed from sshd_config Match block
+
+exec java -jar /opt/cli/NetPretender-1.0-SNAPSHOT-jar-with-dependencies.jar "$1"

@@ -23,9 +23,9 @@ public class YAMLParser implements Parser {
     }
 
     private DevicesWrapper readFile() throws IOException {
-        File yamlFile = new File("src/main/resources/commands.yml");
+        File yamlFile = new File("/opt/configs/commands.yml");
+//        File yamlFile = new File("src/main/resources/commands.yml");
         return mapper.readValue(yamlFile, DevicesWrapper.class);
-
     }
 
     @Override

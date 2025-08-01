@@ -24,13 +24,14 @@ public class Device {
     public void  setState(Map<String, String> state) {
         this.state = state;
     }
+
     private boolean isVariableToken(String token) {
         return (token.startsWith("${") && token.endsWith("}"));
     }
 
     public void respondToCommand(CommandContext ctx) throws InterruptedException, CommandNotMockedException {
         List<String> tokens = List.of(ctx.getCommand().split(" "));
-        BasicNode root = getCommandRootNode(tokens.getFirst());
+        BasicNode root = getCommandRootNode(tokens.get(0));
         if (root == null) {
             if (defaultResponse != null) {
                 defaultResponse.respond(ctx);
@@ -39,7 +40,7 @@ public class Device {
             }
         }
 
-        BasicNode responseNode = traverseCommandTree(tokens.subList(1, tokens.size()), root);
+        BasicNode responseNode = traverseCommandTree(ctx, tokens.subList(1, tokens.size()), root);
         if (responseNode == null || responseNode.getResponse() == null) {
             if (defaultResponse != null) {
                 defaultResponse.respond(ctx);
@@ -51,23 +52,26 @@ public class Device {
         }
     }
 
-    private BasicNode traverseCommandTree(List<String> tokens, BasicNode node) {
+    private BasicNode traverseCommandTree(CommandContext ctx, List<String> tokens, BasicNode node) {
         if (tokens.isEmpty()) {
             return node;
         }
-        String nextToken = tokens.getFirst();
+
+        String nextToken = tokens.get(0);
         List<VariableNode> varNodes = new ArrayList<>();
         for (BasicNode n : node.getNextNodes()) {
             if (Objects.equals(n.getToken(), nextToken)){
-               return traverseCommandTree(tokens.subList(1, tokens.size()), n);
+               return traverseCommandTree(ctx, tokens.subList(1, tokens.size()), n);
             }
             if (n instanceof VariableNode vn) {
                 varNodes.add(vn);
             }
         }
+
         for (VariableNode vn : varNodes) {
             if (vn.getAcceptableValues().contains(nextToken)) {
-                return traverseCommandTree(tokens.subList(1, tokens.size()), vn);
+                ctx.setValueForKey(vn.getToken(), nextToken);
+                return traverseCommandTree(ctx, tokens.subList(1, tokens.size()), vn);
             }
         }
         return null;
@@ -75,7 +79,7 @@ public class Device {
 
     public void addCommand(CommandPojo c){
         List<String> tokens = List.of(c.command.split(" "));
-        String rootToken = tokens.getFirst();
+        String rootToken = tokens.get(0);
 
         LiteralNode rootNode = getCommandRootNode(rootToken);
         if (rootNode == null) {
@@ -102,7 +106,7 @@ public class Device {
             return;
         }
 
-        String currentToken = remainingTokens.getFirst();
+        String currentToken = remainingTokens.get(0);
         remainingTokens = remainingTokens.subList(1, remainingTokens.size());
 
         for (BasicNode node : lastNode.getNextNodes()) {

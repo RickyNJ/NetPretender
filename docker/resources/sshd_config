@@ -1,0 +1,27 @@
+# SSH Server Configuration
+
+ # Listen on ports 22 and 23
+ Port 22
+ Port 23
+
+ # Allow root login (for testing purposes)
+ PermitRootLogin yes
+
+ # Allow password authentication (ensure security is handled via other means in production)
+ PasswordAuthentication yes
+
+ # ForceCommand to run the Java CLI with the correct port for each connection
+ Match LocalPort 22
+     ForceCommand /usr/local/bin/start-cli 22
+
+ Match LocalPort 23
+     ForceCommand /usr/local/bin/start-cli 23
+
+ # LogLevel for debugging
+ LogLevel INFO
+
+ # Enable TTY allocation (necessary for the CLI to work)
+ PermitTTY yes
+
+ # Other SSH Configurations (Optional)
+ AllowUsers cliuser
