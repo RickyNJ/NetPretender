@@ -1,17 +1,21 @@
 #Network device mocking
+
+To update mappings without rebuilding the image run:
+docker cp ./path/to/commands.yml containerId:/opt/configs/commands.yml
+
 This is the application that will be running inside a docker container you can ssh into
 
 The following features will be (hopefully) implemented:
 
-    [ ] Yaml file parsing to store mocks in code
+    [x] Yaml file parsing to store mocks in code
 
     [ ] Custom response file to keep longer responses out of the yaml
 
-    [ ] Variables in commands
+    [x] Variables in commands
 
     [ ] Variables in output
 
-    [ ] Output customization (delays, and outputting in multiple parts)
+    [x] Output customization (delays, and outputting in multiple parts)
 
     [ ] Internal State of a machine
 

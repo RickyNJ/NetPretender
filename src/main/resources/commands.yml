@@ -7,9 +7,8 @@ devices:
       deviceId: "modem1"
       state: "enabled"
     commands:
-      - command: show interface npm
-        response: showing interface
-        delay: 1
+      - command: show name
+        response: my name is modem1
       - command: show interfaces --all
         multiPartResponse:
           - "SHOWING INTERFACES"
@@ -17,9 +16,6 @@ devices:
           - "INTERFACE 2"
           - "INTERFACE 3"
           - "INTERFACE 4"
-        delay: 1
-      - command: print interfaces --all
-        responseFile: ./responses/show_interface_all.txt
         delay: 1
       - command: print interfaces ${var}
         response: showing variable interface
@@ -33,17 +29,11 @@ devices:
       deviceId: "modem2"
       state: "enabled"
     commands:
-      - command: show interface npm
-        response: showing interface
-        delay: 1
-      - command: show interfaces --all
-        responseFile: ./responses/show_interface_all.txt
-        delay: 1
-      - command: print interfaces --all
-        responseFile: ./responses/show_interface_all.txt
-        delay: 1
+      - command: show name
+        response: my name is modem2
       - command: print interfaces ${var}
         response: showing variable interface
+        delay: 2
         allowed_values:
           - "hello"
           - "hey there"
