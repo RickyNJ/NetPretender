@@ -1,14 +1,18 @@
-# 🧪 Network Device Mocking over SSH
+# 🧪 NetPretender - Network Device Mocking over SSH
 
 This project runs a Java-based mock network device inside a Docker container that you can SSH into. The behavior is controlled via a YAML configuration file.
 
+
 ## 🚀 Getting Started
 
+First clone this repository.<br>
+Build the java application using maven, jdk17.
 To start the SSH-enabled container:
 
-    docker-compose up -d
+    docker build path/to/dockerfile -t netpretender
+    docker run --name netpretendercontainer -p <DESIRED_PORT>:<DESIRED_PORT>
 
-You can then SSH into it via:
+You can then SSH into it with password "secret" via:
 
     ssh cliuser@localhost -p 22
 
@@ -28,12 +32,12 @@ Replace <container-id> with your actual container name or ID (e.g., ssh-cli).
 
 ## 📁 File Structure
 
-resources/
-├── commands.yml         # Defines command-response mappings
-├── start-cli            # Launches the CLI logic
-├── sshd_config          # SSH server config with ForceCommand rules
-└── target/
-└── your-app.jar     # The compiled Java application
+resources/<br>
+├── commands.yml         # Defines command-response mappings<br>
+├── start-cli            # Launches the CLI logic<br>
+├── sshd_config          # SSH server config with ForceCommand rules<br>
+└── target/<br>
+└── app.jar     # The compiled Java application
 
 ---
 
@@ -42,6 +46,7 @@ resources/
 ### ✅ Implemented
 
 - [x] YAML-based command mappings
+- [x] Multiple devices mocking at the same time
 - [x] Custom output formatting
     - Delays
     - Multi-part output
