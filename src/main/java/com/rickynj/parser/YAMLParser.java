@@ -1,21 +1,21 @@
 package com.rickynj.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.rickynj.device.DeviceManager;
+import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.domain.POJO.DevicePojo;
 import com.rickynj.exception.ParserException;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
 public class YAMLParser implements Parser {
     private static final Yaml yaml = new Yaml();
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
     private final DeviceManager deviceManager;
 
@@ -23,15 +23,17 @@ public class YAMLParser implements Parser {
         this.deviceManager = deviceManager;
     }
 
-    private Map<String, ?> readFile() {
-        Map<String, ?> data;
-        try {
-            InputStream input  = new FileInputStream("src/main/resources/commands.yml");
-            data = yaml.load(input);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return data;
+    private DevicesWrapper readFile() throws IOException {
+        File yamlFile = new File("src/main/resources/commands.yml");
+        return mapper.readValue(yamlFile, DevicesWrapper.class);
+//        Map<String, ?> data;
+//        try {
+//            InputStream input  = new FileInputStream("src/main/resources/commands.yml");
+//            data = yaml.load(input);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return data;
     }
 //    TODO: implement
     private boolean validateCommand(CommandPojo c) {
@@ -44,16 +46,26 @@ public class YAMLParser implements Parser {
 
     @Override
     public void parse() {
-        Map<String, ?> data = readFile();
-        Object devices = data.get("devices");
-        if (devices instanceof List<?> deviceList) {
-            for (Object d : deviceList) {
-                DevicePojo dp = mapper.convertValue(d, DevicePojo.class);
-                deviceManager.addDevice(dp);
-            }
-        } else {
-            throw new ParserException("no devices found.");
+        DevicesWrapper data;
+        try {
+            data = readFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        for (DevicePojo d : data.devices) {
+            System.out.println(d.getClass());
+        }
+//        Object devices = data.get("devices");
+
+//        if (devices instanceof List<?> deviceList) {
+//            for (Object d : deviceList) {
+//                DevicePojo dp = mapper.convertValue(d, DevicePojo.class);
+//                deviceManager.addDevice(dp);
+//            }
+//        } else {
+//            throw new ParserException("no devices found.");
+//        }
 
 //        Object commands = data.get("commands");
 //        if (commands instanceof List<?> commandsList) {
