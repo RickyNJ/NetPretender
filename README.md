@@ -1,36 +1,95 @@
-#Network device mocking
+# 🧪 Network Device Mocking over SSH
 
-To update mappings without rebuilding the image run:
-docker cp ./path/to/commands.yml containerId:/opt/configs/commands.yml
+This project runs a Java-based mock network device inside a Docker container that you can SSH into. The behavior is controlled via a YAML configuration file.
 
-This is the application that will be running inside a docker container you can ssh into
+## 🚀 Getting Started
 
-The following features will be (hopefully) implemented:
+To start the SSH-enabled container:
 
-    [x] Yaml file parsing to store mocks in code
+    docker-compose up -d
 
-    [ ] Custom response file to keep longer responses out of the yaml
+You can then SSH into it via:
 
-    [x] Variables in commands
+    ssh cliuser@localhost -p 22
 
-    [ ] Variables in output
+Each exposed SSH port can correspond to a different mock device or behavior, configured using sshd_config with Match LocalPort.
 
-    [x] Output customization (delays, and outputting in multiple parts)
+---
 
-    [ ] Internal State of a machine
+## ⚙️ Live Configuration Updates
 
-    [ ] Referencing to internal state in output
+To update the command mappings without rebuilding the image, run:
 
-    [ ] Conditional outputs based on varialbes and internal state
+    docker cp ./path/to/commands.yml <container-id>:/opt/configs/commands.yml
 
-Notes to myself:
-No need to do difficult two step search if new node is required.
-just reserve ${} and create var node, commands are split based on words so you can still match on that base.
+Replace <container-id> with your actual container name or ID (e.g., ssh-cli).
 
-Add more complexity in terms of conditional responses. Think of specific responses for specific inputs only?
-maybe this should be in a seperate mock, but the use case of 1 command with  3 possible responses for different values seems more readable as 1 mock.
+---
 
-Look into deploying this docker container into gns3.
-Do more gns3 research in general.
+## 📁 File Structure
 
-How to implement variables in nodes
+resources/
+├── commands.yml         # Defines command-response mappings
+├── start-cli            # Launches the CLI logic
+├── sshd_config          # SSH server config with ForceCommand rules
+└── target/
+└── your-app.jar     # The compiled Java application
+
+---
+
+## 📜 Features
+
+### ✅ Implemented
+
+- [x] YAML-based command mappings
+- [x] Custom output formatting
+    - Delays
+    - Multi-part output
+- [x] Variables in commands
+
+### 🔧 In Progress / Planned
+
+- [ ] Support for external response files
+- [ ] Variables in output
+- [ ] Mock device internal state
+- [ ] Conditional outputs based on variables/state
+- [ ] State referencing in outputs
+
+---
+
+## 🛠 How It Works
+
+- The SSH server listens on multiple ports.
+- Each port is matched in sshd_config to launch the mock app with specific arguments (e.g., device type).
+- The Java CLI reads commands.yml and responds accordingly.
+- The user interacts with the CLI over a TTY-enabled SSH session.
+
+---
+
+## 🧪 Example Command Mapping (commands.yml)
+
+commands:
+show version:
+output:
+- "Device OS v1.2.3"
+- "Serial: ABCD1234"
+delay: 500  # in milliseconds
+
+---
+
+## 🧯 Troubleshooting
+
+- Make sure your sshd_config is actually applied (check logs).
+- Port conflicts on Windows may require adjusting exposed ports in docker-compose.yml.
+
+---
+
+## 📬 Contributions
+
+Feature ideas and PRs are welcome! Especially around:
+- State modeling
+- Conditional logic
+- More robust output templating
+
+---
+

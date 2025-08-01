@@ -6,9 +6,6 @@ devices:
       deviceId: "modem1"
       state: "enabled"
     commands:
-      - command: show interface npm
-        response: showing interface
-        delay: 1
       - command: show name
         response: hi my name is modem1
         delay: 1
@@ -23,13 +20,6 @@ devices:
       - command: print interfaces --all
         responseFile: ./responses/show_interface_all.txt
         delay: 1
-      - command: print interfaces ${var}
-        response: showing variable interface
-        allowed_values:
-          - "hello"
-          - "hey there"
-          - "true"
-
   - name: modem2
     port: 23
     vars:
