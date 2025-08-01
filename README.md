@@ -73,12 +73,67 @@ resources/<br>
 
 ## 🧪 Example Command Mapping (commands.yml)
 
-commands:
-show version:
-output:
-- "Device OS v1.2.3"
-- "Serial: ABCD1234"
-delay: 500  # in milliseconds
+## 🧪 Example Command Mapping (commands.yml)
+```yaml
+devices:
+  - name: modem
+    port: 22
+    vars:
+    deviceId: "modem1"
+    state: "enabled"
+    commands:
+      - command: show name
+        response: hi my name is modem1
+        delay: 1
+
+      - command: show interfaces --all
+        multiPartResponse:
+          - "SHOWING INTERFACES"
+          - "INTERFACE 1"
+          - "INTERFACE 2"
+          - "INTERFACE 3"
+          - "INTERFACE 4"
+        delay: 1
+
+      - command: print interfaces --all
+        responseFile: ./responses/show_interface_all.txt
+        delay: 1
+
+  - name: modem2
+    port: 23
+    vars:
+    deviceId: "modem2"
+    state: "enabled"
+    commands:
+      - command: show name
+        response: hi my name is modem2
+
+      - command: show interfaces --all
+        responseFile: ./responses/show_interface_all.txt
+        delay: 1
+
+      - command: print interfaces --all
+        responseFile: ./responses/show_interface_all.txt
+        delay: 1
+
+      - command: print interfaces ${var}
+        response: showing variable interface
+        allowed_values:
+          - "hello"
+          - "hey there"
+          - "false"
+```
+---
+
+### 🧩 Supported Features Demonstrated
+
+- `response`: Simple static response
+- `multiPartResponse`: Outputs multiple lines, simulating streaming or step-by-step device replies
+- `responseFile`: Reads output from an external file (useful for large responses)
+- `${var}`: Variable placeholder in the command input
+- `allowed_values`: Validates that the variable input matches one of the defined values
+- `delay`: Simulates response latency (in seconds)
+- `$command`: (Proposed) Reserved variable for referencing the full raw user input — not implemented yet but planned
 
 ---
 
