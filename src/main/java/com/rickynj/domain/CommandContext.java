@@ -4,6 +4,7 @@ import com.rickynj.device.Device;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CommandContext {
     private final String command;
@@ -20,8 +21,8 @@ public class CommandContext {
         return command;
     }
 
-    public String getValueForKey(String key) {
-        return vars.get(key);
+    public Optional<String> getValueForKey(String key) {
+        return Optional.ofNullable(vars.get(key));
     }
 
     public void setValueForKey(String key, String val) {

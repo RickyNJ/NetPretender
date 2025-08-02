@@ -32,9 +32,13 @@ devices:
       - command: show name
         response: my name is modem2
       - command: print interfaces ${var}
-        response: showing variable interface
+        responseTemplate: showing interface ${var}
         delay: 2
         allowed_values:
           - "hello"
           - "hey there"
           - "false"
+      - command: hi ${im} ${alittle} ${stupid}
+        responseTemplate: hi ${im} ${alittle} ${stupid}
+        allowed_values:
+          - "hi"
