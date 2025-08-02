@@ -14,7 +14,7 @@ public class CommandContext {
     public CommandContext(String command, Device device) {
         this.command = command;
         this.device = device;
-        vars = new HashMap<>();
+        vars = new HashMap<>(device.getState());
     }
 
     public String getCommand() {

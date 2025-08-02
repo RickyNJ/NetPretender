@@ -18,6 +18,7 @@ public class DeviceManager {
         devices.put(d.port, device);
     }
     public Device getDeviceByPort(int port) {
+        //TODO check if device exists
         return devices.get(port);
     }
 }

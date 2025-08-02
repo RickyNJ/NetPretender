@@ -26,6 +26,10 @@ public class Device {
         this.state = state;
     }
 
+    public Map<String, String> getState() {
+        return state;
+    }
+
     private boolean isVariableToken(String token) {
         return (token.startsWith("${") && token.endsWith("}"));
     }

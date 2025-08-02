@@ -26,11 +26,11 @@ devices:
   - name: modem2
     port: 23
     vars:
-      deviceId: "modem2"
-      state: "enabled"
+      ${deviceId}: "modem2"
+      ${state}: "enabled"
     commands:
       - command: show name
-        response: my name is modem2
+        responseTemplate: my name is ${deviceId}
       - command: print interfaces ${var}
         responseTemplate: showing interface ${var}
         delay: 2
@@ -42,3 +42,5 @@ devices:
         responseTemplate: hi ${im} ${alittle} ${stupid}
         allowed_values:
           - "hi"
+          - "ha"
+          - "ho"
