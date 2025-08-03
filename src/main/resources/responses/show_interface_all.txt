@@ -1,3 +1,3 @@
 showing all interfaces from a text file
     hopefully te formatting workds
- probably not?
+ probably not? ${deviceId}

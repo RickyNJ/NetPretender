@@ -135,8 +135,6 @@ public class Device {
         } else if (c.multiPartResponse != null) {
             r = new MultipartResponse(c.multiPartResponse);
             r.setDelay(c.delay);
-        } else if (c.responseTemplate != null) {
-            r = new VariableResponse(c.responseTemplate);
         } else if (c.responseFile != null ) {
             r = new FileResponse(c.responseFile);
         }

@@ -16,9 +16,11 @@ public class ResponseUtility {
     }
     public static String replaceVariablesWithValues(List<String> input, CommandContext ctx) {
         StringBuilder sb = new StringBuilder();
-        for (String tok : input) {
-            sb.append(ctx.getValueForKey(tok).orElse(tok));
-            sb.append(" ");
+        for (String line : input) {
+            for (String tok : line.split(" ")) {
+                sb.append(ctx.getValueForKey(tok).orElse(tok));
+                sb.append(" ");
+            }
         }
         return sb.toString();
     }

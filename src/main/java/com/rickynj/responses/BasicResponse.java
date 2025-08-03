@@ -13,6 +13,6 @@ public class BasicResponse extends ResponseBase{
 
     public void respond(CommandContext ctx) throws InterruptedException {
         Thread.sleep(this.delayMs.get());
-        System.out.println(response);
+        System.out.println(ResponseUtility.replaceVariablesWithValues(response, ctx));
     }
 }

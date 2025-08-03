@@ -30,13 +30,13 @@ devices:
       ${state}: "enabled"
     commands:
       - command: show name
-        responseTemplate: my name is ${deviceId}
+        response: my name is ${deviceId}
       - command: print interfaces ${var}
-        responseTemplate: showing interface ${var}
+        response: showing interface ${var}
         delay: 2
         allowed_values:
           - "hello"
-          - "hey there"
+          - "hey_there"
           - "false"
       - command: show interface file
         responseFile: show_interface_all.txt
