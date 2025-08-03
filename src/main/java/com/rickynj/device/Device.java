@@ -1,17 +1,14 @@
 package com.rickynj.device;
 
-import com.rickynj.Main;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.LiteralNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.responses.BasicResponse;
-import com.rickynj.responses.MultipartResponse;
-import com.rickynj.responses.Response;
-import com.rickynj.responses.VariableResponse;
+import com.rickynj.responses.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -98,31 +95,17 @@ public class Device {
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
-            // TODO find the type of response needed here.
-            Response r = null;
-            if (c.response != null) {
-                r = new BasicResponse(c.response);
-                r.setDelay(c.delay);
-            } else if (c.multiPartResponse != null) {
-                r = new MultipartResponse(c.multiPartResponse);
-                r.setDelay(c.delay);
-            } else if (c.responseTemplate != null) {
-                r = new VariableResponse(c.responseTemplate);
-            }
-            lastNode.setResponse(r);
+            lastNode.setResponse(getResponseType(c));
             return;
         }
-
         String currentToken = remainingTokens.get(0);
         remainingTokens = remainingTokens.subList(1, remainingTokens.size());
-
         for (BasicNode node : lastNode.getNextNodes()) {
             if (Objects.equals(node.getToken(), currentToken)) {
                 buildCommandTree(remainingTokens, node, c);
                 return;
             }
         }
-
         BasicNode nextNode;
         if (isVariableToken(currentToken)) {
             nextNode = new VariableNode(currentToken, c.allowed_values);
@@ -142,5 +125,21 @@ public class Device {
             }
         }
         return null;
+    }
+
+    private Response getResponseType(CommandPojo c) {
+        Response r = null;
+        if (c.response != null) {
+            r = new BasicResponse(c.response);
+            r.setDelay(c.delay);
+        } else if (c.multiPartResponse != null) {
+            r = new MultipartResponse(c.multiPartResponse);
+            r.setDelay(c.delay);
+        } else if (c.responseTemplate != null) {
+            r = new VariableResponse(c.responseTemplate);
+        } else if (c.responseFile != null ) {
+            r = new FileResponse(c.responseFile);
+        }
+        return r;
     }
 }

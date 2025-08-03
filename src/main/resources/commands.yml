@@ -38,9 +38,5 @@ devices:
           - "hello"
           - "hey there"
           - "false"
-      - command: hi ${im} ${alittle} ${stupid}
-        responseTemplate: hi ${im} ${alittle} ${stupid}
-        allowed_values:
-          - "hi"
-          - "ha"
-          - "ho"
+      - command: show interface file
+        responseFile: show_interface_all.txt
