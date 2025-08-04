@@ -1,8 +1,6 @@
 This project is still in WIP
-Notes to self:
-Command context overwrites
 
-# 🧪 NetPretender - Single Container, Multi SSH Device Mocking.
+# 🧪 NetPretender - Single Container, Multi Device SSH Mocking.
 
 Mock multiple ssh servers from a single docker container, by changing the behaviour of the container based on the port on which you connect to.
 
@@ -21,6 +19,7 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 - [x] Variables in commands
 - [x] Variables in output
 - [x] State referencing in outputs
+- [x] assign
 
 ### 🔧 In Progress / Planned
 
@@ -36,6 +35,7 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 - [ ] Docker compose for easier deployment.
 - [ ] Easier setup.
 - [ ] Maven setup to include new builds to the docker image.
+- [ ] Unit tests.
 - [ ] License.
 
 ---

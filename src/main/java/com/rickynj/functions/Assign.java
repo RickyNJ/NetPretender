@@ -14,7 +14,7 @@ public class Assign implements Operation {
     // TODO probably use functional interfaces here
     // TODO find less error prone way, probably just add ispresents
     public void execute(CommandContext ctx) {
-        String newValue = ctx.getValueForKey(source).orElse("nothing");
+        String newValue = ctx.getValueForKey(source).orElse(source);
         ctx.setDeviceVar(target, newValue);
     }
 }

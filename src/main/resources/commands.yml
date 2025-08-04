@@ -18,6 +18,12 @@ devices:
         operation: ${var} -> ${deviceId}
         delay: 5
 
+      - command: poweroff
+        response: "turning off"
+        operation: disabled -> ${state}
+      - command: get state
+        response: ${state}
+
       - command: show interfaces ${var}
         multiPartResponse:
           - "SHOWING INTERFACES"
