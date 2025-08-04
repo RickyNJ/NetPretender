@@ -2,7 +2,6 @@ package com.rickynj.responses;
 
 import com.rickynj.domain.CommandContext;
 
-import java.util.Map;
 
 public class BasicResponse extends ResponseBase{
     private final String response;

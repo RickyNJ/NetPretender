@@ -9,4 +9,5 @@ public class CommandPojo {
     public List<String> multiPartResponse;
     public String responseFile;
     public List<String> allowed_values;
+    public String function;
 }

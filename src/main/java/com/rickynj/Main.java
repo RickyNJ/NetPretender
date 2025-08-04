@@ -9,6 +9,7 @@ import com.rickynj.repl.Repl;
 public class Main {
     public static void main(String[] args) {
         DeviceManager deviceManager = new DeviceManager();
+        // TODO: make this into a static at some point
         Parser parser = new YAMLParser(deviceManager);
         parser.parse();
         /*

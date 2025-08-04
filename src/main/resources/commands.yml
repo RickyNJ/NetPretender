@@ -4,11 +4,11 @@ devices:
   - name: modem
     port: 22
     vars:
-      deviceId: "modem1"
-      state: "enabled"
+      ${deviceId}: "modem1"
+      ${state}: "enabled"
     commands:
       - command: show name
-        response: my name is modem1
+        response: my name is ${deviceId}
       - command: show interfaces --all
         multiPartResponse:
           - "SHOWING INTERFACES"
@@ -23,6 +23,8 @@ devices:
           - "hello"
           - "hey there"
           - "true"
+        function: ${var} -> ${deviceId}
+
   - name: modem2
     port: 23
     vars:

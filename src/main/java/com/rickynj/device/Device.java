@@ -6,6 +6,7 @@ import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
+import com.rickynj.functions.Function;
 import com.rickynj.responses.*;
 
 import java.io.IOException;
@@ -116,8 +117,6 @@ public class Device {
         buildCommandTree(remainingTokens, nextNode, c);
     }
 
-
-
     private LiteralNode getCommandRootNode(String token) {
         for (LiteralNode commandNode : commandRoots) {
             if (commandNode.getToken().equals(token)) {
@@ -139,5 +138,9 @@ public class Device {
             r = new FileResponse(c.responseFile);
         }
         return r;
+    }
+
+    private Function getFunctionType(CommandPojo c) {
+
     }
 }

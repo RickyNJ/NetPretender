@@ -34,6 +34,7 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 - [ ] Docker compose for easier deployment.
 - [ ] Easier setup.
 - [ ] Maven setup to include new builds to the docker image.
+- [ ] License.
 
 ---
 
@@ -55,7 +56,7 @@ devices:
         response: hi my name is ${deviceId}
         # Set the response delay in seconds. Default is no delay.
         delay: 1
-      # Print out the reponse in parts by defining a multiPartResponse
+      # Print out the response in parts by defining a multiPartResponse
       - command: show interfaces --all
         multiPartResponse:
           - "SHOWING INTERFACES"
@@ -127,19 +128,6 @@ resources/<br>
 
 ---
 
----
-
-### 🧩 Supported Features Demonstrated
-
-- `response`: Simple static response
-- `multiPartResponse`: Outputs multiple lines, simulating streaming or step-by-step device replies
-- `responseFile`: Reads output from an external file (useful for large responses)
-- `${var}`: Variable placeholder in the command input
-- `allowed_values`: Validates that the variable input matches one of the defined values
-- `delay`: Simulates response latency (in seconds)
-- `$command`: (Proposed) Reserved variable for referencing the full raw user input — not implemented yet but planned
-
----
 
 ## 🧯 Troubleshooting
 

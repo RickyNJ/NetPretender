@@ -1,17 +1,19 @@
 package com.rickynj.commands;
 
 import com.rickynj.domain.CommandContext;
+import com.rickynj.functions.Function;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class BasicNode {
 
     protected String token;
     protected List<BasicNode> nextNodes = new ArrayList<>();
     protected Response response;
+    protected Function function;
 
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);
