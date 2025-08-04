@@ -15,7 +15,7 @@ public class MultipartResponse extends ResponseBase{
     public void respond(CommandContext ctx) throws InterruptedException {
         for (String part : response) {
             Thread.sleep(delayMs.get());
-            System.out.println(part);
+            System.out.println(ResponseUtility.replaceVariablesWithValues(part, ctx));
         }
     }
 }

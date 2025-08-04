@@ -15,6 +15,6 @@ public class Assign implements Operation {
     // TODO find less error prone way, probably just add ispresents
     public void execute(CommandContext ctx) {
         String newValue = ctx.getValueForKey(source).orElse("nothing");
-        ctx.setValueForKey(target, newValue);
+        ctx.setDeviceVar(target, newValue);
     }
 }

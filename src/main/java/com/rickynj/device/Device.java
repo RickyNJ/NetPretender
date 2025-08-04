@@ -20,8 +20,12 @@ public class Device {
     private final List<LiteralNode> commandRoots = new ArrayList<>();
     private Map<String, String> state;
 
-    public void  setState(Map<String, String> state) {
+    public void setState(Map<String, String> state) {
         this.state = state;
+    }
+
+    public void setState(String key, String value) {
+        state.put(key, value);
     }
 
     public Map<String, String> getState() {
@@ -76,7 +80,7 @@ public class Device {
 
         for (VariableNode vn : varNodes) {
             if (vn.getAcceptableValues().contains(nextToken)) {
-                ctx.setValueForKey(vn.getToken(), nextToken);
+                ctx.setContextVar(vn.getToken(), nextToken);
                 return traverseCommandTree(ctx, tokens.subList(1, tokens.size()), vn);
             }
         }

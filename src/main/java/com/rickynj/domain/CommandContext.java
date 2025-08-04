@@ -25,7 +25,12 @@ public class CommandContext {
         return Optional.ofNullable(vars.get(key));
     }
 
-    public void setValueForKey(String key, String val) {
+    public void setContextVar(String key, String val) {
         vars.put(key, val);
     }
+
+    public void setDeviceVar(String key, String val) {
+        device.setState(key, val);
+    }
+
 }

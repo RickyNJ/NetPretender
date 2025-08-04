@@ -1,4 +1,6 @@
 This project is still in WIP
+Notes to self:
+Command context overwrites
 
 # 🧪 NetPretender - Single Container, Multi SSH Device Mocking.
 

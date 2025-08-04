@@ -14,16 +14,21 @@ devices:
         response: set name to ${var}
         allowed_values:
           - "ricky"
+          - "pookie"
         operation: ${var} -> ${deviceId}
+        delay: 5
 
-      - command: show interfaces --all
+      - command: show interfaces ${var}
         multiPartResponse:
           - "SHOWING INTERFACES"
-          - "INTERFACE 1"
+          - "INTERFACE ${var}"
           - "INTERFACE 2"
           - "INTERFACE 3"
           - "INTERFACE 4"
+        allowed_values:
+            - "hello"
         delay: 1
+
       - command: print interfaces ${var}
         response: showing variable interface
         allowed_values:
