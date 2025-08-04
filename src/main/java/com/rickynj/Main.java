@@ -17,7 +17,7 @@ public class Main {
         * TODO: then match port with device manager. start REPL with matching device.
         */
 
-        Repl repl = new Repl(deviceManager.getDeviceByPort(23));
+        Repl repl = new Repl(deviceManager.getDeviceByPort(22));
 //        Repl repl = new Repl(deviceManager.getDeviceByPort(Integer.parseInt(args[0])));
         repl.start();
     }

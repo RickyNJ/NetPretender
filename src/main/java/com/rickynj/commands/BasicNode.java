@@ -1,7 +1,7 @@
 package com.rickynj.commands;
 
 import com.rickynj.domain.CommandContext;
-import com.rickynj.functions.Function;
+import com.rickynj.functions.Operation;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
@@ -9,14 +9,16 @@ import java.util.List;
 
 
 public class BasicNode {
-
     protected String token;
     protected List<BasicNode> nextNodes = new ArrayList<>();
     protected Response response;
-    protected Function function;
+    protected Operation operation;
 
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);
+    }
+    public void execute(CommandContext ctx) {
+        operation.execute(ctx);
     }
 
     public void setResponse(Response response) {
@@ -27,6 +29,12 @@ public class BasicNode {
         return response;
     }
 
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+    public boolean hasOperation() {
+        return operation != null;
+    }
     public void addNextNode(BasicNode node) {
         nextNodes.add(node);
     }

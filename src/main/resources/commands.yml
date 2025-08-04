@@ -9,6 +9,13 @@ devices:
     commands:
       - command: show name
         response: my name is ${deviceId}
+
+      - command: set name ${var}
+        response: set name to ${var}
+        allowed_values:
+          - "ricky"
+        operation: ${var} -> ${deviceId}
+
       - command: show interfaces --all
         multiPartResponse:
           - "SHOWING INTERFACES"
@@ -23,7 +30,7 @@ devices:
           - "hello"
           - "hey there"
           - "true"
-        function: ${var} -> ${deviceId}
+        operation: ${var} -> ${deviceId}
 
   - name: modem2
     port: 23

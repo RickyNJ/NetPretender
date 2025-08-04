@@ -6,10 +6,10 @@ import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.functions.Function;
+import com.rickynj.functions.Assign;
+import com.rickynj.functions.Operation;
 import com.rickynj.responses.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +52,9 @@ public class Device {
             }
         } else {
             responseNode.respond(ctx);
+            if (responseNode.hasOperation()) {
+                responseNode.execute(ctx);
+            }
         }
     }
 
@@ -96,6 +99,9 @@ public class Device {
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
+            if (c.operation != null) {
+                lastNode.setOperation(getOperationType(c));
+            }
             lastNode.setResponse(getResponseType(c));
             return;
         }
@@ -140,7 +146,8 @@ public class Device {
         return r;
     }
 
-    private Function getFunctionType(CommandPojo c) {
-
+    private Operation getOperationType(CommandPojo c) {
+        String[] op = c.operation.split(" ");
+        return new Assign(op[0], op[2]);
     }
 }
