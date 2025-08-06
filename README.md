@@ -23,6 +23,8 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 
 ### 🔧 In Progress / Planned
 
+- [ ] Cachening of devices in valkey.
+- [ ] Check if file has been modified to prevent rebuilding of the command tree.
 - [ ] Dynamically assign and listen to ports defined in the YAML.
 - [ ] Conditional outputs based on variables/state.
 - [ ] Handle scenario variable has wrong value.
