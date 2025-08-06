@@ -10,7 +10,8 @@ public class FileResponse extends ResponseBase {
     final private String response;
 
     public FileResponse(String path) {
-        path = "src/main/resources/responses/" + path;
+        path = "/opt/configs/responses/" + path;
+//        path = "src/main/resources/responses/" + path;
         try {
             response = Files.readString(Path.of(path));
         } catch (IOException e) {

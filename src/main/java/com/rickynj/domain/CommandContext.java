@@ -15,6 +15,7 @@ public class CommandContext {
         this.command = command;
         this.device = device;
         vars = new HashMap<>(device.getState());
+        vars.put("${command}", command);
     }
 
     public String getCommand() {
