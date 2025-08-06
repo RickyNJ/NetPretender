@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Device {
-    private LiteralNode defaultResponse;
-    private final List<LiteralNode> commandRoots = new ArrayList<>();
-    private Map<String, String> state;
+    public LiteralNode defaultResponse;
+    public final List<LiteralNode> commandRoots = new ArrayList<>();
+    public Map<String, String> state;
 
     public void setState(Map<String, String> state) {
         this.state = state;

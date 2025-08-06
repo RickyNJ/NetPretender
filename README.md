@@ -28,6 +28,7 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 - [ ] Handle scenario variable has wrong value.
 - [ ] Allowed values per variable instead of per command.
 - [ ] Use configuration values as allowed_value for variables.
+- [ ] Cache built trees, prevent rebuilding of the tree if no change in the config was made.
 - [ ] Scripting support.
 
 ### 🔧 Other stuff:

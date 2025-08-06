@@ -9,10 +9,10 @@ import java.util.List;
 
 
 public class BasicNode {
-    protected String token;
-    protected List<BasicNode> nextNodes = new ArrayList<>();
-    protected Response response;
-    protected Operation operation;
+    public String token;
+    public List<BasicNode> nextNodes = new ArrayList<>();
+    public Response response;
+    public Operation operation;
 
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);

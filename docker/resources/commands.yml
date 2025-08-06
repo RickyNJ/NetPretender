@@ -1,42 +1,62 @@
 # Maybe implement reserved variables? like $command to get the input command.
+
 devices:
   - name: modem
     port: 22
     vars:
-      deviceId: "modem1"
-      state: "enabled"
+      ${deviceId}: "modem1"
+      ${state}: "enabled"
     commands:
       - command: show name
-        response: hi my name is modem1
-        delay: 1
-      - command: show interfaces --all
+        response: my name is ${deviceId}
+
+      - command: set name ${var}
+        response: set name to ${var}
+        allowed_values:
+          - "ricky"
+          - "pookie"
+        operation: ${var} -> ${deviceId}
+        delay: 3
+
+      - command: poweroff
+        response: "turning off"
+        operation: disabled -> ${state}
+      - command: get state
+        response: ${state}
+
+      - command: show interfaces ${var}
         multiPartResponse:
           - "SHOWING INTERFACES"
-          - "INTERFACE 1"
+          - "INTERFACE ${var}"
           - "INTERFACE 2"
           - "INTERFACE 3"
           - "INTERFACE 4"
+        allowed_values:
+            - "hello"
         delay: 1
-      - command: print interfaces --all
-        responseFile: ./responses/show_interface_all.txt
-        delay: 1
-  - name: modem2
-    port: 23
-    vars:
-      deviceId: "modem2"
-      state: "enabled"
-    commands:
-      - command: show name
-        response: hi my name is modem2
-      - command: show interfaces --all
-        responseFile: ./responses/show_interface_all.txt
-        delay: 1
-      - command: print interfaces --all
-        responseFile: ./responses/show_interface_all.txt
-        delay: 1
+
       - command: print interfaces ${var}
         response: showing variable interface
         allowed_values:
           - "hello"
           - "hey there"
+          - "true"
+        operation: ${var} -> ${deviceId}
+
+  - name: modem2
+    port: 23
+    vars:
+      ${deviceId}: "modem2"
+      ${state}: "enabled"
+    commands:
+      - command: show name
+        response: my name is ${deviceId}
+      - command: print interfaces ${var}
+        response: showing interface ${var}
+        delay: 2
+        allowed_values:
+          - "hello"
+          - "hey_there"
           - "false"
+      - command: show interface file
+        responseFile: "show_interface_all.txt"

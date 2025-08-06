@@ -3,7 +3,7 @@ package com.rickynj.commands;
 import java.util.List;
 
 public class VariableNode extends LiteralNode {
-    private final List<String> allowedValues;
+    public final List<String> allowedValues;
 
     public VariableNode(String token, List<String> allowedValues) {
         super(token);

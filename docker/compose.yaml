@@ -1,0 +1,32 @@
+services:
+  netpretender:
+    image: netpretender:latest
+    container_name: pretender
+    depends_on:
+      - valkey
+    environment:
+      - REDIS_HOST=valkey
+      - REDIS_PORT=6379
+    networks:
+      - testnet
+
+  valkey:
+    image: valkey/valkey
+    container_name: valkey
+    ports:
+      - "6379:6379"
+    networks:
+      - testnet
+
+  tester:
+    image: alpine:latest
+    container_name: tester
+    command: sh
+    stdin_open: true
+    tty: true
+    networks:
+      - testnet
+
+networks:
+  testnet:
+    driver: bridge

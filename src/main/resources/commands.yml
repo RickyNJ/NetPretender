@@ -16,7 +16,7 @@ devices:
           - "ricky"
           - "pookie"
         operation: ${var} -> ${deviceId}
-        delay: 5
+        delay: 3
 
       - command: poweroff
         response: "turning off"
