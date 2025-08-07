@@ -7,6 +7,8 @@ services:
     environment:
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
+    ports:
+      - "22:22"
     networks:
       - testnet
 
@@ -18,14 +20,14 @@ services:
     networks:
       - testnet
 
-  tester:
-    image: alpine:latest
-    container_name: tester
-    command: sh
-    stdin_open: true
-    tty: true
-    networks:
-      - testnet
+#  tester:
+#    image: alpine:latest
+#    container_name: tester
+#    command: sh
+#    stdin_open: true
+#    tty: true
+#    networks:
+#      - testnet
 
 networks:
   testnet:
