@@ -11,7 +11,7 @@ public class BasicResponse extends ResponseBase{
     }
 
     public void respond(CommandContext ctx) throws InterruptedException {
-        Thread.sleep(this.delayMs.get());
+        Thread.sleep(this.getDelay());
         System.out.println(ResponseUtility.replaceVariablesWithValues(response, ctx));
     }
 }

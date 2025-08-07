@@ -10,13 +10,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ValkeyConnector {
-    private RedissonClient client;
+    public RedissonClient client;
 
-    public ValkeyConnector(DeviceManager deviceManager) throws IOException {
-        Config config = Config.fromYAML(new FileInputStream("/opt/configs/redisson.yaml"));
+    public ValkeyConnector() throws IOException {
+        Config config = Config.fromYAML(new FileInputStream("src/main/resources/redisson.yaml"));
+//        Config config = Config.fromYAML(new FileInputStream("/opt/configs/redisson.yaml"));
         this.client = Redisson.create(config);
         RBucket<DeviceManager> dm = client.getBucket("dm");
-        dm.set(deviceManager);
-        System.out.println(dm.get());
     }
 }

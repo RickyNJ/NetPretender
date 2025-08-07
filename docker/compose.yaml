@@ -19,15 +19,8 @@ services:
       - "6379:6379"
     networks:
       - testnet
+    command: ["valkey-server", "--loglevel", "verbose"]
 
-#  tester:
-#    image: alpine:latest
-#    container_name: tester
-#    command: sh
-#    stdin_open: true
-#    tty: true
-#    networks:
-#      - testnet
 
 networks:
   testnet:
