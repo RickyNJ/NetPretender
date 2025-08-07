@@ -1,7 +1,6 @@
 package com.rickynj.device;
 
 import com.rickynj.commands.BasicNode;
-import com.rickynj.commands.LiteralNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
@@ -9,6 +8,8 @@ import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.functions.Assign;
 import com.rickynj.functions.Operation;
 import com.rickynj.responses.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Device {
-    public LiteralNode defaultResponse;
-    public final List<LiteralNode> commandRoots = new ArrayList<>();
+    transient private Logger logger = LoggerFactory.getLogger(Device.class);
+    public BasicNode defaultResponse;
+    public final List<BasicNode> commandRoots = new ArrayList<>();
     public Map<String, String> state;
 
     public void setState(Map<String, String> state) {
@@ -88,15 +90,16 @@ public class Device {
     }
 
     public void addCommand(CommandPojo c){
+        logger.info("Adding command to device. {}, {}", c, this);
         List<String> tokens = List.of(c.command.split(" "));
         String rootToken = tokens.get(0);
 
-        LiteralNode rootNode = getCommandRootNode(rootToken);
+        BasicNode rootNode = getCommandRootNode(rootToken);
         if (rootNode == null) {
-            rootNode = new LiteralNode(rootToken);
+            logger.info("New root command found. {}, {}", rootToken, this);
+            rootNode = new BasicNode(rootToken);
             commandRoots.add(rootNode);
         }
-
         buildCommandTree(tokens.subList(1, tokens.size()), rootNode, c);
     }
 
@@ -121,14 +124,14 @@ public class Device {
         if (isVariableToken(currentToken)) {
             nextNode = new VariableNode(currentToken, c.allowed_values);
         } else {
-            nextNode = new LiteralNode(currentToken);
+            nextNode = new BasicNode(currentToken);
         }
         lastNode.addNextNode(nextNode);
         buildCommandTree(remainingTokens, nextNode, c);
     }
 
-    private LiteralNode getCommandRootNode(String token) {
-        for (LiteralNode commandNode : commandRoots) {
+    private BasicNode getCommandRootNode(String token) {
+        for (BasicNode commandNode : commandRoots) {
             if (commandNode.getToken().equals(token)) {
                 return commandNode;
             }

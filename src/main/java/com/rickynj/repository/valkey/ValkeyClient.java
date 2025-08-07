@@ -33,7 +33,6 @@ public class ValkeyClient {
         logger.info("{}, {}", configPath, checksum);
     }
 
-    // TODO fix these variablenames, FIX only hashing once.
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager
     public DeviceManager getCachedDeviceManagerIfExists(String commandFileName) {

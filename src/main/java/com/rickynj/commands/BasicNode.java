@@ -14,6 +14,10 @@ public class BasicNode {
     protected Response response;
     protected Operation operation;
 
+    public BasicNode(String token) {
+        this.token = token;
+    }
+
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);
     }

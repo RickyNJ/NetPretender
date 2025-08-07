@@ -5,16 +5,16 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.rickynj.device.DeviceManager;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.POJO.DevicePojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
 
 public class YAMLParser implements Parser {
-    private String commandFilesPath =  "src/main/resources/commands.yml";
-//    private static final String commandFilesPath =  "/opt/configs/commands.yml";
+    private final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
 
+    private final String commandFilesPath;
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-
     private final DeviceManager deviceManager;
 
     public YAMLParser(DeviceManager deviceManager, String commandFilesPath) {
@@ -22,21 +22,20 @@ public class YAMLParser implements Parser {
         this.commandFilesPath = commandFilesPath;
     }
 
-    private DevicesWrapper readFile() throws IOException {
-        File yamlFile = new File(commandFilesPath);
-        return mapper.readValue(yamlFile, DevicesWrapper.class);
-    }
-
     @Override
     public void parse() {
+        logger.info("parsing yaml. {}", commandFilesPath);
         DevicesWrapper data;
         try {
-            data = readFile();
+            File yamlFile = new File(commandFilesPath);
+            data = mapper.readValue(yamlFile, DevicesWrapper.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         for (DevicePojo d : data.devices) {
             deviceManager.addDevice(d);
         }
+        logger.info("Device created successfully.");
     }
 }

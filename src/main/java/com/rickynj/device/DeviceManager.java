@@ -2,13 +2,17 @@ package com.rickynj.device;
 
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.domain.POJO.DevicePojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 public class DeviceManager {
+    transient private final Logger logger = LoggerFactory.getLogger(DeviceManager.class);
     private final HashMap<Integer, Device> devices = new HashMap<>();
 
     public void addDevice(DevicePojo d){
+        logger.info("adding device to devicemanager, {}, {}", this, d);
         Device device = new Device();
         device.setState(d.vars);
         for (CommandPojo c : d.commands) {

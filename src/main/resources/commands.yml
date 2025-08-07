@@ -32,7 +32,7 @@ devices:
           - "INTERFACE 3"
           - "INTERFACE 4"
         allowed_values:
-            - "helloooo"
+            - "hello"
         delay: 1
 
       - command: print interfaces ${var}
