@@ -16,10 +16,10 @@ devices:
           - "ricky"
           - "pookie"
         operation: ${var} -> ${deviceId}
-        delay: 3
+        delay: 2
 
       - command: poweroff
-        response: "turning off"
+        response: "turning the device off"
         operation: disabled -> ${state}
       - command: get state
         response: ${state}
@@ -32,7 +32,7 @@ devices:
           - "INTERFACE 3"
           - "INTERFACE 4"
         allowed_values:
-            - "hello"
+            - "helloooo"
         delay: 1
 
       - command: print interfaces ${var}
