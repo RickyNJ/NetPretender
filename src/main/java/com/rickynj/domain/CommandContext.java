@@ -31,14 +31,11 @@ public class CommandContext {
     public String getValueForKey(String key){
         logger.info("Looking for value for key: {}, {}", key, device.name);
         String value = client.getValueFromValkey(key, this);
-        if (value == null) {
-            logger.info("Variable has not yet been stored in valkey. {},  {}", key, device.name);
-            // value not stored set value in valkey from local context.
-            value = vars.get(key);
-            client.setValueInValkey(key, value, this);
-        }
-
         logger.info("Value found: {}", value);
+        if (value == null) {
+            // command has not been set externally
+            value = vars.get(key);
+        }
         return value;
     }
 
