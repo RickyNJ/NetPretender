@@ -1,0 +1,15 @@
+package com.rickynj.config;
+
+public class Config {
+    static Config config;
+    public static  String redissonConfigFile = "src/main/resources/redisson.yaml";
+    public static String commandsFile = "src/main/resources/commands.yml";
+//    public static  String redissonConfigFile = "/opt/configs/redisson.yaml";
+//    public static String commandsFile = "/opt/configs/commands.yml";
+
+    public static Config getConfig() {
+        return config;
+    }
+
+    private Config(){};
+}

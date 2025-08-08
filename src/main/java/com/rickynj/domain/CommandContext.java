@@ -1,19 +1,22 @@
 package com.rickynj.domain;
 
 import com.rickynj.device.Device;
+import com.rickynj.repository.valkey.ValkeyClient;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class CommandContext {
-    private final String command;
-    private final Device device;
-    private final Map<String, String> vars;
+    public final String command;
+    public final Device device;
+    public final boolean caching;
+    public final Map<String, String> vars;
 
-    public CommandContext(String command, Device device) {
+    public CommandContext(String command, Device device, boolean caching) {
         this.command = command;
         this.device = device;
+        this.caching = caching;
         vars = new HashMap<>(device.getState());
         vars.put("${command}", command);
     }

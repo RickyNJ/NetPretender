@@ -11,15 +11,17 @@ public class DeviceManager {
     transient private final Logger logger = LoggerFactory.getLogger(DeviceManager.class);
     private final HashMap<Integer, Device> devices = new HashMap<>();
 
-    public void addDevice(DevicePojo d){
+    public void addDevice(String org, DevicePojo d){
         logger.info("adding device to devicemanager, {}, {}", this, d);
         Device device = new Device();
         device.setState(d.vars);
+        device.name = org + "." + d.name;
         for (CommandPojo c : d.commands) {
             device.addCommand(c);
         }
-        // create device, check if port is defined. check if port is taken, return device.
+
         devices.put(d.port, device);
+        // create device, check if port is defined. check if port is taken, return device.
     }
     public Device getDeviceByPort(int port) {
         //TODO check if device exists

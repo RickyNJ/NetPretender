@@ -34,7 +34,7 @@ public class YAMLParser implements Parser {
         }
 
         for (DevicePojo d : data.devices) {
-            deviceManager.addDevice(d);
+            deviceManager.addDevice(data.org, d);
         }
         logger.info("Device created successfully.");
     }

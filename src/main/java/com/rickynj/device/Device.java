@@ -21,6 +21,7 @@ public class Device {
     public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
     public Map<String, String> state;
+    public String name;
 
     public void setState(Map<String, String> state) {
         this.state = state;

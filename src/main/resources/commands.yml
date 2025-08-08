@@ -1,5 +1,5 @@
 # Maybe implement reserved variables? like $command to get the input command.
-
+org: RickyNJ
 devices:
   - name: modem
     port: 22

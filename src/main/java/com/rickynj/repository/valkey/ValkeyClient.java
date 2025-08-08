@@ -1,6 +1,7 @@
 package com.rickynj.repository.valkey;
 
 import com.rickynj.device.DeviceManager;
+import com.rickynj.domain.CommandContext;
 import org.redisson.Redisson;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -9,29 +10,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class ValkeyClient {
     public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
     private String checksum;
     private RedissonClient client;
+    private static ValkeyClient valkeyClient;
+
+    public static ValkeyClient getValkeyClient() throws IOException {
+        if (valkeyClient == null) {
+            valkeyClient = new ValkeyClient(com.rickynj.config.Config.redissonConfigFile, com.rickynj.config.Config.commandsFile);
+        }
+        return valkeyClient;
+    }
+
+    public Optional<String> getValueFromValkey(String key, CommandContext ctx){
+        String fullKey = ctx.device.name + "." + key;
+        RBucket<String> rBucket = client.getBucket(fullKey);
+        return Optional.of(rBucket.get());
+    }
+
+    public void setValueInValkey(String key, String val, CommandContext ctx) {
+        String fullKey = ctx.device.name + "." + key;
+        RBucket<String> rBucket = client.getBucket(fullKey);
+        rBucket.set(val);
+    }
 
     // TODO: obviously look at the error handling here
-    public ValkeyClient(String configPath, String commandPath) {
-        try {
-            Config config = Config.fromYAML(new FileInputStream(configPath));
-            this.client = Redisson.create(config);
-            checksum = getChecksum(commandPath);
-        } catch (IOException e) {
-            System.out.println("oops");
-        }
+    private ValkeyClient(String configPath, String commandPath) throws IOException {
+        Config config = Config.fromYAML(new FileInputStream(configPath));
+        this.client = Redisson.create(config);
+        checksum = getChecksum(commandPath);
         logger.info("{}, {}", configPath, checksum);
     }
+
 
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager

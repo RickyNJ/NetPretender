@@ -25,7 +25,7 @@ public class Repl {
         Scanner scanner  = new Scanner(System.in);
         while (true) {
             System.out.print("> ");
-            CommandContext ctx = new CommandContext(scanner.nextLine(), device);
+            CommandContext ctx = new CommandContext(scanner.nextLine(), device, false);
             try {
                 device.respondToCommand(ctx);
             } catch (CommandNotMockedException e) {

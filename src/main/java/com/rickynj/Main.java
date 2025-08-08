@@ -1,28 +1,27 @@
 package com.rickynj;
 
+import com.rickynj.config.Config;
 import com.rickynj.device.DeviceManager;
 import com.rickynj.parser.YAMLParser;
 import com.rickynj.repl.Repl;
 import com.rickynj.repository.valkey.ValkeyClient;
+import io.netty.channel.unix.Errors;
+
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-        String valkeyConfigFile = "src/main/resources/redisson.yaml";
-//        String valkeyConfigFile = "/opt/configs/redisson.yaml";
-        String commandFilesPath =  "src/main/resources/commands.yml";
-//        String commandFilesPath =  "/opt/configs/commands.yml";
-
-        ValkeyClient client = new ValkeyClient(valkeyConfigFile, commandFilesPath);
+    public static void main(String[] args) throws IOException {
         // TODO: make caching optional.
-        DeviceManager deviceManager = client.getCachedDeviceManagerIfExists(commandFilesPath);
+        ValkeyClient client = ValkeyClient.getValkeyClient();
+        DeviceManager deviceManager = client.getCachedDeviceManagerIfExists(Config.commandsFile);
         if (deviceManager == null) {
             deviceManager = new DeviceManager();
-            YAMLParser parser = new YAMLParser(deviceManager, commandFilesPath);
+            YAMLParser parser = new YAMLParser(deviceManager, Config.commandsFile);
             parser.parse();
-            client.cacheNewDeviceManager(commandFilesPath, deviceManager);
+            client.cacheNewDeviceManager(Config.commandsFile, deviceManager);
         }
 
-        Repl repl  = new Repl(deviceManager.getDeviceByPort(22));
+        Repl repl  = new Repl(deviceManager.getDeviceByPort(22), true);
 //        Repl repl = new Repl(deviceManager.getDeviceByPort(Integer.parseInt(args[0])));
         repl.start();
     }
