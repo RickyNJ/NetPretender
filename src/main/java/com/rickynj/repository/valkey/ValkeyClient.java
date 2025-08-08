@@ -17,39 +17,44 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 
 public class ValkeyClient {
-    public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
+    transient public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
     private String checksum;
     private RedissonClient client;
     private static ValkeyClient valkeyClient;
 
-    public static ValkeyClient getValkeyClient() throws IOException {
+    public static ValkeyClient getValkeyClient() {
         if (valkeyClient == null) {
             valkeyClient = new ValkeyClient(com.rickynj.config.Config.redissonConfigFile, com.rickynj.config.Config.commandsFile);
         }
         return valkeyClient;
     }
 
-    public Optional<String> getValueFromValkey(String key, CommandContext ctx){
+    public String getValueFromValkey(String key, CommandContext ctx){
         String fullKey = ctx.device.name + "." + key;
+        logger.info("getting value for key: {}", fullKey);
         RBucket<String> rBucket = client.getBucket(fullKey);
-        return Optional.of(rBucket.get());
+        return rBucket.get();
     }
 
     public void setValueInValkey(String key, String val, CommandContext ctx) {
         String fullKey = ctx.device.name + "." + key;
+        logger.info("setting value for key: {}", fullKey);
         RBucket<String> rBucket = client.getBucket(fullKey);
         rBucket.set(val);
     }
 
     // TODO: obviously look at the error handling here
-    private ValkeyClient(String configPath, String commandPath) throws IOException {
-        Config config = Config.fromYAML(new FileInputStream(configPath));
-        this.client = Redisson.create(config);
-        checksum = getChecksum(commandPath);
-        logger.info("{}, {}", configPath, checksum);
+    private ValkeyClient(String configPath, String commandPath)  {
+        try {
+            Config config = Config.fromYAML(new FileInputStream(configPath));
+            this.client = Redisson.create(config);
+            checksum = getChecksum(commandPath);
+            logger.info("{}, {}", configPath, checksum);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

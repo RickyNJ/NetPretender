@@ -1,6 +1,7 @@
 package com.rickynj.functions;
 
 import com.rickynj.domain.CommandContext;
+import com.rickynj.repository.valkey.ValkeyClient;
 
 public class Assign implements Operation {
     public String source;
@@ -14,7 +15,11 @@ public class Assign implements Operation {
     // TODO probably use functional interfaces here
     // TODO find less error prone way, probably just add ispresents
     public void execute(CommandContext ctx) {
-        String newValue = ctx.getValueForKey(source).orElse(source);
+        ValkeyClient client  = ValkeyClient.getValkeyClient();
+        String newValue = ctx.getValueForKey(source);
+        if (newValue == null) {
+            newValue = source;
+        }
         ctx.setDeviceVar(target, newValue);
     }
 }

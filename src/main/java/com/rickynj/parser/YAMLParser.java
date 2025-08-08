@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 public class YAMLParser implements Parser {
-    private final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
+    transient private final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
 
     private final String commandFilesPath;
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

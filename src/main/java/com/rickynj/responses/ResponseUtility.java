@@ -9,8 +9,13 @@ public class ResponseUtility {
         StringBuilder sb = new StringBuilder();
         List<String> splitInput = List.of(input.split(" "));
         for (String tok : splitInput) {
-            sb.append(ctx.getValueForKey(tok).orElse(tok));
-            sb.append(" ");
+            if (ctx.vars.containsKey(tok)) {
+                sb.append(ctx.getValueForKey(tok));
+                sb.append(" ");
+            } else {
+                sb.append(tok);
+                sb.append(" ");
+            }
         }
         return sb.toString();
     }
@@ -18,8 +23,13 @@ public class ResponseUtility {
         StringBuilder sb = new StringBuilder();
         for (String line : input) {
             for (String tok : line.split(" ")) {
-                sb.append(ctx.getValueForKey(tok).orElse(tok));
-                sb.append(" ");
+                if (ctx.vars.containsKey(tok)) {
+                    sb.append(ctx.getValueForKey(tok));
+                    sb.append(" ");
+                } else {
+                    sb.append(tok);
+                    sb.append(" ");
+                }
             }
         }
         return sb.toString();
