@@ -1,3 +1,6 @@
+Spring branch experiment, it might be easier to manage configuration and the valkey client object using spring and spring beans.
+I want to test the difference in perfomance and resource usage.
+
 work on command line args, probably use external library.
 
 --caching: enable caching, create and use valkeyclien (Mandatory for now)

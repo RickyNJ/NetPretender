@@ -58,6 +58,7 @@ public class Device {
                 throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.getCommand()));
             }
         } else {
+            // TODO figure out if this needs to be reversed in order
             responseNode.respond(ctx);
             if (responseNode.hasOperation()) {
                 responseNode.execute(ctx);
@@ -82,7 +83,7 @@ public class Device {
         }
 
         for (VariableNode vn : varNodes) {
-            if (vn.getAcceptableValues().contains(nextToken)) {
+            if (vn.allowedValues.contains(nextToken)) {
                 ctx.setContextVar(vn.getToken(), nextToken);
                 return traverseCommandTree(ctx, tokens.subList(1, tokens.size()), vn);
             }

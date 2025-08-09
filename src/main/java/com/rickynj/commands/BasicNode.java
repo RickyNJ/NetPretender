@@ -21,6 +21,7 @@ public class BasicNode {
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);
     }
+
     public void execute(CommandContext ctx) {
         operation.execute(ctx);
     }

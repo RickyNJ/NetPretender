@@ -9,8 +9,4 @@ public class VariableNode extends BasicNode {
         super(token);
         this.allowedValues = allowedValues;
     }
-
-    public List<String> getAcceptableValues() {
-        return allowedValues;
-    }
 }
