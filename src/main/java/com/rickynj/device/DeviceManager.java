@@ -14,7 +14,8 @@ public class DeviceManager {
     public void addDevice(String org, DevicePojo d){
         logger.info("adding device to devicemanager, {}, {}", this, d);
         Device device = new Device();
-        device.setState(d.vars);
+        device.state = d.vars;
+        device.defaultState = d.vars;
         device.name = org + "." + d.name;
         for (CommandPojo c : d.commands) {
             device.addCommand(c);

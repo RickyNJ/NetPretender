@@ -20,12 +20,9 @@ public class Device {
     transient private Logger logger = LoggerFactory.getLogger(Device.class);
     public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
+    public Map<String, String> defaultState;
     public Map<String, String> state;
     public String name;
-
-    public void setState(Map<String, String> state) {
-        this.state = state;
-    }
 
     public void setState(String key, String value) {
         state.put(key, value);
@@ -40,7 +37,7 @@ public class Device {
     }
 
     public void respondToCommand(CommandContext ctx) throws InterruptedException, CommandNotMockedException {
-        List<String> tokens = List.of(ctx.getCommand().split(" "));
+        List<String> tokens = List.of(ctx.command.split(" "));
         BasicNode root = getCommandRootNode(tokens.get(0));
         if (root == null) {
             if (defaultResponse != null) {
@@ -55,7 +52,7 @@ public class Device {
             if (defaultResponse != null) {
                 defaultResponse.respond(ctx);
             } else {
-                throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.getCommand()));
+                throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.command));
             }
         } else {
             responseNode.respond(ctx);

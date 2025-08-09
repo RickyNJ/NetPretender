@@ -13,7 +13,7 @@ public class CommandContext {
     public final Device device;
     public final Map<String, String> vars;
     private final ValkeyClient client = ValkeyClient.getValkeyClient();
-    transient private Logger logger = LoggerFactory.getLogger(CommandContext.class);
+    final transient private Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device) {
         logger.info("Starting new commandContext with Command: {}", command);
@@ -22,10 +22,6 @@ public class CommandContext {
         vars = new HashMap<>(device.getState());
         vars.put("${command}", command);
         logger.info("Found these variables: {}", vars);
-    }
-
-    public String getCommand() {
-        return command;
     }
 
     public String getValueForKey(String key){
@@ -47,5 +43,4 @@ public class CommandContext {
         client.setValueInValkey(key, val, this);
         device.setState(key, val);
     }
-
 }
