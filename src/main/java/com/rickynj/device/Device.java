@@ -7,6 +7,7 @@ import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.functions.Assign;
 import com.rickynj.functions.Operation;
+import com.rickynj.functions.Reset;
 import com.rickynj.responses.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,7 +153,12 @@ public class Device {
     }
 
     private Operation getOperationType(CommandPojo c) {
+        // TODO find a more sustainable way of doing this
         String[] op = c.operation.split(" ");
-        return new Assign(op[0], op[2]);
+        if (Objects.equals(op[0], "reset")) {
+            return new Reset();
+        } else {
+            return new Assign(op[0], op[2]);
+        }
     }
 }

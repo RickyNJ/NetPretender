@@ -21,6 +21,10 @@ devices:
       - command: poweroff
         response: "turning the device off"
         operation: disabled -> ${state}
+
+      - command: reset
+        response: resetting to default
+        operation: reset
       - command: get state
         response: ${state}
 

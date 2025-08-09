@@ -10,7 +10,7 @@ import io.netty.channel.unix.Errors;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // TODO: make caching optional.
         ValkeyClient client = ValkeyClient.getValkeyClient();
         DeviceManager deviceManager = client.getCachedDeviceManagerIfExists(Config.commandsFile);
