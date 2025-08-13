@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        // TODO: caching is a yaml config now? 2 step parsing, first get settings
         // TODO: make caching optional.
         ValkeyClient client = ValkeyClient.getValkeyClient();
         DeviceManager deviceManager = client.getCachedDeviceManagerIfExists(Config.commandsFile);

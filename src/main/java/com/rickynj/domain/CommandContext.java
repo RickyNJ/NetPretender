@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandContext {
-    public final String command;
+    public final String command;t
     public final Device device;
     public final Map<String, String> vars;
     private final ValkeyClient client = ValkeyClient.getValkeyClient();
