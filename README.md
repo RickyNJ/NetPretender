@@ -20,18 +20,16 @@ Mock multiple ssh servers from a single docker container, by changing the behavi
 - [x] Variables in output
 - [x] State referencing in outputs
 - [x] assign
+- [x] Cache built trees, prevent rebuilding of the tree if no change in the config was made.
+- [x] Use configuration values as allowed_value for variables.
+- [x] Cachening of devices in valkey.
 
 ### 🔧 In Progress / Planned
-
-- [ ] Cachening of devices in valkey.
-- [ ] Check if file has been modified to prevent rebuilding of the command tree.
 - [ ] Dynamically assign and listen to ports defined in the YAML.
 - [ ] Conditional outputs based on variables/state.
 - [ ] Handle scenario variable has wrong value.
 - [ ] Allowed values per variable instead of per command.
-- [ ] Use configuration values as allowed_value for variables.
-- [ ] Cache built trees, prevent rebuilding of the tree if no change in the config was made.
-- [ ] Scripting support.
+- [ ] Scripting support?
 
 ### 🔧 Other stuff:
 
