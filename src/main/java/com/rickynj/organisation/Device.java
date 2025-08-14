@@ -1,4 +1,4 @@
-package com.rickynj.device;
+package com.rickynj.organisation;
 
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;

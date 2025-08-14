@@ -2,7 +2,7 @@ package com.rickynj.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.rickynj.device.DeviceManager;
+import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.POJO.DevicePojo;
 import org.slf4j.Logger;
@@ -15,10 +15,10 @@ public class YAMLParser implements Parser {
 
     private final String commandFilesPath;
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    private final DeviceManager deviceManager;
+    private final Organisation organisation;
 
-    public YAMLParser(DeviceManager deviceManager, String commandFilesPath) {
-        this.deviceManager = deviceManager;
+    public YAMLParser(Organisation organisation, String commandFilesPath) {
+        this.organisation = organisation;
         this.commandFilesPath = commandFilesPath;
     }
 
@@ -34,7 +34,7 @@ public class YAMLParser implements Parser {
         }
 
         for (DevicePojo d : data.devices) {
-            deviceManager.addDevice(data.org, d);
+            organisation.addDevice(data.org, d);
         }
         logger.info("Device created successfully.");
     }

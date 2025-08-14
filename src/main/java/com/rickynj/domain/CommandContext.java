@@ -1,6 +1,6 @@
 package com.rickynj.domain;
 
-import com.rickynj.device.Device;
+import com.rickynj.organisation.Device;
 import com.rickynj.repository.valkey.ValkeyClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

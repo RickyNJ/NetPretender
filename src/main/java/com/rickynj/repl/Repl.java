@@ -1,10 +1,9 @@
 package com.rickynj.repl;
 
 
-import com.rickynj.device.Device;
+import com.rickynj.organisation.Device;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
-import com.rickynj.repository.valkey.ValkeyClient;
 
 import java.util.Scanner;
 
