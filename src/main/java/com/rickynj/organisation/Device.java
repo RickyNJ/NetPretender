@@ -17,10 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Device {
+public class Device implements SSHMockServer {
     transient private Logger logger = LoggerFactory.getLogger(Device.class);
     public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
+    public boolean caching;
     public Map<String, String> defaultState;
     public Map<String, String> state;
     public String name;

@@ -4,6 +4,7 @@ package com.rickynj.repl;
 import com.rickynj.organisation.Device;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
+import com.rickynj.organisation.SSHMockServer;
 
 import java.util.Scanner;
 

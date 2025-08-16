@@ -9,23 +9,37 @@ import java.util.HashMap;
 
 public class Organisation {
     transient private final Logger logger = LoggerFactory.getLogger(Organisation.class);
-    private final HashMap<Integer, Device> devices = new HashMap<>();
+    private final HashMap<Integer, Device> devicesByPort = new HashMap<>();
+    private final HashMap<String, Device> devicesByName = new HashMap<>();
 
-    public void addDevice(String org, DevicePojo d){
+    private String org;
+
+    public void addDevice(String org, DevicePojo d, boolean caching){
         logger.info("adding device to devicemanager, {}, {}", this, d);
+
+        this.org = org;
+
         Device device = new Device();
+        device.caching = caching;
         device.state = d.vars;
         device.defaultState = d.vars;
         device.name = org + "." + d.name;
+
         for (CommandPojo c : d.commands) {
             device.addCommand(c);
         }
 
-        devices.put(d.port, device);
-        // create device, check if port is defined. check if port is taken, return device.
+        devicesByPort.put(d.port, device);
+        devicesByName.put(d.name, device);
     }
-    public Device getDeviceByPort(int port) {
+    public Device getDevice(int port) {
         //TODO check if device exists
-        return devices.get(port);
+        return devicesByPort.get(port);
     }
+
+    public Device getDevice(String name) {
+        String fullName = org + "." + name;
+        return devicesByName.get(fullName);
+    }
+
 }

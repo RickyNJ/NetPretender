@@ -9,16 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandContext {
-    public final String command;t
+    public final boolean caching;
+    public final String command;
     public final Device device;
     public final Map<String, String> vars;
     private final ValkeyClient client = ValkeyClient.getValkeyClient();
     final transient private Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device) {
+        this.caching = device.caching;
         logger.info("Starting new commandContext with Command: {}", command);
         this.command = command;
         this.device = device;
+
         vars = new HashMap<>(device.getState());
         vars.put("${command}", command);
         logger.info("Found these variables: {}", vars);

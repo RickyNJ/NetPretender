@@ -17,6 +17,9 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static com.rickynj.config.Constants.COMMANDSFILE;
+import static com.rickynj.config.Constants.REDISSONCONFIGFILEPATH;
+
 public class ValkeyClient {
     transient public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
     private String checksum;
@@ -24,8 +27,8 @@ public class ValkeyClient {
     private static ValkeyClient valkeyClient;
 
     public static ValkeyClient getValkeyClient() {
-        if (valkeyClient == null) {
-            valkeyClient = new ValkeyClient(com.rickynj.config.Config.redissonConfigFile, com.rickynj.config.Config.commandsFile);
+        if (valkeyClient == null && Files.exists(Path.of(REDISSONCONFIGFILEPATH))) {
+            valkeyClient = new ValkeyClient(REDISSONCONFIGFILEPATH, COMMANDSFILE);
         }
         return valkeyClient;
     }
@@ -59,9 +62,9 @@ public class ValkeyClient {
 
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager
-    public Organisation getCachedDeviceManagerIfExists(String commandFileName) {
-        logger.info("looking for a cached device for filename {}", commandFileName);
-        RBucket<String> cachedChecksumBucket = client.getBucket(commandFileName);
+    public Organisation getCachedDeviceManagerIfExists() {
+        logger.info("looking for a cached device for filename {}", COMMANDSFILE);
+        RBucket<String> cachedChecksumBucket = client.getBucket(COMMANDSFILE);
         String cachedCheckSum = cachedChecksumBucket.get();
         if (cachedCheckSum == null) {
             logger.info("file has never been cached before");
@@ -82,11 +85,11 @@ public class ValkeyClient {
         }
     }
 
-    public void cacheNewDeviceManager(String commandFileName, Organisation organisation) {
-        logger.info("saving new devicemanager to cache, {} {}", commandFileName, organisation);
+    public void cacheNewDeviceManager(Organisation organisation) {
+        logger.info("saving new devicemanager to cache, {} {}", COMMANDSFILE, organisation);
 
-        RBucket<String> checksumCache = client.getBucket(commandFileName);
-        checksumCache.set(getChecksum(commandFileName));
+        RBucket<String> checksumCache = client.getBucket(COMMANDSFILE);
+        checksumCache.set(getChecksum(COMMANDSFILE));
         RBucket<Organisation> deviceManagerRBucket = client.getBucket(checksum);
         deviceManagerRBucket.set(organisation);
     }

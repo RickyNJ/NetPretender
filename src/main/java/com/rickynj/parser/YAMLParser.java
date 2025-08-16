@@ -10,31 +10,38 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
+import static com.rickynj.config.Constants.COMMANDSFILE;
+
 public class YAMLParser implements Parser {
     transient private final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
 
-    private final String commandFilesPath;
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     private final Organisation organisation;
+    private final boolean caching;
 
-    public YAMLParser(Organisation organisation, String commandFilesPath) {
+    public YAMLParser(Organisation organisation,  boolean caching) {
         this.organisation = organisation;
-        this.commandFilesPath = commandFilesPath;
+        this.caching = caching;
     }
+
+    public static void parseFile(Organisation org) {
+
+    }
+
 
     @Override
     public void parse() {
-        logger.info("parsing yaml. {}", commandFilesPath);
+        logger.info("parsing yaml. {}", COMMANDSFILE);
         DevicesWrapper data;
         try {
-            File yamlFile = new File(commandFilesPath);
+            File yamlFile = new File(COMMANDSFILE);
             data = mapper.readValue(yamlFile, DevicesWrapper.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         for (DevicePojo d : data.devices) {
-            organisation.addDevice(data.org, d);
+            organisation.addDevice(data.org, d, caching);
         }
         logger.info("Device created successfully.");
     }

@@ -1,6 +1,6 @@
 package com.rickynj.responses;
 
-import com.rickynj.config.Config;
+import com.rickynj.config.Constants;
 import com.rickynj.domain.CommandContext;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ public class FileResponse extends ResponseBase {
     final private String response;
 
     public FileResponse(String path) {
-        path = Config.responsesDirectory + path;
+        path = Constants.responsesDirectory + path;
         try {
             response = Files.readString(Path.of(path));
         } catch (IOException e) {
