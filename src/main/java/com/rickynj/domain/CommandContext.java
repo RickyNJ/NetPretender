@@ -14,7 +14,7 @@ public class CommandContext {
     public final Device device;
     public final Map<String, String> vars;
     private final ValkeyClient client = ValkeyClient.getValkeyClient();
-    final transient private Logger logger = LoggerFactory.getLogger(CommandContext.class);
+    private final static Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device) {
         this.caching = device.caching;

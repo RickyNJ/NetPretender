@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Device implements SSHMockServer {
-    transient private Logger logger = LoggerFactory.getLogger(Device.class);
+    private static final Logger logger = LoggerFactory.getLogger(Device.class);
     public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
     public boolean caching;

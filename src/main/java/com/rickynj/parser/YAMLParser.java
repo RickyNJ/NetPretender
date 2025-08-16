@@ -13,7 +13,7 @@ import java.io.*;
 import static com.rickynj.config.Constants.COMMANDSFILE;
 
 public class YAMLParser implements Parser {
-    transient private final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
 
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     private final Organisation organisation;
@@ -24,13 +24,21 @@ public class YAMLParser implements Parser {
         this.caching = caching;
     }
 
-    public static void parseFile(Organisation org) {
-
+    public static DevicesWrapper parseFile() {
+        logger.info("parsing yaml. {}", COMMANDSFILE);
+        DevicesWrapper data;
+        try {
+            File yamlFile = new File(COMMANDSFILE);
+            data = mapper.readValue(yamlFile, DevicesWrapper.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
     }
 
 
     @Override
-    public void parse() {
+    public DevicesWrapper parse() {
         logger.info("parsing yaml. {}", COMMANDSFILE);
         DevicesWrapper data;
         try {
@@ -40,9 +48,11 @@ public class YAMLParser implements Parser {
             throw new RuntimeException(e);
         }
 
-        for (DevicePojo d : data.devices) {
-            organisation.addDevice(data.org, d, caching);
-        }
-        logger.info("Device created successfully.");
+        return data;
+
+//        for (DevicePojo d : data.devices) {
+//            organisation.addDevice(data.org, d, caching);
+//        }
+//        logger.info("Device created successfully.");
     }
 }

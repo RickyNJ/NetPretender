@@ -22,15 +22,7 @@ public class ResponseUtility {
     public static String replaceVariablesWithValues(List<String> input, CommandContext ctx) {
         StringBuilder sb = new StringBuilder();
         for (String line : input) {
-            for (String tok : line.split(" ")) {
-                if (ctx.vars.containsKey(tok)) {
-                    sb.append(ctx.getValueForKey(tok));
-                    sb.append(" ");
-                } else {
-                    sb.append(tok);
-                    sb.append(" ");
-                }
-            }
+            sb.append(replaceVariablesWithValues(line, ctx));
         }
         return sb.toString();
     }
