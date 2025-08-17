@@ -37,7 +37,7 @@ public class Organisation {
         devicesByPort.put(d.port, device);
         devicesByName.put(d.name, device);
     }
-    public Device getDevice(int port) {
+    public SSHMockServer getDevice(int port) {
         //TODO check if device exists
         return devicesByPort.get(port);
     }

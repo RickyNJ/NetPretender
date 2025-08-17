@@ -17,8 +17,8 @@ public class CommandContext {
     private final static Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device) {
-        this.caching = device.caching;
         logger.info("Starting new commandContext with Command: {}", command);
+        this.caching = device.caching;
         this.command = command;
         this.device = device;
 
@@ -28,11 +28,13 @@ public class CommandContext {
     }
 
     public String getValueForKey(String key){
+        String value = null;
         logger.info("Looking for value for key: {}, {}", key, device.name);
-        String value = client.getValueFromValkey(key, this);
-        logger.info("Value found: {}", value);
+        if (caching) {
+            value = client.getValueFromValkey(key, this);
+        }
         if (value == null) {
-            // command has not been set externally
+            // command has not been set in valkey.
             value = vars.get(key);
         }
         return value;
@@ -43,7 +45,10 @@ public class CommandContext {
     }
 
     public void setDeviceVar(String key, String val) {
-        client.setValueInValkey(key, val, this);
+        logger.info("Setting device var {}, caching: {}", command, caching);
+        if (caching) {
+            client.setValueInValkey(key, val, this);
+        }
         device.setState(key, val);
     }
 }

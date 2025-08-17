@@ -9,10 +9,10 @@ import com.rickynj.organisation.SSHMockServer;
 import java.util.Scanner;
 
 public class Repl {
-    private final Device device;
+    private final SSHMockServer device;
 
     // Each command check if first word appears as val in any root
-    public Repl(Device device) {
+    public Repl(SSHMockServer device) {
         this.device = device;
     }
 

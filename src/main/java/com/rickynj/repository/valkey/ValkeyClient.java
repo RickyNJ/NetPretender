@@ -35,7 +35,7 @@ public class ValkeyClient {
 
     public String getValueFromValkey(String key, CommandContext ctx){
         String fullKey = ctx.device.name + "." + key;
-        logger.info("getting value for key: {}", fullKey);
+        logger.info("getting value for key in valkey: {}", fullKey);
         RBucket<String> rBucket = client.getBucket(fullKey);
         return rBucket.get();
     }
@@ -87,7 +87,6 @@ public class ValkeyClient {
 
     public void cacheNewDeviceManager(Organisation organisation) {
         logger.info("saving new devicemanager to cache, {} {}", COMMANDSFILE, organisation);
-
         RBucket<String> checksumCache = client.getBucket(COMMANDSFILE);
         checksumCache.set(getChecksum(COMMANDSFILE));
         RBucket<Organisation> deviceManagerRBucket = client.getBucket(checksum);
