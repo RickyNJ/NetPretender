@@ -12,6 +12,7 @@ import static com.rickynj.config.Constants.COMMANDSFILE;
 
 public class Main {
     public static void main(String[] args) {
+        // TODO: think about sshmockserver interface, add getters to make commandctx creation possible
         // TODO: regex based operator matching.
         // TODO: make enabling caching a bit more explicit.
         // Caching will be automatically enabled when a redisson config file is enabled
