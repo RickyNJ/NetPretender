@@ -4,8 +4,8 @@ package com.rickynj.repl;
 import com.rickynj.organisation.Device;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
-import com.rickynj.organisation.SSHMockServer;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Repl {
@@ -19,14 +19,16 @@ public class Repl {
     public void start() {
         Scanner scanner  = new Scanner(System.in);
         while (true) {
-            System.out.print("> ");
-            CommandContext ctx = new CommandContext(scanner.nextLine(), device);
             try {
+                System.out.print("> ");
+                CommandContext ctx = new CommandContext(scanner.nextLine(), device);
                 device.respondToCommand(ctx);
             } catch (CommandNotMockedException e) {
                 System.out.println(e.getMessage());
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            } catch (NoSuchElementException e) {
+                System.out.println("no such command");
             }
         }
     }
