@@ -30,8 +30,8 @@ public class Main {
             organisation = new Organisation(dataWrapper);
         }
 
-        Repl repl  = new Repl(organisation.getDevice(22));
-//        Repl repl = new Repl(organisation.getDeviceByPort(Integer.parseInt(args[0])));
+//        Repl repl  = new Repl(organisation.getDevice(22));
+        Repl repl = new Repl(organisation.getDevice(Integer.parseInt(args[0])));
         repl.start();
         }
 }

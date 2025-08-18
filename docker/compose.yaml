@@ -9,6 +9,7 @@ services:
       - REDIS_PORT=6379
     ports:
       - "22:22"
+      - "25:25"
     networks:
       - testnet
 

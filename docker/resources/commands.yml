@@ -1,5 +1,6 @@
 # Maybe implement reserved variables? like $command to get the input command.
-
+org: vfz
+caching: true
 devices:
   - name: modem
     port: 22
@@ -16,7 +17,7 @@ devices:
           - "ricky"
           - "pookie"
         operation: ${var} -> ${deviceId}
-        delay: 3
+        delay: 1
 
       - command: poweroff
         response: "turning off"
@@ -44,7 +45,7 @@ devices:
         operation: ${var} -> ${deviceId}
 
   - name: modem2
-    port: 23
+    port: 25
     vars:
       ${deviceId}: "modem2"
       ${state}: "enabled"

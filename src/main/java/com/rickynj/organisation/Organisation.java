@@ -13,17 +13,14 @@ public class Organisation {
     private final HashMap<Integer, Device> devicesByPort = new HashMap<>();
     private final HashMap<String, Device> devicesByName = new HashMap<>();
 
-    private String org;
-
-    public Organisation(DevicesWrapper devicesWrapper) {
+  public Organisation(DevicesWrapper devicesWrapper) {
         for (DevicePojo dp : devicesWrapper.devices) {
-            addDevice(org, dp, devicesWrapper.caching);
+            addDevice(devicesWrapper.org, devicesWrapper.caching, dp);
         }
     }
 
-    public void addDevice(String org, DevicePojo d, boolean caching){
+    public void addDevice(String org, boolean caching, DevicePojo d){
         logger.info("adding device to devicemanager, {}, {}", this, d);
-        this.org = org;
         Device device = new Device();
         device.caching = caching;
         device.state = d.vars;
@@ -37,14 +34,13 @@ public class Organisation {
         devicesByPort.put(d.port, device);
         devicesByName.put(d.name, device);
     }
-    public SSHMockServer getDevice(int port) {
-        //TODO check if device exists
+    public Device getDevice(int port) {
         return devicesByPort.get(port);
     }
 
-    public Device getDevice(String name) {
-        String fullName = org + "." + name;
-        return devicesByName.get(fullName);
-    }
+//    public Device getDevice(String name) {
+//        String fullName = org + "." + name;
+//        return devicesByName.get(fullName);
+//    }
 
 }
