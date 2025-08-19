@@ -6,6 +6,6 @@ public class Reset implements Action {
     // TODO: Reset valkey state
     @Override
     public void execute(CommandContext ctx) {
-        ctx.device.state = ctx.device.defaultState;
+        ctx.device.defaultState.forEach(ctx::setDeviceVar);
     }
 }

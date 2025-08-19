@@ -2,6 +2,7 @@ package com.rickynj.responses;
 
 import com.rickynj.domain.CommandContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseUtility {
@@ -19,11 +20,11 @@ public class ResponseUtility {
         }
         return sb.toString();
     }
-    public static String replaceVariablesWithValues(List<String> input, CommandContext ctx) {
-        StringBuilder sb = new StringBuilder();
+    public static List<String> replaceVariablesWithValues(List<String> input, CommandContext ctx) {
+        List<String> parts = new ArrayList<>();
         for (String line : input) {
-            sb.append(replaceVariablesWithValues(line, ctx));
+            parts.add(replaceVariablesWithValues(line, ctx));
         }
-        return sb.toString();
+        return parts;
     }
 }

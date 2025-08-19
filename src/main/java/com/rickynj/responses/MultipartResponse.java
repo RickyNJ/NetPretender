@@ -2,6 +2,7 @@ package com.rickynj.responses;
 
 import com.rickynj.domain.CommandContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultipartResponse extends ResponseBase{
@@ -13,6 +14,13 @@ public class MultipartResponse extends ResponseBase{
 
     @Override
     public void respond(CommandContext ctx) {
-        System.out.println(ResponseUtility.replaceVariablesWithValues(response, ctx));
+        response.forEach((part) -> {
+            try {
+                Thread.sleep(this.getDelay());
+                System.out.println(ResponseUtility.replaceVariablesWithValues(part, ctx));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
