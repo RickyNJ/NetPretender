@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandContext {
-    public final boolean caching;
     public final String command;
     public final Device device;
     public final Map<String, String> vars;
@@ -18,19 +17,19 @@ public class CommandContext {
 
     public CommandContext(String command, Device device) {
         logger.info("Starting new commandContext with Command: {}", command);
-        this.caching = device.caching;
         this.command = command;
         this.device = device;
-
         vars = new HashMap<>(device.getState());
         vars.put("${command}", command);
         logger.info("Found these variables: {}", vars);
     }
 
+    // Only fetch device state variables from valkey.
+    // Variables in the command are local and should not be cached.
     public String getValueForKey(String key){
         String value = null;
         logger.info("Looking for value for key: {}, {}", key, device.name);
-        if (caching) {
+        if (getCaching() && device.state.containsKey(key)) {
             value = client.getValueFromValkey(key, this);
         }
         if (value == null) {
@@ -40,15 +39,20 @@ public class CommandContext {
         return value;
     }
 
+    // Context vars are scoped to a single command, therefore no valkey operations are performed.
     public void setContextVar(String key, String val) {
         vars.put(key, val);
     }
 
     public void setDeviceVar(String key, String val) {
-        logger.info("Setting device var {}, caching: {}", command, caching);
-        if (caching) {
+        logger.info("Setting device var {}, caching: {}", command, getCaching());
+        if (getCaching()) {
             client.setValueInValkey(key, val, this);
         }
         device.setState(key, val);
+    }
+
+    public boolean getCaching() {
+        return device.caching;
     }
 }

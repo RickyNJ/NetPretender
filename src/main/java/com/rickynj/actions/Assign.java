@@ -1,9 +1,8 @@
-package com.rickynj.functions;
+package com.rickynj.actions;
 
 import com.rickynj.domain.CommandContext;
-import com.rickynj.repository.valkey.ValkeyClient;
 
-public class Assign implements Operation {
+public class Assign implements Action {
     public String source;
     public String target;
 
@@ -15,8 +14,9 @@ public class Assign implements Operation {
     // TODO probably use functional interfaces here
     // TODO find less error prone way, probably just add ispresents
     public void execute(CommandContext ctx) {
-        ValkeyClient client  = ValkeyClient.getValkeyClient();
         String newValue = ctx.getValueForKey(source);
+        // If newvalue is not a key in device or valkey, it is a string literal defined in yaml.
+        // In this case the key is the value.
         if (newValue == null) {
             newValue = source;
         }

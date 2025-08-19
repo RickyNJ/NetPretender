@@ -1,31 +1,35 @@
 # Maybe implement reserved variables? like $command to get the input command.
 org: RickyNJ
-caching: true
+#caching: false
 devices:
   - name: modem
     port: 22
     vars:
       ${deviceId}: "modem1"
       ${state}: "enabled"
+      ${ram}: "empty"
     commands:
       - command: show name
         response: my name is ${deviceId}
 
       - command: set name ${var}
         response: set name to ${var}
-        allowed_values:
-          - "ricky"
-          - "pookie"
         operation: ${var} -> ${deviceId}
-        delay: 0
+        delay: 1
 
       - command: poweroff
         response: "turning the device off"
         operation: disabled -> ${state}
 
+      - command: enable
+        response: "turning on the device"
+        operation: enabled -> ${state}
+        delay: 5
+
       - command: reset
         response: resetting to default
         operation: reset
+
       - command: get state
         response: ${state}
 
@@ -36,16 +40,14 @@ devices:
           - "INTERFACE 2"
           - "INTERFACE 3"
           - "INTERFACE 4"
-        allowed_values:
-            - "hello"
         delay: 1
 
       - command: print interfaces ${var}
         response: showing variable interface
         allowed_values:
-          - "hello"
-          - "hey there"
-          - "true"
+          - "modem1"
+          - "modem2"
+          - "modem3"
         operation: ${var} -> ${deviceId}
 
   - name: modem2

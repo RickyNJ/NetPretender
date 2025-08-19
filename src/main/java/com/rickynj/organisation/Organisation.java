@@ -24,7 +24,7 @@ public class Organisation {
         Device device = new Device();
         device.caching = caching;
         device.state = d.vars;
-        device.defaultState = d.vars;
+        device.defaultState = new HashMap<>(d.vars);
         device.name = org + "." + d.name;
 
         for (CommandPojo c : d.commands) {

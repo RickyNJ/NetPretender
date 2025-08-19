@@ -5,9 +5,9 @@ import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.functions.Assign;
-import com.rickynj.functions.Operation;
-import com.rickynj.functions.Reset;
+import com.rickynj.actions.Assign;
+import com.rickynj.actions.Action;
+import com.rickynj.actions.Reset;
 import com.rickynj.responses.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Device implements SSHMockServer {
+public class Device  {
     private static final Logger logger = LoggerFactory.getLogger(Device.class);
     public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
@@ -81,7 +81,7 @@ public class Device implements SSHMockServer {
         }
 
         for (VariableNode vn : varNodes) {
-            if (vn.getAcceptableValues().contains(nextToken)) {
+            if (vn.any || vn.getAcceptableValues().contains(nextToken)) {
                 ctx.setContextVar(vn.getToken(), nextToken);
                 return traverseCommandTree(ctx, tokens.subList(1, tokens.size()), vn);
             }
@@ -153,7 +153,7 @@ public class Device implements SSHMockServer {
         return r;
     }
 
-    private Operation getOperationType(CommandPojo c) {
+    private Action getOperationType(CommandPojo c) {
         // TODO find a more sustainable way of doing this
         String[] op = c.operation.split(" ");
         if (Objects.equals(op[0], "reset")) {

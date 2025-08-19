@@ -13,10 +13,9 @@ import static com.rickynj.config.Constants.COMMANDSFILE;
 public class Main {
     public static void main(String[] args) {
         // TODO: regex based operator matching.
-        // TODO:
         // Caching will be automatically enabled when a redisson config file is enabled
-        ValkeyClient client = ValkeyClient.getValkeyClient();
         DevicesWrapper dataWrapper = YAMLParser.parseFile();
+        ValkeyClient client = ValkeyClient.getValkeyClient();
         Organisation organisation;
 
         if (dataWrapper.caching && client != null) {
@@ -29,7 +28,6 @@ public class Main {
             organisation = new Organisation(dataWrapper);
         }
 
-//        Repl repl  = new Repl(organisation.getDevice(22));
         Repl repl = new Repl(organisation.getDevice(Integer.parseInt(args[0])));
         repl.start();
         }

@@ -9,7 +9,7 @@ public class ResponseUtility {
         StringBuilder sb = new StringBuilder();
         List<String> splitInput = List.of(input.split(" "));
         for (String tok : splitInput) {
-            if (ctx.device.state.containsKey(tok)) {
+            if (ctx.vars.containsKey(tok)) {
                 sb.append(ctx.getValueForKey(tok));
                 sb.append(" ");
             } else {

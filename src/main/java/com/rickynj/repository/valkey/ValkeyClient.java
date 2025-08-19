@@ -28,7 +28,7 @@ public class ValkeyClient {
 
     public static ValkeyClient getValkeyClient() {
         if (valkeyClient == null && Files.exists(Path.of(REDISSONCONFIGFILEPATH))) {
-            valkeyClient = new ValkeyClient(REDISSONCONFIGFILEPATH, COMMANDSFILE);
+            valkeyClient = new ValkeyClient(REDISSONCONFIGFILEPATH);
         }
         return valkeyClient;
     }
@@ -48,12 +48,10 @@ public class ValkeyClient {
     }
 
     // TODO: obviously look at the error handling here
-    private ValkeyClient(String configPath, String commandPath)  {
+    private ValkeyClient(String configPath)  {
         try {
             Config config = Config.fromYAML(new FileInputStream(configPath));
             this.client = Redisson.create(config);
-            checksum = getChecksum(commandPath);
-            logger.info("{}, {}", configPath, checksum);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -63,6 +61,7 @@ public class ValkeyClient {
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager
     public Organisation getCachedDeviceManagerIfExists() {
+        checksum = getChecksum(COMMANDSFILE);
         logger.info("looking for a cached device for filename {}", COMMANDSFILE);
         RBucket<String> cachedChecksumBucket = client.getBucket(COMMANDSFILE);
         String cachedCheckSum = cachedChecksumBucket.get();
