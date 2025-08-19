@@ -38,8 +38,8 @@ devices:
           - "SHOWING INTERFACES"
           - "INTERFACE ${var}"
           - "INTERFACE ${deviceId}"
-          - "INTERFACE 3"
-          - "INTERFACE 4"
+          - "INTERFACE ${state}"
+          - "INTERFACE ${ram}"
         delay: 1
 
       - command: print interfaces ${var}
