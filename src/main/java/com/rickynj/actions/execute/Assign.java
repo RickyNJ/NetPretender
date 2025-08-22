@@ -1,8 +1,8 @@
-package com.rickynj.actions;
+package com.rickynj.actions.execute;
 
 import com.rickynj.domain.CommandContext;
 
-public class Assign implements Action {
+public class Assign implements Execute {
     public String source;
     public String target;
 

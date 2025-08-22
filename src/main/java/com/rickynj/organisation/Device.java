@@ -1,14 +1,16 @@
 package com.rickynj.organisation;
 
+import com.rickynj.actions.evaluate.Evaluate;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.actions.Assign;
-import com.rickynj.actions.Action;
-import com.rickynj.actions.Reset;
+import com.rickynj.actions.execute.Assign;
+import com.rickynj.actions.execute.Execute;
+import com.rickynj.actions.execute.Reset;
 import com.rickynj.responses.*;
+import jdk.jshell.EvalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,6 @@ import java.util.Objects;
 
 public class Device  {
     private static final Logger logger = LoggerFactory.getLogger(Device.class);
-    public BasicNode defaultResponse;
     public final List<BasicNode> commandRoots = new ArrayList<>();
     public boolean caching;
     public Map<String, String> defaultState;
@@ -42,25 +43,16 @@ public class Device  {
         List<String> tokens = List.of(ctx.command.split(" "));
         BasicNode root = getCommandRootNode(tokens.get(0));
         if (root == null) {
-            if (defaultResponse != null) {
-                defaultResponse.respond(ctx);
-            } else {
-                throw new CommandNotMockedException("Command of this root not found.");
-            }
+            throw new CommandNotMockedException("Command of this root not found.");
         }
 
         BasicNode responseNode = traverseCommandTree(ctx, tokens.subList(1, tokens.size()), root);
         if (responseNode == null || responseNode.getResponse() == null) {
-            if (defaultResponse != null) {
-                defaultResponse.respond(ctx);
-            } else {
-                throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.command));
-            }
+            throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.command));
         } else {
+            responseNode.evaluate(ctx);
             responseNode.respond(ctx);
-            if (responseNode.hasOperation()) {
-                responseNode.execute(ctx);
-            }
+            responseNode.execute(ctx);
         }
     }
 
@@ -109,9 +101,15 @@ public class Device  {
             if (c.operation != null) {
                 lastNode.setOperation(getOperationType(c));
             }
+
+            if (c.condition != null) {
+
+
+            }
             lastNode.setResponse(getResponseType(c));
             return;
         }
+
         String currentToken = remainingTokens.get(0);
         remainingTokens = remainingTokens.subList(1, remainingTokens.size());
         for (BasicNode node : lastNode.getNextNodes()) {
@@ -153,7 +151,7 @@ public class Device  {
         return r;
     }
 
-    private Action getOperationType(CommandPojo c) {
+    private Execute getOperationType(CommandPojo c) {
         // TODO find a more sustainable way of doing this
         String[] op = c.operation.split(" ");
         if (Objects.equals(op[0], "reset")) {

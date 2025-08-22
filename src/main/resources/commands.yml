@@ -1,6 +1,6 @@
 # Maybe implement reserved variables? like $command to get the input command.
 org: RickyNJ
-caching: true
+caching: false
 devices:
   - name: modem
     port: 22
@@ -18,8 +18,12 @@ devices:
         delay: 1
 
       - command: poweroff
-        response: "turning the device off"
-        operation: disabled -> ${state}
+        condition:
+          - if: $(state) == enabled
+            response: "turning devide off"
+            operation: disabled -> ${state}
+          - else:
+            response: "device already turned off"
 
       - command: enable
         response: "turning on the device"
