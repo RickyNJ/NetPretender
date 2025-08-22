@@ -2,7 +2,7 @@ package com.rickynj.domain.POJO;
 
 import java.util.List;
 
-public class CommandPojo {
+public class CommandPojo implements HoldsResponse {
     public String command;
     public int delay;
     public List<ConditionPojo> condition;
@@ -11,4 +11,24 @@ public class CommandPojo {
     public String responseFile;
     public List<String> allowed_values;
     public String operation;
+
+    @Override
+    public String getResponse() {
+        return response;
+    }
+
+    @Override
+    public List<String> getMultipartResponse() {
+        return multiPartResponse;
+    }
+
+    @Override
+    public String getResponseFile() {
+        return responseFile;
+    }
+
+    @Override
+    public int getDelay() {
+        return delay;
+    }
 }

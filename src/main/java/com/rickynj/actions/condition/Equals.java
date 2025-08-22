@@ -1,9 +1,9 @@
-package com.rickynj.actions.evaluate;
+package com.rickynj.actions.condition;
 
 import com.rickynj.domain.CommandContext;
 import java.util.Objects;
 
-public class Equals implements Evaluate {
+public class Equals implements Condition {
   public String actual;
   public String expected;
 
@@ -13,8 +13,13 @@ public class Equals implements Evaluate {
   }
 
   @Override
-  public boolean eval(CommandContext ctx) {
+  public String eval(CommandContext ctx) {
     String actualValue = ctx.getValueForKey(actual);
-    return Objects.equals(expected, actualValue);
+
+    if (Objects.equals(expected, actualValue)) {
+      return "true";
+    } else {
+      return "false";
+    }
   }
 }

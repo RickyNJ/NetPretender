@@ -1,11 +1,12 @@
 package com.rickynj.commands;
 
-import com.rickynj.actions.evaluate.Evaluate;
+import com.rickynj.actions.condition.Condition;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.actions.execute.Execute;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,9 @@ import java.util.Map;
 public class BasicNode {
     protected String token;
     protected List<BasicNode> nextNodes = new ArrayList<>();
-    protected Evaluate evaluate;
+    protected Condition condition;
     protected Response response;
-    protected Map<Boolean, Response> responseMap;
+    protected Map<String, Response> responseMap = new HashMap<>();
     protected Execute operation;
 
     public BasicNode(String token) {
@@ -25,6 +26,10 @@ public class BasicNode {
     public void respond(CommandContext ctx) throws InterruptedException {
         response.respond(ctx);
     }
+
+    public void setOperation(Execute operation) {
+        this.operation = operation;
+    }
     public void execute(CommandContext ctx) {
         if (operation == null) {
             return;
@@ -33,10 +38,14 @@ public class BasicNode {
     }
 
     public void evaluate(CommandContext ctx) {
-        if (evaluate == null) {
+        if (condition == null) {
             return;
         }
-        response = responseMap.get(evaluate.eval(ctx));
+        response = responseMap.get(condition.eval(ctx));
+    }
+
+    public void setCondition(Condition condition) {
+        this.condition = condition;
     }
 
     public void setResponse(Response response) {
@@ -47,12 +56,7 @@ public class BasicNode {
         return response;
     }
 
-    public void setOperation(Execute operation) {
-        this.operation = operation;
-    }
-    public boolean hasOperation() {
-        return operation != null;
-    }
+
     public void addNextNode(BasicNode node) {
         nextNodes.add(node);
     }
@@ -64,4 +68,9 @@ public class BasicNode {
     public String getToken() {
         return token;
     }
+
+    public void setConditionalResponse(String evaluation, Response response) {
+        responseMap.put(evaluation, response);
+    }
+
 }

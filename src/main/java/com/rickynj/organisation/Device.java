@@ -1,16 +1,16 @@
 package com.rickynj.organisation;
 
-import com.rickynj.actions.evaluate.Evaluate;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
+import com.rickynj.domain.POJO.ConditionPojo;
+import com.rickynj.domain.POJO.HoldsResponse;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.actions.execute.Assign;
 import com.rickynj.actions.execute.Execute;
 import com.rickynj.actions.execute.Reset;
 import com.rickynj.responses.*;
-import jdk.jshell.EvalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,15 +98,7 @@ public class Device  {
     private void buildCommandTree(List<String> remainingTokens, BasicNode lastNode, CommandPojo c) {
         // if you're on the last token, add response to the last node
         if (remainingTokens.isEmpty()) {
-            if (c.operation != null) {
-                lastNode.setOperation(getOperationType(c));
-            }
-
-            if (c.condition != null) {
-
-
-            }
-            lastNode.setResponse(getResponseType(c));
+            populateNode(lastNode, c);
             return;
         }
 
@@ -128,6 +120,23 @@ public class Device  {
         buildCommandTree(remainingTokens, nextNode, c);
     }
 
+    private void populateNode(BasicNode node, CommandPojo c) {
+        if (c.operation != null) {
+            node.setOperation(getOperationType(c));
+        }
+        if (c.condition != null) {
+            for (ConditionPojo condition : c.condition) {
+                if (condition.ifStatement != null) {
+                    node.setConditionalResponse("true", getResponseType(condition));
+                } else {
+                    node.setConditionalResponse("true", getResponseType(condition));
+                }
+            }
+        } else {
+            node.setResponse(getResponseType(c));
+        }
+    }
+
     private BasicNode getCommandRootNode(String token) {
         for (BasicNode commandNode : commandRoots) {
             if (commandNode.getToken().equals(token)) {
@@ -137,16 +146,18 @@ public class Device  {
         return null;
     }
 
-    private Response getResponseType(CommandPojo c) {
+    private Response getResponseType(HoldsResponse c) {
         Response r = null;
-        if (c.response != null) {
-            r = new BasicResponse(c.response);
-            r.setDelay(c.delay);
-        } else if (c.multiPartResponse != null) {
-            r = new MultipartResponse(c.multiPartResponse);
-            r.setDelay(c.delay);
-        } else if (c.responseFile != null ) {
-            r = new FileResponse(c.responseFile);
+        if (c.getResponse() != null) {
+            r = new BasicResponse(c.getResponse());
+        } else if (c.getMultipartResponse() != null) {
+            r = new MultipartResponse(c.getMultipartResponse());
+        } else if (c.getResponseFile() != null ) {
+            r = new FileResponse(c.getResponseFile());
+        }
+
+        if (r != null) {
+            r.setDelay(c.getDelay());
         }
         return r;
     }
