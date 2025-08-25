@@ -9,6 +9,7 @@ import com.rickynj.repository.valkey.ValkeyClient;
 public class Main {
     public static void main(String[] args) {
         // TODO: regex based operator matching.
+        // TODO: refactor device class, god object antipattern
         DevicesWrapper dataWrapper = YAMLParser.parseFile();
         ValkeyClient client = ValkeyClient.getValkeyClient();
         Organisation organisation;
