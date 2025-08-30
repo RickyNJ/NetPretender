@@ -4,41 +4,42 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-public class ConditionPojo implements HoldsResponse {
+public class ConditionPojo implements  HoldsResponse{
   @JsonProperty("if")
   public String ifStatement;
   @JsonProperty("else")
   public String elseStatement;
+  @JsonProperty("switch")
+  public String switchStatement;
 
-  public String response;
-  public List<String> multiPartResponse;
-  public String responseFile;
-  public List<String> allowed_values;
-  public String operation;
-  public int delay;
+  public List<CasePojo> cases;
 
-  @JsonAnySetter
-  public void set(String key, Object value) {
-    if ("else".equals(key)) {
-      this.elseStatement = "__PRESENT__"; // or some sentinel
-    }
-  }
   @Override
   public String getResponse() {
-    return response;
+    return "";
   }
 
   @Override
   public List<String> getMultipartResponse() {
-    return multiPartResponse;
+    return List.of();
   }
 
   @Override
   public String getResponseFile() {
-    return responseFile;
+    return "";
   }
+
   @Override
   public int getDelay() {
-    return delay;
+    return 0;
   }
+
+
+//  public String response;
+//  public List<String> multiPartResponse;
+//  public String responseFile;
+//  public List<String> allowed_values;
+//  public String operation;
+//  public int delay;
+
 }

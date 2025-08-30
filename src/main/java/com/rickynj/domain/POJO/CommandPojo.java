@@ -4,31 +4,32 @@ import java.util.List;
 
 public class CommandPojo implements HoldsResponse {
     public String command;
-    public int delay;
     public List<ConditionPojo> condition;
-    public String response;
-    public List<String> multiPartResponse;
-    public String responseFile;
+    public ResponsePojo response;
     public List<String> allowed_values;
     public String operation;
+//    public String response;
+//    public List<String> multiPartResponse;
+//    public String responseFile;
+//    public int delay;
 
     @Override
     public String getResponse() {
-        return response;
+        return response.response;
     }
 
     @Override
     public List<String> getMultipartResponse() {
-        return multiPartResponse;
+        return response.multiPartResponse;
     }
 
     @Override
     public String getResponseFile() {
-        return responseFile;
+        return response.responseFile;
     }
 
     @Override
     public int getDelay() {
-        return delay;
+        return response.delay;
     }
 }
