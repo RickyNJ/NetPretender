@@ -1,5 +1,6 @@
 package com.rickynj.domain.POJO;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -16,6 +17,12 @@ public class ConditionPojo implements HoldsResponse {
   public String operation;
   public int delay;
 
+  @JsonAnySetter
+  public void set(String key, Object value) {
+    if ("else".equals(key)) {
+      this.elseStatement = "__PRESENT__"; // or some sentinel
+    }
+  }
   @Override
   public String getResponse() {
     return response;
