@@ -124,8 +124,8 @@ public class Device  {
         if (c.operation != null) {
             node.setOperation(getOperationType(c));
         }
-        if (c.condition != null) {
-            for (ConditionPojo condition : c.condition) {
+        if (c.conditions != null) {
+            for (ConditionPojo condition : c.conditions) {
                 if (condition.ifStatement != null) {
                     node.setConditionalResponse("true", getResponseType(condition));
                 } else {

@@ -1,4 +1,4 @@
-package com.rickynj.domain;
+package com.rickynj.parser;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
