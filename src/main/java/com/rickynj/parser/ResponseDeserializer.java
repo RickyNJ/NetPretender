@@ -19,15 +19,15 @@ public class ResponseDeserializer extends StdDeserializer<ResponsePojo> {
 
     @Override
     public ResponsePojo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+        ResponsePojo responsePojo = new ResponsePojo();
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        String response = node.get("response").asText();
-        String responseFile = node.get("responseFile").asText();
+        responsePojo.setResponse(node.get("response").asText());
+        responsePojo.setResponseFile(node.get("responseFile").asText());
+        responsePojo.setMultiPartResponse(node.findValuesAsText("multiPartResponse"));
+        responsePojo.setAllowed_values(node.findValuesAsText("allowed_values"));
 
-        List<String> multiPartResponse = node.findValuesAsText("multiPartResponse");
-        List<String> allowed_values = node.findValuesAsText("allowed_values");
-
-        String operation = node.get("operation").asText();
-        int delay = node.get("delay").asInt();
-        return new ResponsePojo(response, multiPartResponse, responseFile, allowed_values, operation, delay);
+        responsePojo.setOperation(node.get("operation").asText());
+        responsePojo.setDelay(node.get("delay").asInt());
+        return responsePojo;
     }
 }
