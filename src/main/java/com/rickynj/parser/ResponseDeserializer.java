@@ -12,22 +12,21 @@ import com.rickynj.responses.Response;
 import java.io.IOException;
 import java.util.List;
 
-public class ResponseDeserializer extends StdDeserializer<ResponsePojo> {
-    protected ResponseDeserializer() {
-        super(ResponsePojo.class);
+public class ResponseDeserializer {
+    private ResponseDeserializer() {}
+
+    public static ResponsePojo deserialize(JsonNode node) {
+        ResponsePojo responsePojo = new ResponsePojo();
+        responsePojo.response = getTextOrNull(node, "response");
+        responsePojo.responseFile = getTextOrNull(node, "responseFile");
+        responsePojo.multiPartResponse = node.findValuesAsText("multiPartResponse");
+        responsePojo.allowed_values = node.findValuesAsText("allowed_values");
+        responsePojo.operation = getTextOrNull(node, "operation");
+        responsePojo.delay = node.has("delay") ? node.get("delay").asInt() : 0;
+        return responsePojo;
     }
 
-    @Override
-    public ResponsePojo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        ResponsePojo responsePojo = new ResponsePojo();
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        responsePojo.setResponse(node.get("response").asText());
-        responsePojo.setResponseFile(node.get("responseFile").asText());
-        responsePojo.setMultiPartResponse(node.findValuesAsText("multiPartResponse"));
-        responsePojo.setAllowed_values(node.findValuesAsText("allowed_values"));
-
-        responsePojo.setOperation(node.get("operation").asText());
-        responsePojo.setDelay(node.get("delay").asInt());
-        return responsePojo;
+    private static String getTextOrNull(JsonNode node, String field) {
+        return node.has(field) ? node.get(field).asText() : null;
     }
 }

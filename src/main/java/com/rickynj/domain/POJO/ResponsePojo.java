@@ -10,8 +10,6 @@ public class ResponsePojo {
     public String operation;
     public int delay;
 
-    public ResponsePojo() {}
-
     public void setResponse(String response) {
         this.response = response;
     }

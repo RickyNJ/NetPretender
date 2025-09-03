@@ -13,9 +13,14 @@ devices:
         response: my name is ${deviceId}
 
       - command: set name ${var}
-        response: set name to ${var}
-        operation: ${var} -> ${deviceId}
-        delay: 1
+        condition:
+          - if: ${var} = ${deviceId}
+            response: "name is already ${var}"
+            delay: 1
+          - else:
+            response: "setting name to ${var}"
+            operation: ${var} -> ${deviceId}
+            delay: 1
 
       - command: poweroff
         condition:
