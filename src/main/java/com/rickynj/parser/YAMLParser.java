@@ -3,6 +3,7 @@ package com.rickynj.parser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.rickynj.domain.POJO.ResponsePojo;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.POJO.DevicePojo;
@@ -21,7 +22,7 @@ public class YAMLParser implements Parser {
 
     public YAMLParser() {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(Response.class, new ResponseDeserializer());
+        module.addDeserializer(ResponsePojo.class, new ResponseDeserializer());
         mapper.registerModule(module);
     }
 

@@ -9,4 +9,14 @@ public class ResponsePojo {
     public List<String> allowed_values;
     public String operation;
     public int delay;
+
+    public ResponsePojo(String response, List<String> multiPartResponse, String responseFile, List<String> allowed_values, String operation, int delay) {
+        this.response = response;
+        this.multiPartResponse = multiPartResponse;
+        this.responseFile = responseFile;
+        this.allowed_values = allowed_values;
+        this.operation = operation;
+        this.delay = delay;
+    }
+
 }

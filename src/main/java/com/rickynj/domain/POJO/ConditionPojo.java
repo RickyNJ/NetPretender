@@ -12,6 +12,7 @@ public class ConditionPojo implements HoldsResponse {
   @JsonProperty("switch")
   public String switchStatement;
   public List<CasePojo> cases;
+  public ResponsePojo response;
 
   @Override
   public String getResponse() {
