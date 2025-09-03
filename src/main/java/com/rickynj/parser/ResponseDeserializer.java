@@ -1,5 +1,7 @@
 package com.rickynj.parser;
 
+import static com.rickynj.parser.YAMLParser.getTextOrNull;
+
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -26,7 +28,4 @@ public class ResponseDeserializer {
         return responsePojo;
     }
 
-    private static String getTextOrNull(JsonNode node, String field) {
-        return node.has(field) ? node.get(field).asText() : null;
-    }
 }

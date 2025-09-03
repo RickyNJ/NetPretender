@@ -1,8 +1,10 @@
 package com.rickynj.parser;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.rickynj.domain.POJO.CasePojo;
 import com.rickynj.domain.POJO.ResponsePojo;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
@@ -22,7 +24,7 @@ public class YAMLParser implements Parser {
 
     public YAMLParser() {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(ResponsePojo.class, new ResponseDeserializer());
+        module.addDeserializer(CasePojo.class, new CaseDeserializer());
         mapper.registerModule(module);
     }
 
@@ -51,5 +53,9 @@ public class YAMLParser implements Parser {
         }
 
         return data;
+    }
+
+    public static String getTextOrNull(JsonNode node, String field) {
+        return node.has(field) ? node.get(field).asText() : null;
     }
 }
