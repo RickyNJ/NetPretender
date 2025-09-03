@@ -6,4 +6,5 @@ public class CasePojo {
     @JsonProperty("case")
     public String caseStatement;
     public ResponsePojo response;
+    public String operation;
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.rickynj.domain.POJO.CasePojo;
+import com.rickynj.domain.POJO.CommandPojo;
+import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.domain.POJO.ResponsePojo;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
@@ -25,6 +27,8 @@ public class YAMLParser implements Parser {
     public YAMLParser() {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(CasePojo.class, new CaseDeserializer());
+        module.addDeserializer(ConditionPojo.class, new ConditionDeserializer());
+        module.addDeserializer(CommandPojo.class, new CommandDeserializer());
         mapper.registerModule(module);
     }
 

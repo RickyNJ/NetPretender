@@ -13,6 +13,7 @@ public class ConditionPojo implements HoldsResponse {
   public String switchStatement;
   public List<CasePojo> cases;
   public ResponsePojo response;
+  public String operation;
 
   @Override
   public String getResponse() {

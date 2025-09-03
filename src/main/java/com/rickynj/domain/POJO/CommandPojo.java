@@ -2,34 +2,31 @@ package com.rickynj.domain.POJO;
 
 import com.rickynj.responses.HoldsResponse;
 import java.util.List;
+import jdk.dynalink.Operation;
 
 public class CommandPojo implements HoldsResponse {
     public String command;
-    public int delay;
     public List<ConditionPojo> condition;
-    public String response;
-    public List<String> multiPartResponse;
-    public String responseFile;
-    public List<String> allowed_values;
     public String operation;
+    public ResponsePojo response;
 
     @Override
     public String getResponse() {
-        return response;
+        return response.response;
     }
 
     @Override
     public List<String> getMultipartResponse() {
-        return multiPartResponse;
+        return response.multiPartResponse;
     }
 
     @Override
     public String getResponseFile() {
-        return responseFile;
+        return response.responseFile;
     }
 
     @Override
     public int getDelay() {
-        return delay;
+        return response.delay;
     }
 }

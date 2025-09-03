@@ -112,7 +112,7 @@ public class Device  {
         }
         BasicNode nextNode;
         if (isVariableToken(currentToken)) {
-            nextNode = new VariableNode(currentToken, c.allowed_values);
+            nextNode = new VariableNode(currentToken, c.response.allowed_values);
         } else {
             nextNode = new BasicNode(currentToken);
         }

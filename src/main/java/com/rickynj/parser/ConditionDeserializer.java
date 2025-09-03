@@ -16,7 +16,11 @@ import java.util.List;
 
 public class ConditionDeserializer extends StdDeserializer<ConditionPojo> {
 
-  protected ConditionDeserializer(Class<?> vc) {
+  public ConditionDeserializer() {
+    this(null);
+  }
+
+  public  ConditionDeserializer(Class<?> vc) {
     super(vc);
   }
 
@@ -31,6 +35,8 @@ public class ConditionDeserializer extends StdDeserializer<ConditionPojo> {
       conditionPojo.elseStatement = "PRESENT";
     }
     conditionPojo.switchStatement = getTextOrNull(node, "switch");
+    conditionPojo.operation = getTextOrNull(node, "operation");
+
     conditionPojo.response = ResponseDeserializer.deserialize(node);
 
     if (node.has("cases")) {
