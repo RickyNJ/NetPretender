@@ -7,11 +7,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.rickynj.domain.POJO.CasePojo;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.domain.POJO.ConditionPojo;
-import com.rickynj.domain.POJO.ResponsePojo;
-import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
-import com.rickynj.domain.POJO.DevicePojo;
-import com.rickynj.responses.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +29,11 @@ public class YAMLParser implements Parser {
     }
 
     public static DevicesWrapper parseFile() {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(CasePojo.class, new CaseDeserializer());
+        module.addDeserializer(ConditionPojo.class, new ConditionDeserializer());
+        module.addDeserializer(CommandPojo.class, new CommandDeserializer());
+        mapper.registerModule(module);
         logger.info("parsing yaml. {}", COMMANDSFILE);
         DevicesWrapper data;
         try {

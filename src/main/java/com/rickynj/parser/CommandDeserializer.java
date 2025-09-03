@@ -5,16 +5,23 @@ import static com.rickynj.parser.YAMLParser.getTextOrNull;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.domain.POJO.ConditionPojo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandDeserializer extends JsonDeserializer<CommandPojo> {
+public class CommandDeserializer extends StdDeserializer<CommandPojo> {
+  public CommandDeserializer() {
+    this(null);
+  }
+
+  public CommandDeserializer(Class<?> vc) {
+    super(vc);
+  }
   @Override
   public CommandPojo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
       throws IOException, JacksonException {

@@ -2,17 +2,8 @@ package com.rickynj.parser;
 
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.rickynj.domain.POJO.ResponsePojo;
-import com.rickynj.organisation.Device;
-
-import com.rickynj.responses.Response;
-import java.io.IOException;
-import java.util.List;
 
 public class ResponseDeserializer {
     private ResponseDeserializer() {}
@@ -27,5 +18,4 @@ public class ResponseDeserializer {
         responsePojo.delay = node.has("delay") ? node.get("delay").asInt() : 0;
         return responsePojo;
     }
-
 }
