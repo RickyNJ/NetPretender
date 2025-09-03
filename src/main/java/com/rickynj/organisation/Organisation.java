@@ -38,9 +38,4 @@ public class Organisation {
         return devicesByPort.get(port);
     }
 
-//    public Device getDevice(String name) {
-//        String fullName = org + "." + name;
-//        return devicesByName.get(fullName);
-//    }
-
 }

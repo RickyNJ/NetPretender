@@ -9,22 +9,25 @@ import com.rickynj.repository.valkey.ValkeyClient;
 public class Main {
     public static void main(String[] args) {
         // TODO: regex based operator matching.
+        // TODO: Stop valkeyclient from initializing when caching is disabled.
         // TODO: refactor device class, god object antipattern
-        DevicesWrapper dataWrapper = YAMLParser.parseFile();
-        ValkeyClient client = ValkeyClient.getValkeyClient();
-        Organisation organisation;
 
-        if (dataWrapper.caching && client != null) {
-            organisation = client.getCachedDeviceManagerIfExists();
+        DevicesWrapper dataWrapper = YAMLParser.parseFile();
+        Organisation organisation;
+        ValkeyClient valkeyClient = null;
+
+        if (dataWrapper.caching) {
+            valkeyClient = ValkeyClient.getValkeyClient();
+            organisation = valkeyClient.getCachedDeviceManagerIfExists();
             if (organisation == null) {
                 organisation = new Organisation(dataWrapper);
-                client.cacheNewDeviceManager(organisation);
+                valkeyClient.cacheNewDeviceManager(organisation);
             }
         } else {
             organisation = new Organisation(dataWrapper);
         }
 
-        Repl repl = new Repl(organisation.getDevice(Integer.parseInt(args[0])));
+        Repl repl = new Repl(organisation.getDevice(Integer.parseInt(args[0])), valkeyClient);
         repl.start();
         }
 }

@@ -12,10 +12,11 @@ public class CommandContext {
     public final String command;
     public final Device device;
     public final Map<String, String> vars;
-    private final ValkeyClient client = ValkeyClient.getValkeyClient();
+    public final ValkeyClient client;
     private final static Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
-    public CommandContext(String command, Device device) {
+    public CommandContext(String command, Device device, ValkeyClient client) {
+        this.client =  client;
         logger.info("Starting new commandContext with Command: {}", command);
         this.command = command;
         this.device = device;

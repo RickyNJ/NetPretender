@@ -4,7 +4,7 @@ import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.domain.POJO.ConditionPojo;
-import com.rickynj.domain.POJO.HoldsResponse;
+import com.rickynj.responses.HoldsResponse;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.actions.execute.Assign;
@@ -124,16 +124,7 @@ public class Device  {
         if (c.operation != null) {
             node.setOperation(getOperationType(c));
         }
-        if (c.conditions != null) {
-            for (ConditionPojo condition : c.conditions) {
-                if (condition.ifStatement != null) {
-                    node.setConditionalResponse("true", getResponseType(condition));
-                } else {
-                    node.setConditionalResponse("true", getResponseType(condition));
-                }
-            }
-        } else {
-            node.setResponse(getResponseType(c));
+        if (c.condition != null) {
         }
     }
 
@@ -144,22 +135,6 @@ public class Device  {
             }
         }
         return null;
-    }
-
-    private Response getResponseType(HoldsResponse c) {
-        Response r = null;
-        if (c.getResponse() != null) {
-            r = new BasicResponse(c.getResponse());
-        } else if (c.getMultipartResponse() != null) {
-            r = new MultipartResponse(c.getMultipartResponse());
-        } else if (c.getResponseFile() != null ) {
-            r = new FileResponse(c.getResponseFile());
-        }
-
-        if (r != null) {
-            r.setDelay(c.getDelay());
-        }
-        return r;
     }
 
     private Execute getOperationType(CommandPojo c) {

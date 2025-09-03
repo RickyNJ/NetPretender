@@ -1,10 +1,12 @@
 package com.rickynj.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.POJO.DevicePojo;
+import com.rickynj.responses.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,12 +18,11 @@ public class YAMLParser implements Parser {
     private static final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
 
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    private final Organisation organisation;
-    private final boolean caching;
 
-    public YAMLParser(Organisation organisation,  boolean caching) {
-        this.organisation = organisation;
-        this.caching = caching;
+    public YAMLParser() {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Response.class, new ResponseDeserializer());
+        mapper.registerModule(module);
     }
 
     public static DevicesWrapper parseFile() {
@@ -49,10 +50,5 @@ public class YAMLParser implements Parser {
         }
 
         return data;
-
-//        for (DevicePojo d : data.devices) {
-//            organisation.addDevice(data.org, d, caching);
-//        }
-//        logger.info("Device created successfully.");
     }
 }

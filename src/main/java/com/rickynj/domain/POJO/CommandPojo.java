@@ -1,11 +1,12 @@
 package com.rickynj.domain.POJO;
 
+import com.rickynj.responses.HoldsResponse;
 import java.util.List;
 
 public class CommandPojo implements HoldsResponse {
     public String command;
     public int delay;
-    public List<ConditionPojo> conditions;
+    public List<ConditionPojo> condition;
     public String response;
     public List<String> multiPartResponse;
     public String responseFile;

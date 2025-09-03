@@ -18,13 +18,14 @@ devices:
         delay: 1
 
       - command: poweroff
-        conditions:
-          - if: $(state) == enabled
-            response: "turning devide off"
-            operation: disabled -> ${state}
-          - else:
-            response: "device already turned off"
-#
+        condition:
+          - switch: ${state}
+            cases:
+            - case: enabled
+              response: "turning device off"
+            - case: disabled
+              response: "device already turned off"
+
       - command: enable
         response: "turning on the device"
         operation: enabled -> ${state}

@@ -1,4 +1,4 @@
-package com.rickynj.domain.POJO;
+package com.rickynj.responses;
 
 import java.util.List;
 
