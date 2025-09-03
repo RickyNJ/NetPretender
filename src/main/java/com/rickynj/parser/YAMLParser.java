@@ -17,16 +17,7 @@ import static com.rickynj.config.Constants.COMMANDSFILE;
 
 public class YAMLParser implements Parser {
     private static final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
-
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-
-    public YAMLParser() {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(CasePojo.class, new CaseDeserializer());
-        module.addDeserializer(ConditionPojo.class, new ConditionDeserializer());
-        module.addDeserializer(CommandPojo.class, new CommandDeserializer());
-        mapper.registerModule(module);
-    }
 
     public static DevicesWrapper parseFile() {
         SimpleModule module = new SimpleModule();
@@ -45,7 +36,6 @@ public class YAMLParser implements Parser {
         return data;
     }
 
-
     @Override
     public DevicesWrapper parse() {
         logger.info("parsing yaml. {}", COMMANDSFILE);
@@ -56,7 +46,6 @@ public class YAMLParser implements Parser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         return data;
     }
 
