@@ -1,10 +1,10 @@
 package com.rickynj.domain.POJO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rickynj.responses.HoldsResponse;
+import com.rickynj.actions.operation.HoldsOperation;
 import java.util.List;
 
-public class ConditionPojo implements HoldsResponse {
+public class ConditionPojo implements HoldsOperation {
   @JsonProperty("if")
   public String ifStatement;
   @JsonProperty("else")
@@ -16,19 +16,7 @@ public class ConditionPojo implements HoldsResponse {
   public String operation;
 
   @Override
-  public String getResponse() {
-    return response.response;
-  }
-  @Override
-  public List<String> getMultipartResponse() {
-    return response.multiPartResponse;
-  }
-  @Override
-  public String getResponseFile() {
-    return response.responseFile;
-  }
-  @Override
-  public int getDelay() {
-    return response.delay;
+  public String getOperation() {
+    return operation;
   }
 }

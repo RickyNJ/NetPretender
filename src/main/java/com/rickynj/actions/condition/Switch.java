@@ -20,7 +20,7 @@ public class Switch implements Condition{
     @Override
     public void addConditionToNode(BasicNode node, ConditionPojo condition) {
         for (CasePojo casePojo : condition.cases) {
-            node.setConditionalResponse(casePojo.caseStatement, ResponseUtility.getResponseType(casePojo));
+            node.setConditionalResponse(casePojo.caseStatement, ResponseUtility.getResponseType(casePojo.response));
         }
         node.addConditionToNode(this);
     }

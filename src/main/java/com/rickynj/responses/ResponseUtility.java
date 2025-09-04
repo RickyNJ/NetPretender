@@ -2,23 +2,24 @@ package com.rickynj.responses;
 
 import com.rickynj.domain.CommandContext;
 
+import com.rickynj.domain.POJO.ResponsePojo;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseUtility {
 
-    public static Response getResponseType(HoldsResponse response) {
+    public static Response getResponseType(ResponsePojo responsePojo) {
         Response r = null;
-        if (response.getResponse() != null) {
-            r = new BasicResponse(response.getResponse());
-        } else if (response.getMultipartResponse() != null) {
-            r = new MultipartResponse(response.getMultipartResponse());
-        } else if (response.getResponseFile() != null ) {
-            r = new FileResponse(response.getResponseFile());
+        if (responsePojo.response != null) {
+            r = new BasicResponse(responsePojo.response);
+        } else if (responsePojo.multiPartResponse != null) {
+            r = new MultipartResponse(responsePojo.multiPartResponse);
+        } else if (responsePojo.responseFile != null ) {
+            r = new FileResponse(responsePojo.responseFile);
         }
 
         if (r != null) {
-            r.setDelay(response.getDelay());
+            r.setDelay(responsePojo.delay);
         }
         return r;
     }

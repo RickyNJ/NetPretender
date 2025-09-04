@@ -1,11 +1,13 @@
 package com.rickynj.actions.condition;
 
+import com.rickynj.actions.operation.OperationUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.responses.ResponseUtility;
 import java.util.List;
 import java.util.Objects;
+import jdk.dynalink.Operation;
 
 public class If implements Condition {
   public String actual;
@@ -20,8 +22,9 @@ public class If implements Condition {
   @Override
   public String eval(CommandContext ctx) {
     String actualValue = ctx.getValueForKey(actual);
+    String  expectedValue = ctx.getValueForKey(expected);
 
-    if (Objects.equals(expected, actualValue)) {
+    if (Objects.equals(expectedValue, actualValue)) {
       return "true";
     } else {
       return "false";
@@ -30,7 +33,8 @@ public class If implements Condition {
 
   @Override
   public void addConditionToNode(BasicNode node, ConditionPojo condition) {
-    node.setConditionalResponse("true", ResponseUtility.getResponseType(condition));
+    node.setConditionalResponse("true", ResponseUtility.getResponseType(condition.response));
+    node.setConditionalOperation("true", OperationUtility.getOperationType(condition));
     node.addConditionToNode(this);
   }
 }

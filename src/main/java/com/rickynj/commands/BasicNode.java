@@ -2,7 +2,7 @@ package com.rickynj.commands;
 
 import com.rickynj.actions.condition.Condition;
 import com.rickynj.domain.CommandContext;
-import com.rickynj.actions.operation.Execute;
+import com.rickynj.actions.operation.Operation;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
@@ -17,7 +17,8 @@ public class BasicNode {
     protected List<Condition> condition = new ArrayList<>();
     protected Response response;
     protected Map<String, Response> responseMap = new HashMap<>();
-    protected Execute operation;
+    protected Map<String, Operation> operationMap = new HashMap<>();
+    protected Operation operation;
 
     public BasicNode(String token) {
         this.token = token;
@@ -30,7 +31,7 @@ public class BasicNode {
         response.respond(ctx);
     }
 
-    public void setOperation(Execute operation) {
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
     public void execute(CommandContext ctx) {
@@ -80,6 +81,10 @@ public class BasicNode {
 
     public void setConditionalResponse(String evaluation, Response response) {
         responseMap.put(evaluation, response);
+    }
+
+    public void setConditionalOperation(String evaluation, Operation operation) {
+        operationMap.put(evaluation, operation);
     }
 
 }

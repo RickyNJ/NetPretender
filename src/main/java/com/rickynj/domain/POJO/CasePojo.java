@@ -1,33 +1,16 @@
 package com.rickynj.domain.POJO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rickynj.responses.HoldsResponse;
-import java.util.List;
+import com.rickynj.actions.operation.HoldsOperation;
 
-public class CasePojo implements HoldsResponse {
+public class CasePojo implements HoldsOperation {
     @JsonProperty("case")
     public String caseStatement;
     public ResponsePojo response;
     public String operation;
 
-
     @Override
-    public String getResponse() {
-        return response.response;
-    }
-
-    @Override
-    public List<String> getMultipartResponse() {
-        return response.multiPartResponse;
-    }
-
-    @Override
-    public String getResponseFile() {
-        return response.responseFile;
-    }
-
-    @Override
-    public int getDelay() {
-        return response.delay;
+    public String getOperation() {
+        return operation;
     }
 }

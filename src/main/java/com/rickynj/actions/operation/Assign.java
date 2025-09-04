@@ -2,7 +2,7 @@ package com.rickynj.actions.operation;
 
 import com.rickynj.domain.CommandContext;
 
-public class Assign implements Execute {
+public class Assign implements Operation {
     public String source;
     public String target;
 

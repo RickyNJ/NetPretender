@@ -14,7 +14,7 @@ public class Else implements Condition {
 
   @Override
   public void addConditionToNode(BasicNode node, ConditionPojo condition) {
-    node.setConditionalResponse("false", ResponseUtility.getResponseType(condition));
+    node.setConditionalResponse("false", ResponseUtility.getResponseType(condition.response));
     node.addConditionToNode(this);
   }
 }

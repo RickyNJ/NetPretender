@@ -9,7 +9,7 @@ import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.actions.operation.Assign;
-import com.rickynj.actions.operation.Execute;
+import com.rickynj.actions.operation.Operation;
 import com.rickynj.actions.operation.Reset;
 import com.rickynj.responses.*;
 import org.slf4j.Logger;
@@ -133,7 +133,7 @@ public class Device  {
             }
         }
         if (c.response != null) {
-            node.setResponse(ResponseUtility.getResponseType(c));
+            node.setResponse(ResponseUtility.getResponseType(c.response));
         }
     }
 
@@ -146,7 +146,7 @@ public class Device  {
         return null;
     }
 
-    private Execute getOperationType(CommandPojo c) {
+    private Operation getOperationType(CommandPojo c) {
         // TODO find a more sustainable way of doing this
         String[] op = c.operation.split(" ");
         if (Objects.equals(op[0], "reset")) {
