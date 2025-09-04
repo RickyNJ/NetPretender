@@ -48,9 +48,10 @@ public class Device  {
         }
 
         BasicNode responseNode = traverseCommandTree(ctx, tokens.subList(1, tokens.size()), root);
-        if (responseNode == null || responseNode.getResponse() == null) {
+        if (responseNode == null) {
             throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.command));
         } else {
+            logger.info("Found response node.");
             responseNode.evaluate(ctx);
             responseNode.respond(ctx);
             responseNode.execute(ctx);
