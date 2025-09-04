@@ -51,6 +51,11 @@ public class BasicNode {
             if (response != null) {
                 response.respond(ctx);
             }
+
+            operation = operationMap.get(evaluation);
+            if (operation != null) {
+                operation.execute(ctx);
+            }
         }
     }
 

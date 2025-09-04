@@ -1,5 +1,6 @@
 package com.rickynj.actions.condition;
 
+import com.rickynj.actions.operation.OperationUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.domain.POJO.CasePojo;
@@ -21,6 +22,7 @@ public class Switch implements Condition{
     public void addConditionToNode(BasicNode node, ConditionPojo condition) {
         for (CasePojo casePojo : condition.cases) {
             node.setConditionalResponse(casePojo.caseStatement, ResponseUtility.getResponseType(casePojo.response));
+            node.setConditionalOperation(casePojo.caseStatement, OperationUtility.getOperationType(casePojo));
         }
         node.addConditionToNode(this);
     }

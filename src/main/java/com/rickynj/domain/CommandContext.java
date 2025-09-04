@@ -32,6 +32,8 @@ public class CommandContext {
         logger.info("Looking for value for key: {}, {}", key, device.name);
         if (getCaching() && device.state.containsKey(key)) {
             value = client.getValueFromValkey(key, this);
+            logger.info("Found for value for key in valkey: {}, {}", key, value);
+
         }
         if (value == null) {
             // command has not been set in valkey.

@@ -7,7 +7,6 @@ import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.responses.ResponseUtility;
 import java.util.List;
 import java.util.Objects;
-import jdk.dynalink.Operation;
 
 public class If implements Condition {
   public String actual;

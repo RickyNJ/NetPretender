@@ -64,7 +64,7 @@ devices:
         responseFile: show_interface_all.txt
 
   - name: modem2
-    port: 23
+    port: 24
     vars:
       ${deviceId}: "modem2"
       ${state}: "enabled"
