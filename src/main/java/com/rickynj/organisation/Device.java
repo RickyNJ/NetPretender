@@ -1,15 +1,16 @@
 package com.rickynj.organisation;
 
+import com.rickynj.actions.condition.Condition;
+import com.rickynj.actions.condition.ConditionUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.domain.POJO.ConditionPojo;
-import com.rickynj.responses.HoldsResponse;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.actions.execute.Assign;
-import com.rickynj.actions.execute.Execute;
-import com.rickynj.actions.execute.Reset;
+import com.rickynj.actions.operation.Assign;
+import com.rickynj.actions.operation.Execute;
+import com.rickynj.actions.operation.Reset;
 import com.rickynj.responses.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +126,13 @@ public class Device  {
             node.setOperation(getOperationType(c));
         }
         if (c.condition != null) {
+            for (ConditionPojo conditionPojo : c.condition) {
+                Condition condition = ConditionUtility.getConditionType(conditionPojo);
+                condition.addConditionToNode(node, conditionPojo);
+            }
+        }
+        if (c.response != null) {
+            node.setResponse(ResponseUtility.getResponseType(c));
         }
     }
 

@@ -64,7 +64,7 @@ devices:
         responseFile: show_interface_all.txt
 
   - name: modem2
-    port: 24
+    port: 23
     vars:
       ${deviceId}: "modem2"
       ${state}: "enabled"
@@ -79,4 +79,6 @@ devices:
           - "hey_there"
           - "false"
       - command: show interface file
+        responseFile: show_interface_all.txt
+      - command: show interface files
         responseFile: show_interface_all.txt

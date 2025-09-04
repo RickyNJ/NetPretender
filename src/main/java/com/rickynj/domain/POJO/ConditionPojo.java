@@ -17,18 +17,18 @@ public class ConditionPojo implements HoldsResponse {
 
   @Override
   public String getResponse() {
-    return "";
+    return response.response;
   }
   @Override
   public List<String> getMultipartResponse() {
-    return List.of();
+    return response.multiPartResponse;
   }
   @Override
   public String getResponseFile() {
-    return "";
+    return response.responseFile;
   }
   @Override
   public int getDelay() {
-    return 0;
+    return response.delay;
   }
 }

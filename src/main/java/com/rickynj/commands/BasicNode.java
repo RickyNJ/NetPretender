@@ -2,7 +2,7 @@ package com.rickynj.commands;
 
 import com.rickynj.actions.condition.Condition;
 import com.rickynj.domain.CommandContext;
-import com.rickynj.actions.execute.Execute;
+import com.rickynj.actions.operation.Execute;
 import com.rickynj.responses.Response;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class BasicNode {
     protected String token;
     protected List<BasicNode> nextNodes = new ArrayList<>();
-    protected Condition condition;
+    protected List<Condition> condition = new ArrayList<>();
     protected Response response;
     protected Map<String, Response> responseMap = new HashMap<>();
     protected Execute operation;
@@ -24,6 +24,9 @@ public class BasicNode {
     }
 
     public void respond(CommandContext ctx) throws InterruptedException {
+        if (response == null) {
+            return;
+        }
         response.respond(ctx);
     }
 
@@ -37,15 +40,21 @@ public class BasicNode {
         operation.execute(ctx);
     }
 
-    public void evaluate(CommandContext ctx) {
+    public void evaluate(CommandContext ctx) throws InterruptedException {
         if (condition == null) {
             return;
         }
-        response = responseMap.get(condition.eval(ctx));
+        for (Condition c : condition) {
+            String evaluation = c.eval(ctx);
+            response = responseMap.get(evaluation);
+            if (response != null) {
+                response.respond(ctx);
+            }
+        }
     }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
+    public void addConditionToNode(Condition condition) {
+        this.condition.add(condition);
     }
 
     public void setResponse(Response response) {
