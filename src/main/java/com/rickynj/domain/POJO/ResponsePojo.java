@@ -9,5 +9,4 @@ public class ResponsePojo {
     public List<String> allowed_values;
     public String operation;
     public int delay;
-
 }

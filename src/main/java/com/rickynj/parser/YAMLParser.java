@@ -8,6 +8,7 @@ import com.rickynj.domain.POJO.CasePojo;
 import com.rickynj.domain.POJO.CommandPojo;
 import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.domain.DevicesWrapper;
+import com.rickynj.exception.ParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class YAMLParser  {
             File yamlFile = new File(COMMANDSFILE);
             data = mapper.readValue(yamlFile, DevicesWrapper.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ParserException("Exception while parsing commands file: ", e);
         }
         return data;
     }
