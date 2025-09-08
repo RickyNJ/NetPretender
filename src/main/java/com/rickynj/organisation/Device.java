@@ -2,16 +2,16 @@ package com.rickynj.organisation;
 
 import com.rickynj.actions.condition.Condition;
 import com.rickynj.actions.condition.ConditionUtility;
+import com.rickynj.actions.operation.OperationUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
 import com.rickynj.domain.POJO.ConditionPojo;
+import com.rickynj.domain.POJO.DevicePojo;
 import com.rickynj.exception.CommandNotMockedException;
 import com.rickynj.domain.POJO.CommandPojo;
-import com.rickynj.actions.operation.Assign;
-import com.rickynj.actions.operation.Operation;
-import com.rickynj.actions.operation.Reset;
 import com.rickynj.responses.*;
+import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +27,15 @@ public class Device  {
     public Map<String, String> defaultState;
     public Map<String, String> state;
     public String name;
+    public String prompt;
+
+    public Device(DevicePojo devicePojo, boolean caching, String org) {
+        this.caching = caching;
+        this.state = devicePojo.vars;
+        this.defaultState = new HashMap<>(devicePojo.vars);
+        this.name = org + "." + devicePojo.name;
+        this.prompt = devicePojo.prompt;
+    }
 
     public void setState(String key, String value) {
         state.put(key, value);
@@ -124,7 +133,7 @@ public class Device  {
 
     private void populateNode(BasicNode node, CommandPojo c) {
         if (c.operation != null) {
-            node.setOperation(getOperationType(c));
+            node.setOperation(OperationUtility.getOperationType(c));
         }
         if (c.condition != null) {
             for (ConditionPojo conditionPojo : c.condition) {
@@ -144,15 +153,5 @@ public class Device  {
             }
         }
         return null;
-    }
-
-    private Operation getOperationType(CommandPojo c) {
-        // TODO find a more sustainable way of doing this
-        String[] op = c.operation.split(" ");
-        if (Objects.equals(op[0], "reset")) {
-            return new Reset();
-        } else {
-            return new Assign(op[0], op[2]);
-        }
     }
 }

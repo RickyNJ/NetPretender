@@ -21,12 +21,7 @@ public class Organisation {
 
     public void addDevice(String org, boolean caching, DevicePojo d){
         logger.info("adding device to devicemanager, {}, {}", this, d);
-        Device device = new Device();
-        device.caching = caching;
-        device.state = d.vars;
-        device.defaultState = new HashMap<>(d.vars);
-        device.name = org + "." + d.name;
-
+        Device device = new Device(d, caching, org);
         for (CommandPojo c : d.commands) {
             device.addCommand(c);
         }
@@ -37,5 +32,4 @@ public class Organisation {
     public Device getDevice(int port) {
         return devicesByPort.get(port);
     }
-
 }

@@ -7,10 +7,11 @@ import com.rickynj.domain.POJO.ConditionPojo;
 import com.rickynj.responses.ResponseUtility;
 
 public class Else implements Condition {
-
+  // The Else condition is invoked when If condition evaluates to false.
+  // Therefore, it does not have a eval method.
   @Override
   public String eval(CommandContext commandContext) {
-    return "";
+    return null;
   }
 
   @Override

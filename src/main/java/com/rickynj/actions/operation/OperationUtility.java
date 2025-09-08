@@ -7,7 +7,7 @@ public class OperationUtility {
     if (c.getOperation() == null) {
       return null;
     }
-    // TODO find a more sustainable way of doing this
+
     String[] op = c.getOperation().split(" ");
     if (Objects.equals(op[0], "reset")) {
       return new Reset();

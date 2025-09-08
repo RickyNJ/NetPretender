@@ -4,6 +4,7 @@ caching: true
 devices:
   - name: modem
     port: 22
+    prompt: "$ "
     vars:
       ${deviceId}: "modem1"
       ${state}: "enabled"
@@ -64,7 +65,7 @@ devices:
         responseFile: show_interface_all.txt
 
   - name: modem2
-    port: 24
+    port: 25
     vars:
       ${deviceId}: "modem2"
       ${state}: "enabled"

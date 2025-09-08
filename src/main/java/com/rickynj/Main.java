@@ -11,7 +11,7 @@ public class Main {
         // TODO: regex based operator matching.
         // TODO: Stop valkeyclient from initializing when caching is disabled.
         // TODO: refactor device class, god object antipattern
-        // TODO: make conditionPOJO to enable multiple conditions.
+        // TODO: make operationPOJO to enable multiple operations.
 
         DevicesWrapper dataWrapper = YAMLParser.parseFile();
         Organisation organisation;

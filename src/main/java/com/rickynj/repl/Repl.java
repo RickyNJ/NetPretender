@@ -23,7 +23,7 @@ public class Repl {
         Scanner scanner  = new Scanner(System.in);
         while (true) {
             try {
-                System.out.print("> ");
+                System.out.print(device.prompt);
                 CommandContext ctx = new CommandContext(scanner.nextLine(), device, valkeyClient);
                 device.respondToCommand(ctx);
             } catch (CommandNotMockedException e) {

@@ -34,6 +34,7 @@ public class If implements Condition {
   public void addConditionToNode(BasicNode node, ConditionPojo condition) {
     node.setConditionalResponse("true", ResponseUtility.getResponseType(condition.response));
     node.setConditionalOperation("true", OperationUtility.getOperationType(condition));
+
     node.addConditionToNode(this);
   }
 }

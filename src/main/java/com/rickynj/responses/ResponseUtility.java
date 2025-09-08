@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseUtility {
-
     public static Response getResponseType(ResponsePojo responsePojo) {
         Response r = null;
         if (responsePojo.response != null) {

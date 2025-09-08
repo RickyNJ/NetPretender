@@ -15,29 +15,12 @@ import java.io.*;
 
 import static com.rickynj.config.Constants.COMMANDSFILE;
 
-public class YAMLParser implements Parser {
+public class YAMLParser  {
     private static final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
     public static DevicesWrapper parseFile() {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(CasePojo.class, new CaseDeserializer());
-        module.addDeserializer(ConditionPojo.class, new ConditionDeserializer());
-        module.addDeserializer(CommandPojo.class, new CommandDeserializer());
-        mapper.registerModule(module);
-        logger.info("parsing yaml. {}", COMMANDSFILE);
-        DevicesWrapper data;
-        try {
-            File yamlFile = new File(COMMANDSFILE);
-            data = mapper.readValue(yamlFile, DevicesWrapper.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return data;
-    }
-
-    @Override
-    public DevicesWrapper parse() {
+        addModules();
         logger.info("parsing yaml. {}", COMMANDSFILE);
         DevicesWrapper data;
         try {
@@ -51,5 +34,13 @@ public class YAMLParser implements Parser {
 
     public static String getTextOrNull(JsonNode node, String field) {
         return node.has(field) ? node.get(field).asText() : null;
+    }
+
+    private static void addModules() {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(CasePojo.class, new CaseDeserializer());
+        module.addDeserializer(ConditionPojo.class, new ConditionDeserializer());
+        module.addDeserializer(CommandPojo.class, new CommandDeserializer());
+        mapper.registerModule(module);
     }
 }
