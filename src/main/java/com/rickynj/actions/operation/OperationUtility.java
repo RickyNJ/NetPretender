@@ -15,4 +15,6 @@ public class OperationUtility {
       return new Assign(op[0], op[2]);
     }
   }
+
+  private OperationUtility() {}
 }

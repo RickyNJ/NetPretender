@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileResponse extends ResponseBase {
-    final private String response;
+    private final String response;
 
     public FileResponse(String path) {
         path = Constants.responsesDirectory + path;

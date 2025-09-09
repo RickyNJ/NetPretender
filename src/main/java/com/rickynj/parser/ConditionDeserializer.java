@@ -2,7 +2,6 @@ package com.rickynj.parser;
 
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +25,7 @@ public class ConditionDeserializer extends StdDeserializer<ConditionPojo> {
 
   @Override
   public ConditionPojo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-      throws IOException, JacksonException {
+      throws IOException {
     ConditionPojo conditionPojo = new ConditionPojo();
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 

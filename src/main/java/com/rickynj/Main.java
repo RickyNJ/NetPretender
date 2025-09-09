@@ -6,13 +6,13 @@ import com.rickynj.parser.YAMLParser;
 import com.rickynj.repl.Repl;
 import com.rickynj.repository.valkey.ValkeyClient;
 
+// TODO: regex based operator matching.
+// TODO: Stop valkeyclient from initializing when caching is disabled.
+// TODO: refactor device class, god object antipattern
+// TODO: make operationPOJO to enable multiple operations.
+
 public class Main {
     public static void main(String[] args) {
-        // TODO: regex based operator matching.
-        // TODO: Stop valkeyclient from initializing when caching is disabled.
-        // TODO: refactor device class, god object antipattern
-        // TODO: make operationPOJO to enable multiple operations.
-
         DevicesWrapper dataWrapper = YAMLParser.parseFile();
         Organisation organisation;
         ValkeyClient valkeyClient = null;

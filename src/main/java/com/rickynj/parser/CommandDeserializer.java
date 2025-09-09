@@ -2,7 +2,6 @@ package com.rickynj.parser;
 
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,7 +23,7 @@ public class CommandDeserializer extends StdDeserializer<CommandPojo> {
   }
   @Override
   public CommandPojo deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-      throws IOException, JacksonException {
+      throws IOException {
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
     CommandPojo commandPojo = new CommandPojo();
     commandPojo.command = getTextOrNull(node, "command");

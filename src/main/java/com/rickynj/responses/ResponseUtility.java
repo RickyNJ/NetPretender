@@ -45,4 +45,6 @@ public class ResponseUtility {
         }
         return parts;
     }
+
+    private ResponseUtility() {}
 }

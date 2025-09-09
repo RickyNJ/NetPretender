@@ -44,4 +44,6 @@ public class YAMLParser  {
         module.addDeserializer(CommandPojo.class, new CommandDeserializer());
         mapper.registerModule(module);
     }
+
+    private YAMLParser() {}
 }

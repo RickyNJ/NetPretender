@@ -1,5 +1,6 @@
 package com.rickynj.repository.valkey;
 
+import com.rickynj.exception.ValkeyClientException;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.domain.CommandContext;
 import org.redisson.Redisson;
@@ -21,7 +22,7 @@ import static com.rickynj.config.Constants.COMMANDSFILE;
 import static com.rickynj.config.Constants.REDISSONCONFIGFILEPATH;
 
 public class ValkeyClient {
-    transient public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
+    public final Logger logger  = LoggerFactory.getLogger(ValkeyClient.class);
     private String checksum;
     private RedissonClient client;
     private static ValkeyClient valkeyClient;
@@ -53,7 +54,7 @@ public class ValkeyClient {
             Config config = Config.fromYAML(new FileInputStream(configPath));
             this.client = Redisson.create(config);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ValkeyClientException("Exception while starting Valkey client: ", e);
         }
     }
 
@@ -61,16 +62,17 @@ public class ValkeyClient {
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager
     public Organisation getCachedDeviceManagerIfExists() {
-        checksum = getChecksum(COMMANDSFILE);
         logger.info("looking for a cached device for filename {}", COMMANDSFILE);
-        RBucket<String> cachedChecksumBucket = client.getBucket(COMMANDSFILE);
-        String cachedCheckSum = cachedChecksumBucket.get();
+        RBucket<String> cachedCheckSumBucket = client.getBucket(COMMANDSFILE);
+        String cachedCheckSum = cachedCheckSumBucket.get();
         if (cachedCheckSum == null) {
             logger.info("file has never been cached before");
+            // no checksum has been stored for this filename
             // file has never been hashed before, or has been deleted.
             return null;
         } else {
             logger.info("file has been cached before");
+            checksum = getChecksum(COMMANDSFILE);
             RBucket<Organisation> deviceManagerRBucket = client.getBucket(checksum);
             Organisation organisation = deviceManagerRBucket.get();
             if (organisation == null) {

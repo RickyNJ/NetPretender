@@ -13,16 +13,16 @@ public class CommandContext {
     public final Device device;
     public final Map<String, String> vars;
     public final ValkeyClient client;
-    private final static Logger logger = LoggerFactory.getLogger(CommandContext.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device, ValkeyClient client) {
-        this.client =  client;
         logger.info("Starting new commandContext with Command: {}", command);
+        this.client =  client;
         this.command = command;
         this.device = device;
+
         vars = new HashMap<>(device.getState());
         vars.put("${command}", command);
-        logger.info("Found these variables: {}", vars);
     }
 
     // Only fetch device state variables from valkey.
@@ -33,7 +33,6 @@ public class CommandContext {
         if (getCaching() && device.state.containsKey(key)) {
             value = client.getValueFromValkey(key, this);
             logger.info("Found for value for key in valkey: {}, {}", key, value);
-
         }
         if (value == null) {
             // command has not been set in valkey.
