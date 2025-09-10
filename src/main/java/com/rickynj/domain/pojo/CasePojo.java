@@ -1,4 +1,4 @@
-package com.rickynj.domain.POJO;
+package com.rickynj.domain.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rickynj.actions.operation.HoldsOperation;

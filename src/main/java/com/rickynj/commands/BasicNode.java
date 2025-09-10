@@ -71,7 +71,6 @@ public class BasicNode {
         return response;
     }
 
-
     public void addNextNode(BasicNode node) {
         nextNodes.add(node);
     }

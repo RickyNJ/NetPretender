@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.rickynj.domain.POJO.CasePojo;
+import com.rickynj.domain.pojo.CasePojo;
 import java.io.IOException;
 
 public class CaseDeserializer extends StdDeserializer<CasePojo> {

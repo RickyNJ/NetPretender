@@ -24,7 +24,7 @@ public class Repl {
         while (true) {
             try {
                 System.out.print(device.prompt);
-                CommandContext ctx = new CommandContext(scanner.nextLine(), device, valkeyClient);
+                CommandContext ctx = new CommandContext(scanner.nextLine().trim(), device, valkeyClient);
                 device.respondToCommand(ctx);
             } catch (CommandNotMockedException e) {
                 System.out.println(e.getMessage());

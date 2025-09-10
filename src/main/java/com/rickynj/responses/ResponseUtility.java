@@ -2,7 +2,7 @@ package com.rickynj.responses;
 
 import com.rickynj.domain.CommandContext;
 
-import com.rickynj.domain.POJO.ResponsePojo;
+import com.rickynj.domain.pojo.ResponsePojo;
 import java.util.ArrayList;
 import java.util.List;
 

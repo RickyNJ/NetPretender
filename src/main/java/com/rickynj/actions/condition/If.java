@@ -3,7 +3,7 @@ package com.rickynj.actions.condition;
 import com.rickynj.actions.operation.OperationUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.domain.CommandContext;
-import com.rickynj.domain.POJO.ConditionPojo;
+import com.rickynj.domain.pojo.ConditionPojo;
 import com.rickynj.responses.ResponseUtility;
 import java.util.List;
 import java.util.Objects;

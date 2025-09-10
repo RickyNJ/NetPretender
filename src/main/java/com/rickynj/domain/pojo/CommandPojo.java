@@ -1,4 +1,4 @@
-package com.rickynj.domain.POJO;
+package com.rickynj.domain.pojo;
 
 import com.rickynj.actions.operation.HoldsOperation;
 import java.util.List;

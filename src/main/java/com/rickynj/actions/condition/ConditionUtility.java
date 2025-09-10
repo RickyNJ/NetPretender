@@ -1,6 +1,6 @@
 package com.rickynj.actions.condition;
 
-import com.rickynj.domain.POJO.ConditionPojo;
+import com.rickynj.domain.pojo.ConditionPojo;
 
 public class ConditionUtility {
   public static Condition getConditionType(ConditionPojo conditionPojo) {

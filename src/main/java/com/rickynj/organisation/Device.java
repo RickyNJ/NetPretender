@@ -6,10 +6,10 @@ import com.rickynj.actions.operation.OperationUtility;
 import com.rickynj.commands.BasicNode;
 import com.rickynj.commands.VariableNode;
 import com.rickynj.domain.CommandContext;
-import com.rickynj.domain.POJO.ConditionPojo;
-import com.rickynj.domain.POJO.DevicePojo;
+import com.rickynj.domain.pojo.ConditionPojo;
+import com.rickynj.domain.pojo.DevicePojo;
 import com.rickynj.exception.CommandNotMockedException;
-import com.rickynj.domain.POJO.CommandPojo;
+import com.rickynj.domain.pojo.CommandPojo;
 import com.rickynj.responses.*;
 import java.util.HashMap;
 import org.slf4j.Logger;
@@ -29,11 +29,11 @@ public class Device  {
     public String name;
     public String prompt;
 
-    public Device(DevicePojo devicePojo, boolean caching, String org) {
+    public Device(DevicePojo devicePojo, boolean caching, String org, int port) {
         this.caching = caching;
         this.state = devicePojo.vars;
         this.defaultState = new HashMap<>(devicePojo.vars);
-        this.name = org + "." + devicePojo.name;
+        this.name = org + "." + devicePojo.name + port;
         this.prompt = devicePojo.prompt;
     }
 

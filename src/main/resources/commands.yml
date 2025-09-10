@@ -3,7 +3,9 @@ org: RickyNJ
 caching: true
 devices:
   - name: modem
-    port: 22
+    port:
+    - 22
+    - 27
     prompt: "$ "
     vars:
       ${deviceId}: "modem1"
@@ -80,6 +82,4 @@ devices:
           - "hey_there"
           - "false"
       - command: show interface file
-        responseFile: show_interface_all.txt
-      - command: show interface files
         responseFile: show_interface_all.txt

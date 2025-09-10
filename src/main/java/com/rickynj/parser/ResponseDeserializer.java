@@ -3,7 +3,7 @@ package com.rickynj.parser;
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.rickynj.domain.POJO.ResponsePojo;
+import com.rickynj.domain.pojo.ResponsePojo;
 
 public class ResponseDeserializer {
     private ResponseDeserializer() {}

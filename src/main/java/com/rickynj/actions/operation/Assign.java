@@ -11,7 +11,6 @@ public class Assign implements Operation {
         this.target = target;
     }
 
-    // TODO probably use functional interfaces here
     // TODO find less error prone way, probably just add ispresents
     public void execute(CommandContext ctx) {
         String newValue = ctx.getValueForKey(source);

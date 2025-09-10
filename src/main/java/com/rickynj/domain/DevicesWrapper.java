@@ -1,11 +1,11 @@
 package com.rickynj.domain;
 
-import com.rickynj.domain.POJO.DevicePojo;
+import com.rickynj.domain.pojo.DevicePojo;
 
 import java.util.List;
 
 public class DevicesWrapper {
-    public boolean caching;
     public String org;
+    public boolean caching;
     public List<DevicePojo> devices;
 }
