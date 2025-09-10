@@ -4,8 +4,8 @@ caching: true
 devices:
   - name: modem
     port:
-    - 22
-    - 27
+      - 22
+      - 27
     prompt: "$ "
     vars:
       ${deviceId}: "modem1"
