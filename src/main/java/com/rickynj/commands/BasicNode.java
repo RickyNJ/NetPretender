@@ -47,9 +47,9 @@ public class BasicNode {
         }
         for (Condition c : condition) {
             String evaluation = c.eval(ctx);
-            response = responseMap.get(evaluation);
-            if (response != null) {
-                response.respond(ctx);
+            Response conditionalResponse = responseMap.get(evaluation);
+            if (conditionalResponse != null) {
+                conditionalResponse.respond(ctx);
             }
 
             operation = operationMap.get(evaluation);

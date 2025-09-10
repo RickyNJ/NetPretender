@@ -1,6 +1,6 @@
 # Maybe implement reserved variables? like $command to get the input command.
 org: RickyNJ
-caching: true
+caching: false
 devices:
   - name: modem
     port:
@@ -19,11 +19,9 @@ devices:
         condition:
           - if: ${var} = ${deviceId}
             response: "name is already ${var}"
-            delay: 1
           - else:
             response: "setting name to ${var}"
             operation: ${var} -> ${deviceId}
-            delay: 1
 
       - command: poweroff
         condition:
@@ -31,20 +29,13 @@ devices:
             cases:
             - case: enabled
               response: "turning device off"
+              operation: disabled -> ${state}
             - case: disabled
               response: "device already turned off"
-
-      - command: enable
-        response: "turning on the device"
-        operation: enabled -> ${state}
-        delay: 5
 
       - command: reset
         response: resetting to default
         operation: reset
-
-      - command: get state
-        response: ${state}
 
       - command: show interfaces ${var}
         multiPartResponse:

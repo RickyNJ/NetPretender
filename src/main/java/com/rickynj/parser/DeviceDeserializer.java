@@ -34,7 +34,7 @@ public class DeviceDeserializer extends StdDeserializer<DevicePojo> {
     if (node.has("name")) {
       devicePojo.name = node.get("name").asText();
     } else {
-      throw new ParserException("Missing 'name' field in Device configuration", new Throwable());
+      throw new ParserException("Missing 'name' field in Device configuration");
     }
     if (node.has("prompt")) {
       devicePojo.prompt = node.get("prompt").asText();
