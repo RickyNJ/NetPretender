@@ -21,7 +21,7 @@ public class If implements Condition {
   @Override
   public String eval(CommandContext ctx) {
     String actualValue = ctx.getValueForKey(actual);
-    String  expectedValue = ctx.getValueForKey(expected);
+    String expectedValue = ctx.getValueForKey(expected);
 
     if (Objects.equals(expectedValue, actualValue)) {
       return "true";

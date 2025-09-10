@@ -16,7 +16,6 @@ public class CommandContext {
     private static final Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device, ValkeyClient client) {
-        logger.info("Starting new commandContext with Command: {}", command);
         this.client =  client;
         this.command = command;
         this.device = device;
@@ -29,15 +28,12 @@ public class CommandContext {
     // Variables in the command are local and should not be cached.
     public String getValueForKey(String key){
         String value = null;
-        logger.info("Looking for value for key: {}, {}", key, device.name);
-        if (getCaching() && device.state.containsKey(key)) {
-            value = client.getValueFromValkey(key, this);
-            logger.info("Found for value for key in valkey: {}, {}", key, value);
-        }
-        if (value == null) {
-            // command has not been set in valkey.
-            value = vars.get(key);
-        }
+        if (getCaching()) { value = client.getValueFromValkey(key, this);}
+        // command has not been set in valkey.
+        if (value == null) { value = vars.get(key); }
+        // value is String literal
+        if (value == null) { value = key; }
+
         return value;
     }
 

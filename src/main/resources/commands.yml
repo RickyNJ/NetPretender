@@ -1,6 +1,6 @@
 # Maybe implement reserved variables? like $command to get the input command.
 org: RickyNJ
-caching: false
+caching: true
 devices:
   - name: modem
     port:
@@ -32,6 +32,8 @@ devices:
               operation: disabled -> ${state}
             - case: disabled
               response: "device already turned off"
+          - if: ${ram} == empty
+            response: "another conditional response"
 
       - command: reset
         response: resetting to default
