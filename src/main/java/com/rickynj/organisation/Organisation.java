@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 
 public class Organisation {
-    private static final Logger logger = LoggerFactory.getLogger(Organisation.class);
     private final HashMap<Integer, Device> devicesByPort = new HashMap<>();
 
   public Organisation(DevicesWrapper devicesWrapper) {
@@ -20,7 +19,6 @@ public class Organisation {
 
     public void addDevice(String org, boolean caching, DevicePojo d){
         for (int port : d.port) {
-          logger.info("adding device to devicemanager, {}, {}", this, d);
           Device device = new Device(d, caching, org, port);
           for (CommandPojo c : d.commands) {
             device.addCommand(c);
@@ -28,7 +26,15 @@ public class Organisation {
           devicesByPort.put(port, device);
         }
     }
+
+    // The program stops when no device is found, because the port the user used to connect.
+    // Did not have a device configured.
+    // In theory this should not trigger as an unconfigured port should not be exposed on the container.
     public Device getDevice(int port) {
-        return devicesByPort.get(port);
+      Device device = devicesByPort.get(port);
+      if (device == null) {
+          System.exit(1);
+      }
+      return device;
     }
 }

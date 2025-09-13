@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Device  {
-    private static final Logger logger = LoggerFactory.getLogger(Device.class);
     public final List<BasicNode> commandRoots = new ArrayList<>();
     public boolean caching;
     public Map<String, String> defaultState;
@@ -60,7 +59,6 @@ public class Device  {
         if (responseNode == null) {
             throw new CommandNotMockedException(String.format("Command: \"%s\", has no mocked response.", ctx.command));
         } else {
-            logger.info("Found response node.");
             responseNode.evaluate(ctx);
             responseNode.respond(ctx);
             responseNode.execute(ctx);
@@ -93,13 +91,11 @@ public class Device  {
     }
 
     public void addCommand(CommandPojo c){
-        logger.info("Adding command to device. {}, {}", c, this);
         List<String> tokens = List.of(c.command.split(" "));
         String rootToken = tokens.get(0);
 
         BasicNode rootNode = getCommandRootNode(rootToken);
         if (rootNode == null) {
-            logger.info("New root command found. {}, {}", rootToken, this);
             rootNode = new BasicNode(rootToken);
             commandRoots.add(rootNode);
         }

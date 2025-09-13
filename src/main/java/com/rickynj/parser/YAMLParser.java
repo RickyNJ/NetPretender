@@ -14,19 +14,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-
-import static com.rickynj.config.Constants.COMMANDSFILE;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class YAMLParser  {
-    private static final Logger logger = LoggerFactory.getLogger(YAMLParser.class);
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
+
     public static DevicesWrapper parseFile() {
+        File yamlFile;
+        try {
+            URL url = YAMLParser.class.getClassLoader().getResource("commands.yml");
+            if (url == null) {
+                throw new FileNotFoundException("commands.yml not found in classpath");
+            }
+            yamlFile = new File(url.toURI());
+        } catch (FileNotFoundException | URISyntaxException e) {
+            throw new ParserException("Failed to read command.yaml file");
+        }
         addModules();
-        logger.info("parsing yaml. {}", COMMANDSFILE);
         DevicesWrapper data;
         try {
-            File yamlFile = new File(COMMANDSFILE);
             data = mapper.readValue(yamlFile, DevicesWrapper.class);
         } catch (IOException e) {
             throw new ParserException("Exception while parsing commands file: ", e);

@@ -13,7 +13,6 @@ public class CommandContext {
     public final Device device;
     public final Map<String, String> vars;
     public final ValkeyClient client;
-    private static final Logger logger = LoggerFactory.getLogger(CommandContext.class);
 
     public CommandContext(String command, Device device, ValkeyClient client) {
         this.client =  client;
@@ -43,7 +42,6 @@ public class CommandContext {
     }
 
     public void setDeviceVar(String key, String val) {
-        logger.info("Setting device var {}, caching: {}", command, getCaching());
         if (getCaching()) {
             client.setValueInValkey(key, val, this);
         }
