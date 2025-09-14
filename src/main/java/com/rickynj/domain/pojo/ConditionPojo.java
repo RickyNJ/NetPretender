@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rickynj.actions.operation.HoldsOperation;
 import java.util.List;
 
+import static com.rickynj.config.Constants.*;
+
 public class ConditionPojo implements HoldsOperation {
-  @JsonProperty("if")
+  @JsonProperty(IF)
   public String ifStatement;
-  @JsonProperty("else")
+  @JsonProperty(ELSE)
   public String elseStatement;
-  @JsonProperty("switch")
+  @JsonProperty(SWITCH)
   public String switchStatement;
   public List<CasePojo> cases;
   public ResponsePojo response;

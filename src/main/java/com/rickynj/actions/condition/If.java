@@ -8,12 +8,15 @@ import com.rickynj.responses.ResponseUtility;
 import java.util.List;
 import java.util.Objects;
 
+import static com.rickynj.config.Constants.FALSE;
+import static com.rickynj.config.Constants.TRUE;
+
 public class If implements Condition {
   public String actual;
   public String expected;
 
   public If(String statement) {
-    List<String> splitStatement = List.of(statement.split(" "));
+    List<String> splitStatement = List.of(statement.split("\\s+"));
     this.actual = splitStatement.get(0);
     this.expected = splitStatement.get(2);
   }
@@ -24,16 +27,16 @@ public class If implements Condition {
     String expectedValue = ctx.getValueForKey(expected);
 
     if (Objects.equals(expectedValue, actualValue)) {
-      return "true";
+      return TRUE;
     } else {
-      return "false";
+      return FALSE;
     }
   }
 
   @Override
   public void addConditionToNode(BasicNode node, ConditionPojo condition) {
-    node.setConditionalResponse("true", ResponseUtility.getResponseType(condition.response));
-    node.setConditionalOperation("true", OperationUtility.getOperationType(condition));
+    node.setConditionalResponse(TRUE, ResponseUtility.getResponseType(condition.response));
+    node.setConditionalOperation(TRUE, OperationUtility.getOperationType(condition));
 
     node.addConditionToNode(this);
   }

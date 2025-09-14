@@ -1,48 +1,64 @@
 # Maybe implement reserved variables? like $command to get the input command.
-org: vfz
+org: RickyNJ
 caching: true
 devices:
   - name: modem
-    port: 22
+    port:
+      - 22
+      - 27
+    prompt: "$ "
     vars:
       ${deviceId}: "modem1"
       ${state}: "enabled"
+      ${ram}: "empty"
     commands:
       - command: show name
         response: my name is ${deviceId}
 
       - command: set name ${var}
-        response: set name to ${var}
-        allowed_values:
-          - "ricky"
-          - "pookie"
-        operation: ${var} -> ${deviceId}
-        delay: 1
+        condition:
+          - if: ${var} = ${deviceId}
+            response: "name is already ${var}"
+          - else:
+            response: "setting name to ${var}"
+            operation: ${var} -> ${deviceId}
 
       - command: poweroff
-        response: "turning off"
-        operation: disabled -> ${state}
-      - command: get state
-        response: ${state}
+        condition:
+          - switch: ${state}
+            cases:
+            - case: enabled
+              response: "turning device off"
+              operation: disabled -> ${state}
+            - case: disabled
+              response: "device already turned off"
+          - if: ${ram} == empty
+            response: "another conditional response"
+
+      - command: reset
+        response: resetting to default
+        operation: reset
 
       - command: show interfaces ${var}
         multiPartResponse:
           - "SHOWING INTERFACES"
           - "INTERFACE ${var}"
-          - "INTERFACE 2"
-          - "INTERFACE 3"
-          - "INTERFACE 4"
-        allowed_values:
-            - "hello"
+          - "INTERFACE ${deviceId}"
+          - "INTERFACE ${state}"
+          - "INTERFACE ${ram}"
         delay: 1
 
       - command: print interfaces ${var}
         response: showing variable interface
         allowed_values:
-          - "hello"
-          - "hey there"
-          - "true"
+          - "modem1"
+          - "modem2"
+          - "modem3"
         operation: ${var} -> ${deviceId}
+
+      - command: show interface file
+        responseFile: show_interface_all.txt
+
 
   - name: modem2
     port: 25
@@ -60,4 +76,4 @@ devices:
           - "hey_there"
           - "false"
       - command: show interface file
-        responseFile: "show_interface_all.txt"
+        responseFile: show_interface_all.txt

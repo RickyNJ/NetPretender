@@ -4,34 +4,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.rickynj.config.Config;
 import com.rickynj.domain.pojo.CasePojo;
 import com.rickynj.domain.pojo.CommandPojo;
 import com.rickynj.domain.pojo.ConditionPojo;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.domain.pojo.DevicePojo;
 import com.rickynj.exception.ParserException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 public class YAMLParser  {
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
 
-    public static DevicesWrapper parseFile() {
-        File yamlFile;
-        try {
-            URL url = YAMLParser.class.getClassLoader().getResource("commands.yml");
-            if (url == null) {
-                throw new FileNotFoundException("commands.yml not found in classpath");
-            }
-            yamlFile = new File(url.toURI());
-        } catch (FileNotFoundException | URISyntaxException e) {
-            throw new ParserException("Failed to read command.yaml file");
-        }
+    public static DevicesWrapper parseFile(String commandsFile) {
+        File yamlFile = new File(commandsFile);
         addModules();
         DevicesWrapper data;
         try {

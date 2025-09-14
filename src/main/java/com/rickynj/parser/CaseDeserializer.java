@@ -1,5 +1,7 @@
 package com.rickynj.parser;
 
+import static com.rickynj.config.Constants.CASE;
+import static com.rickynj.config.Constants.OPERATION;
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -22,8 +24,8 @@ public class CaseDeserializer extends StdDeserializer<CasePojo> {
       throws IOException {
     CasePojo casePojo = new CasePojo();
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-    casePojo.caseStatement = getTextOrNull(node, "case");
-    casePojo.operation = getTextOrNull(node, "operation");
+    casePojo.caseStatement = getTextOrNull(node, CASE);
+    casePojo.operation = getTextOrNull(node, OPERATION);
     casePojo.response = ResponseDeserializer.deserialize(node);
     return casePojo;
   }

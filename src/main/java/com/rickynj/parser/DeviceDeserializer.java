@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.rickynj.config.Constants.*;
+
 public class DeviceDeserializer extends StdDeserializer<DevicePojo> {
   public DeviceDeserializer() {
     this(null);
@@ -31,18 +33,18 @@ public class DeviceDeserializer extends StdDeserializer<DevicePojo> {
     DevicePojo devicePojo = new DevicePojo();
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
-    if (node.has("name")) {
-      devicePojo.name = node.get("name").asText();
+    if (node.has(NAME)) {
+      devicePojo.name = node.get(NAME).asText();
     } else {
       throw new ParserException("Missing 'name' field in Device configuration");
     }
-    if (node.has("prompt")) {
-      devicePojo.prompt = node.get("prompt").asText();
+    if (node.has(PROMPT)) {
+      devicePojo.prompt = node.get(PROMPT).asText();
     } else {
       devicePojo.prompt = "> ";
     }
 
-    JsonNode portNode = node.get("port");
+    JsonNode portNode = node.get(PORT);
     if (portNode.isInt()) {
       devicePojo.port.add(portNode.asInt());
     } else if (portNode.isArray()) {
@@ -51,7 +53,7 @@ public class DeviceDeserializer extends StdDeserializer<DevicePojo> {
       }
     }
 
-    JsonNode varsNode = node.get("vars");
+    JsonNode varsNode = node.get(VARS);
     if (varsNode != null && varsNode.isObject()) {
       Iterator<Map.Entry<String, JsonNode>> fields = varsNode.fields();
       while (fields.hasNext()) {
@@ -60,7 +62,7 @@ public class DeviceDeserializer extends StdDeserializer<DevicePojo> {
       }
     }
 
-    JsonNode commandsNode = node.get("commands");
+    JsonNode commandsNode = node.get(COMMANDS);
     ObjectMapper objectMapper = (ObjectMapper) jsonParser.getCodec();
     for (JsonNode command : commandsNode) {
       CommandPojo commandPojo = objectMapper.treeToValue(command, CommandPojo.class);

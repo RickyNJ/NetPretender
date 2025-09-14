@@ -1,23 +1,19 @@
 package com.rickynj;
 
+import com.rickynj.config.Config;
 import com.rickynj.domain.DevicesWrapper;
 import com.rickynj.organisation.Organisation;
 import com.rickynj.parser.YAMLParser;
 import com.rickynj.repl.Repl;
 import com.rickynj.repository.valkey.ValkeyClient;
-
-import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-
 // TODO: regex based operator matching.
 // TODO: Stop valkeyclient from initializing when caching is disabled.
 // TODO: refactor device class, god object antipattern
 // TODO: make operationPOJO to enable multiple operations.
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
-
-        DevicesWrapper dataWrapper = YAMLParser.parseFile();
+    public static void main(String[] args) {
+        DevicesWrapper dataWrapper = YAMLParser.parseFile(Config.get("commandsFile"));
         Organisation organisation;
         ValkeyClient valkeyClient = null;
 

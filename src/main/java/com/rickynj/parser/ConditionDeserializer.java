@@ -1,5 +1,6 @@
 package com.rickynj.parser;
 
+import static com.rickynj.config.Constants.*;
 import static com.rickynj.parser.YAMLParser.getTextOrNull;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -29,19 +30,19 @@ public class ConditionDeserializer extends StdDeserializer<ConditionPojo> {
     ConditionPojo conditionPojo = new ConditionPojo();
     JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
-    conditionPojo.ifStatement = getTextOrNull(node, "if");
-    if (node.has("else")) {
+    conditionPojo.ifStatement = getTextOrNull(node, IF);
+    if (node.has(ELSE)) {
       conditionPojo.elseStatement = "PRESENT";
     }
-    conditionPojo.switchStatement = getTextOrNull(node, "switch");
-    conditionPojo.operation = getTextOrNull(node, "operation");
+    conditionPojo.switchStatement = getTextOrNull(node, SWITCH);
+    conditionPojo.operation = getTextOrNull(node, OPERATION);
 
     conditionPojo.response = ResponseDeserializer.deserialize(node);
 
-    if (node.has("cases")) {
+    if (node.has(CASES)) {
       ObjectMapper objectMapper = (ObjectMapper) jsonParser.getCodec();
       List<CasePojo> caseList = new ArrayList<>();
-      for (JsonNode caseNode : node.get("cases")) {
+      for (JsonNode caseNode : node.get(CASES)) {
         CasePojo casePojo = objectMapper.treeToValue(caseNode, CasePojo.class);
         caseList.add(casePojo);
       }

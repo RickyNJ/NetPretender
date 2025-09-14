@@ -36,14 +36,14 @@ public class ValkeyClient {
 
     public String getValueFromValkey(String key, CommandContext ctx){
         String fullKey = ctx.device.name + "." + key;
-        logger.info("getting value for key in valkey: {}", fullKey);
+//        logger.info("getting value for key in valkey: {}", fullKey);
         RBucket<String> rBucket = client.getBucket(fullKey);
         return rBucket.get();
     }
 
     public void setValueInValkey(String key, String val, CommandContext ctx) {
         String fullKey = ctx.device.name + "." + key;
-        logger.info("setting value for key: {}", fullKey);
+//        logger.info("setting value for key: {}", fullKey);
         RBucket<String> rBucket = client.getBucket(fullKey);
         rBucket.set(val);
     }
@@ -62,32 +62,32 @@ public class ValkeyClient {
     // the file name will act as key to get the checksum of the cached devicemanager
     // the checksum will be the key to get the actual devicemanager
     public Organisation getCachedDeviceManagerIfExists() {
-        logger.info("looking for a cached device for filename {}", COMMANDSFILE);
+//        logger.info("looking for a cached device for filename {}", COMMANDSFILE);
         RBucket<String> cachedCheckSumBucket = client.getBucket(COMMANDSFILE);
         String cachedCheckSum = cachedCheckSumBucket.get();
         if (cachedCheckSum == null) {
-            logger.info("file has never been cached before");
+//            logger.info("file has never been cached before");
             // no checksum has been stored for this filename
             // file has never been hashed before, or has been deleted.
             return null;
         } else {
-            logger.info("file has been cached before");
+//            logger.info("file has been cached before");
             checksum = getChecksum(COMMANDSFILE);
             RBucket<Organisation> deviceManagerRBucket = client.getBucket(checksum);
             Organisation organisation = deviceManagerRBucket.get();
             if (organisation == null) {
-                logger.info("file has changed, deleting old cache");
+//                logger.info("file has changed, deleting old cache");
                 // file has changed, delete previous cache
                 RBucket<Organisation> oldDeviceManager = client.getBucket(cachedCheckSum);
                 oldDeviceManager.delete();
             }
-            logger.info("devicemanager found: {}", organisation);
+//            logger.info("devicemanager found: {}", organisation);
             return organisation;
         }
     }
 
     public void cacheNewDeviceManager(Organisation organisation) {
-        logger.info("saving new devicemanager to cache, {} {}", COMMANDSFILE, organisation);
+//        logger.info("saving new devicemanager to cache, {} {}", COMMANDSFILE, organisation);
         RBucket<String> checksumCache = client.getBucket(COMMANDSFILE);
         checksumCache.set(getChecksum(COMMANDSFILE));
         RBucket<Organisation> deviceManagerRBucket = client.getBucket(checksum);
